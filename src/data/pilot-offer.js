@@ -15,13 +15,32 @@ export const PILOT_OFFER = {
     ["Skills", "One tutor grounded in those lessons, and up to 2 task skills that complete the steps of the outcome"],
     ["Pilot", "One cohort of new paid members (one calendar month), compared with an earlier baseline month"],
   ],
+  // 1. What we commit to produce. Acceptance and payment depend only on these and their criteria.
   deliverables: [
-    ["Member pack", "Tutor and task skills built from your lessons, with your rules, examples and checks, packaged for your members' surface", "Passes skillkit lint with no errors or warnings"],
+    ["Member pack, in your name", "A tutor and up to 2 task skills, named for your community, built from your lessons with your rules, examples and checks", "Passes skillkit lint with no errors or warnings, and each skill's description fits the Claude app's limit"],
+    ["Supported tasks", "A written list of exactly which member tasks the pack supports, what each produces, and what it doesn't do", "You approve the list in the spec"],
+    ["Reviewed lesson references", "Every step and rule in the task skills tied to a named lesson, and a lesson index for the tutor", "You confirm each reference points at the right lesson"],
     ["Acceptance record", "At least 6 acceptance cases (lesson questions, an uncovered question, each task, conflicting input) run in your members' Claude surface, with outputs saved", "Every case passes the criteria you approved; results in acceptance.csv"],
-    ["Member onboarding", "Member start guide with your names and links, and a launch post draft", "You approve the wording"],
-    ["Pilot kit", "Pilot plan with your baseline, thresholds and observation windows set before launch, and empty logs", "Thresholds agreed in writing before the first pilot member joins"],
+    ["Member kit and onboarding", "One kit for members: the upload zips, a start guide with copyable install steps and a first-task walkthrough, and a launch post draft", "You approve the wording; the install steps work as written in the Claude app"],
+    ["Pilot measurement process", "Pilot plan with your baseline, thresholds and observation windows set before launch, empty logs, and an operating checklist", "Thresholds agreed in writing before the first pilot member joins"],
     ["Decision report", "The pilot report on product quality, member outcomes and economics, with a short read-out", "Delivered once the cohort's outcome window has closed"],
-    ["Handover", "Everything in your own files: the spec, the pack, the logs, how to rebuild and update", "You can rebuild the pack yourself with one command"],
+    ["Handover", "Everything in your own files: the spec, the pack, the logs, and how to rebuild, re-test and share an update without losing your edits", "You can rebuild the pack yourself with one command"],
+  ],
+  paymentBasis:
+    "Acceptance and payment depend only on the deliverables and acceptance criteria above. They never depend on member " +
+    "behaviour, renewals or revenue.",
+  // 2. What we can observe during the pilot (logged by you; reported, not promised).
+  observe: [
+    "How many new members install the pack",
+    "Which tasks they complete, and what they produce",
+    "How many reach your first outcome within its window",
+    "Which tutor answers someone had to correct, and staff minutes spent",
+  ],
+  // 3. What the pilot tests and can't promise.
+  testing: [
+    "Whether more new members make their first renewal than in your baseline month",
+    "Whether support hours you actually pay for go down",
+    "Whether that is worth the fee and your time (the calculator shows what would have to be true)",
   ],
   revisions: [
     "Two rounds of changes to the skills after your first review.",
@@ -81,6 +100,7 @@ export const PILOT_OFFER = {
   // Design-partner terms, decided by the maintainer on 2026-10-29. The standard price is set after these pilots.
   terms: {
     fee: "US$500",
+    feeAmount: 500,
     rows: [
       ["Who it's for", "The first 3 communities that pass the fit check"],
       ["Fee", "US$500 fixed per community, for the scope above. Not billed by the hour"],
@@ -92,17 +112,31 @@ export const PILOT_OFFER = {
     ],
   },
   enquiry: {
-    // A real, monitored destination (mailto: or https:). The issue form lives in .github/ISSUE_TEMPLATE/ of the
-    // site's own repository; it works once that file is pushed.
+    // A private route (a monitored mailto: address or booking page) is preferred. None is configured, so it stays
+    // empty and the site doesn't show it. To activate: set privateDestination and privateLabel, then run
+    // `npm run offer-docs` and rebuild. Nothing else changes.
+    privateDestination: "",
+    privateLabel: "",
+    // The public route that exists today: an issue form in the site's own repository, .github/ISSUE_TEMPLATE/.
     destination: "https://github.com/conka8/docs-site/issues/new?template=pilot-enquiry.yml",
     label: "a GitHub issue form",
-    privacy: "GitHub issues are public. Post only what is already public about your community; send member numbers once we have moved the conversation to a private channel.",
-    prepare: [
-      "Your community's link, monthly price and roughly how many new paid members join per month",
-      "The first outcome you promise new members, and how you see when they reach it",
-      "Which lessons it would use, and whether they exist as text",
-      "Which AI tools most of your members use",
-      "Your answers to the fit questions",
+    requirements:
+      "You need a GitHub account, and the issue is public: anyone can read it. The form asks only for information " +
+      "that is already public on your community's page.",
+    // Must match the form's field labels exactly (a test checks it).
+    fields: [
+      "Community link",
+      "Monthly membership price (as shown on your public page)",
+      "First outcome you promise new members (as described on your public page)",
+      "Do your lessons exist as text or transcripts?",
+      "Which AI tool do most of your members use?",
     ],
+    privateLater: [
+      "New paid members per month and first-renewal rates",
+      "Lesson files or transcripts",
+      "Your contact details",
+    ],
+    privateNote:
+      "Don't post these in the issue. We reply on the issue within 2 business days and agree a private channel for them.",
   },
 };

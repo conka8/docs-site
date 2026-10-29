@@ -3,7 +3,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { FIELDS, SCENARIOS, compute, paybackText, validate } from "../src/data/value-model.js";
+import { ESSENTIAL, FIELDS, SCENARIOS, compute, paybackText, validate } from "../src/data/value-model.js";
+import { PILOT_OFFER } from "../src/data/pilot-offer.js";
 import { EFFORT, EFFORT_TOTALS, mid } from "../src/data/effort.js";
 import { renderEffort, renderOffer } from "../scripts/write-offer-docs.mjs";
 
@@ -13,7 +14,7 @@ const base = SCENARIOS.base;
 // A plain setup that is easy to reason about: no fees, no refunds, everyone gained keeps paying.
 const plain = {
   ...base, horizonMonths: 12, newPaid: 100, price: 100, feePct: 0, feeFixed: 0, refundPct: 0, deliveryCost: 0,
-  baseRenewalPct: 50, renewalChangePts: 10, laterRetentionPct: 100, maxPaidMonths: 100,
+  baseRenewalPct: 50, adoptionPct: 100, userChangePts: 10, laterRetentionPct: 100, maxPaidMonths: 100,
   questions: 0, apiMonthly: 0, monthlyFee: 0, implementationFee: 0, addonEligible: 0,
 };
 const close = (a, b, msg) => assert.ok(Math.abs(a - b) < 1e-6, `${msg}: ${a} vs ${b}`);
@@ -50,8 +51,8 @@ test("later monthly retention and the cap shape how long gained members pay", ()
 });
 
 test("zero and negative renewal change", () => {
-  assert.equal(compute({ ...plain, renewalChangePts: 0 }).renewalCash, 0);
-  const neg = compute({ ...plain, renewalChangePts: -10 });
+  assert.equal(compute({ ...plain, userChangePts: 0 }).renewalCash, 0);
+  const neg = compute({ ...plain, userChangePts: -10 });
   close(neg.renewalCash, -compute(plain).renewalCash, "symmetric loss");
   assert.ok(neg.horizonCash < 0);
 });
@@ -63,19 +64,19 @@ test("fees, refunds and delivery costs come off every payment", () => {
 });
 
 test("add-on revenue lands in the launch month, net of fees, refunds and delivery", () => {
-  const r = compute({ ...plain, renewalChangePts: 0, addonEligible: 200, addonAdoptPct: 10, addonPrice: 100,
+  const r = compute({ ...plain, userChangePts: 0, addonEligible: 200, addonAdoptPct: 10, addonPrice: 100,
                       feePct: 5, refundPct: 5, addonDeliveryCost: 10, implementationFee: 1500 });
   close(r.addonCash, 20 * (90 - 10), "add-on");
   assert.deepEqual(r.buyersNeeded, { status: "needed", buyers: 19 });
-  const more = compute({ ...plain, renewalChangePts: 0, addonEligible: 5, addonAdoptPct: 10, addonPrice: 100, implementationFee: 1500 });
+  const more = compute({ ...plain, userChangePts: 0, addonEligible: 5, addonAdoptPct: 10, addonPrice: 100, implementationFee: 1500 });
   assert.equal(more.buyersNeeded.status, "more than offered");
-  const free = compute({ ...plain, renewalChangePts: 0, addonPrice: 0, implementationFee: 100 });
+  const free = compute({ ...plain, userChangePts: 0, addonPrice: 0, implementationFee: 100 });
   assert.deepEqual(free.buyersNeeded, { status: "not reachable", buyers: null });
   assert.deepEqual(compute(plain).buyersNeeded, { status: "not needed", buyers: 0 });
 });
 
 test("support: only paid hours actually cut become cash; the rest is capacity", () => {
-  const q = { ...plain, renewalChangePts: 0, questions: 100, resolvedPct: 60, correctedPct: 10, minutesPerQuestion: 6,
+  const q = { ...plain, userChangePts: 0, questions: 100, resolvedPct: 60, correctedPct: 10, minutesPerQuestion: 6,
               correctionMinutes: 12, hourlyCost: 30 };
   const none = compute({ ...q, paidHoursCut: 0 });
   close(none.support.netFreedHoursMonthly, 6 - 2, "saved minus correction");
@@ -108,14 +109,14 @@ test("payback comes from cumulative cash", () => {
 });
 
 test("payback never reached", () => {
-  const r = compute({ ...plain, renewalChangePts: 0, implementationFee: 100 });
+  const r = compute({ ...plain, userChangePts: 0, implementationFee: 100 });
   assert.equal(r.payback.sustained, null);
   assert.equal(paybackText(r.payback), "not reached within the modeled period");
 });
 
 test("an apparent break-even that later falls below zero is reported", () => {
   // Add-on cash covers the fee at launch, then a negative renewal change drains it.
-  const r = compute({ ...plain, renewalChangePts: -5, addonEligible: 100, addonAdoptPct: 10, addonPrice: 200, implementationFee: 1000 });
+  const r = compute({ ...plain, userChangePts: -5, addonEligible: 100, addonAdoptPct: 10, addonPrice: 200, implementationFee: 1000 });
   assert.equal(r.payback.firstBreakEven, 0);
   assert.ok(r.payback.fallsBelowAfter > 0);
   assert.equal(r.payback.sustained, null);
@@ -126,7 +127,7 @@ test("break-even renewal change really breaks even, or says it can't", () => {
   const inputs = { ...base, implementationFee: 3000, monthlyFee: 100 };
   const need = compute(inputs).changeNeeded;
   assert.equal(need.status, "needed");
-  close(compute({ ...inputs, renewalChangePts: need.points }).horizonCash, 0, "cash at break-even");
+  close(compute({ ...inputs, userChangePts: need.userPoints }).horizonCash, 0, "cash at break-even");
   const short = compute({ ...base, horizonMonths: 1, implementationFee: 1000 });
   assert.equal(short.changeNeeded.status, "not reachable", "no renewals fall inside a one-month period");
   const huge = compute({ ...base, implementationFee: 10_000_000 });
@@ -139,7 +140,7 @@ test("the most you could pay equals the period's cash before the fee", () => {
   const r = compute({ ...base, implementationFee: 0 });
   close(r.maxOneOff, r.horizonCash, "no fee");
   close(compute({ ...base, implementationFee: 777 }).maxOneOff, r.maxOneOff, "independent of the quote");
-  assert.equal(compute({ ...plain, renewalChangePts: -10 }).maxOneOff, 0, "never negative");
+  assert.equal(compute({ ...plain, userChangePts: -10 }).maxOneOff, 0, "never negative");
 });
 
 test("zero revenue, zero costs, zero growth", () => {
@@ -155,10 +156,10 @@ test("invalid and boundary inputs", () => {
   assert.ok(bad({ price: "abc" }).price);
   assert.ok(bad({ feePct: 101 }).feePct);
   assert.ok(bad({ baseRenewalPct: -1 }).baseRenewalPct);
-  assert.match(bad({ baseRenewalPct: 70, renewalChangePts: 31 }).renewalChangePts, /between -70 and 30/);
-  assert.ok(bad({ baseRenewalPct: 70, renewalChangePts: -71 }).renewalChangePts);
-  assert.equal(bad({ baseRenewalPct: 70, renewalChangePts: 30 }).renewalChangePts, undefined, "100% is allowed");
-  assert.equal(bad({ baseRenewalPct: 70, renewalChangePts: -70 }).renewalChangePts, undefined, "0% is allowed");
+  assert.match(bad({ baseRenewalPct: 70, userChangePts: 31 }).userChangePts, /between -70 and 30/);
+  assert.ok(bad({ baseRenewalPct: 70, userChangePts: -71 }).userChangePts);
+  assert.equal(bad({ baseRenewalPct: 70, userChangePts: 30 }).userChangePts, undefined, "100% is allowed");
+  assert.equal(bad({ baseRenewalPct: 70, userChangePts: -70 }).userChangePts, undefined, "0% is allowed");
   assert.ok(bad({ resolvedPct: 70, correctedPct: 40 }).correctedPct);
   assert.ok(bad({ feePct: 60, refundPct: 50 }).refundPct);
   assert.ok(bad({ horizonMonths: 0 }).horizonMonths);
@@ -210,4 +211,45 @@ test("effort totals add up", () => {
   const sum = (col) => EFFORT.reduce((t, r) => t + r[col][0], 0);
   assert.equal(EFFORT_TOTALS.customerOneOff[0], sum(3));
   assert.equal(EFFORT_TOTALS.customerSetup[0] + EFFORT_TOTALS.customerPilot[0], EFFORT_TOTALS.customerOneOff[0]);
+});
+
+test("adoption scales the renewal change, and break-even is reported per member who uses the pack", () => {
+  const all = compute({ ...plain, adoptionPct: 100, userChangePts: 4 });
+  const half = compute({ ...plain, adoptionPct: 50, userChangePts: 8 });
+  close(all.renewalCash, half.renewalCash, "same cohort-level change");
+  const need = compute({ ...base, adoptionPct: 25 }).changeNeeded;
+  assert.equal(need.status, "needed");
+  close(need.userPoints, need.points * 4, "a quarter adopt, so users need four times the change");
+  assert.equal(compute({ ...base, adoptionPct: 0 }).changeNeeded.status, "not reachable", "nobody uses it");
+  assert.match(validate({ ...base, baseRenewalPct: 95, userChangePts: 6 }).errors.userChangePts, /between -95 and 5/);
+});
+
+test("the calculator starts from the published pilot fee", () => {
+  for (const s of Object.values(SCENARIOS)) assert.equal(s.implementationFee, PILOT_OFFER.terms.feeAmount);
+  assert.equal(PILOT_OFFER.terms.fee, `US$${PILOT_OFFER.terms.feeAmount}`);
+  for (const k of ESSENTIAL) assert.ok(FIELDS.some((f) => f[1] === k), k);
+});
+
+test("benchmark figures on the site match the saved blind grades", async () => {
+  const { BENCHMARK } = await import("../src/data/benchmark.js");
+  const dir = new URL("../../skool-owner-kit/examples/agency-lab/benchmark/grades/", import.meta.url);
+  const by = { A: [], B: [], C: [] };
+  const best = { A: 0, B: 0, C: 0 };
+  for (const c of ["T1", "T2", "T3", "O2", "O3", "R2"]) {
+    const g = JSON.parse(readFileSync(new URL(`${c}.json`, dir), "utf8"));
+    for (const [letter, r] of Object.entries(g.replies)) {
+      const run = g.letters[letter];
+      if (!run.includes("fixed")) by[run.split("-")[1]].push(r);
+    }
+    best[g.letters[g.best].split("-")[1]] += 1;
+  }
+  const mean = (k, x) => (by[x].reduce((t, r) => t + r[k], 0) / by[x].length).toFixed(2);
+  const sum = (k, x) => String(by[x].reduce((t, r) => t + r[k], 0));
+  const row = (label) => BENCHMARK.results.find((r) => r[0] === label).slice(1);
+  assert.deepEqual(row("Lesson rules applied correctly (0-2)"), ["A", "B", "C"].map((x) => mean("rules", x)));
+  assert.deepEqual(row("Usable with light edits (0-2)"), ["A", "B", "C"].map((x) => mean("usable", x)));
+  assert.deepEqual(row("Clarification quality (0-2)"), ["A", "B", "C"].map((x) => mean("clarify", x)));
+  assert.deepEqual(row("Unsupported claims (total)"), ["A", "B", "C"].map((x) => sum("unsupported", x)));
+  assert.deepEqual(row("Grader's preferred reply (of 6 cases)"), ["A", "B", "C"].map((x) => String(best[x])));
+  for (const x of ["A", "B", "C"]) assert.equal(by[x].length, 7, x);
 });

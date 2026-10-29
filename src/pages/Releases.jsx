@@ -4,15 +4,29 @@ import { CodeBlock, RouteLink, Section } from "../components/ui.jsx";
 // Keep in step with ../CHANGELOG.md (the repository copy has the full list).
 const RELEASE = {
   date: "2026-10-29",
-  title: "Verified member workflow, cohort value model, scoped pilot",
+  title: "Member kit, fair comparison, approachable calculator",
   groups: [
-    ["skool-owner-kit 0.4.0", [
+    ["skool-owner-kit 0.5.0", [
+      "pack-share: one member kit with START-HERE.md (copyable install steps, a check, a first-task walkthrough), an upload zip per skill and a draft launch post. Refuses unmerged updates and descriptions the Claude app would reject.",
+      "Skill descriptions fit the Claude app's 200-character limit; the tutor's description now covers questions the lessons don't answer.",
+      "Task skills read the relevant lessons before asking for missing input, mark unconfirmed niche filters instead of passing them, and still give a draft with [brackets].",
+      "Every pack gets pilot/CHECKLIST.md; acceptance.csv records where each run happened.",
+      "A blind comparison with a general assistant, with and without the lessons, and a member journey from download to update.",
+    ]],
+    ["skillkit 0.3.1", ["lint warns when a description is too long for the Claude app; pack --format claude-app refuses it."]],
+    ["skillport 0.2.1", ["Generated descriptions fit 200 characters and keep the \"Use when\" sentence."]],
+    ["Site", [
+      "The calculator starts from the published fee, separates adoption from the effect among users, puts advanced inputs behind an expander, and says in words what would have to be true.",
+      "The enquiry form asks only for public information; a private route can be switched on with one setting.",
+      "Evidence labels: actual model execution, excerpt, illustration, replay, real customer outcome.",
+    ]],
+    ["skool-owner-kit 0.4.0 (earlier the same day)", [
       "Task skills finish the work: minimum questions, rules tied to lessons, conflicts named, and a deliverable ending in a pass/fail check, gaps and assumptions, a next step and a question for a coach.",
       "Unsupported money, number and customer-behaviour claims are flagged \"verify before use\" (a defect found in a real run).",
       "Pilot report: observation windows, completed tasks, acceptance results, and separate quality, outcome and economics verdicts.",
       "8 recorded runs of the example pack in Claude Code; example outputs are now actual outputs.",
     ]],
-    ["Site", [
+    ["Site (earlier the same day)", [
       "Month-by-month value calculator with input validation and payback from cumulative cash.",
       "A published scope for a paid pilot, and one effort breakdown used everywhere.",
     ]],

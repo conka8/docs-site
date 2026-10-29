@@ -6,7 +6,7 @@ export const STARTER = ["skool-owner-kit", "skillport", "skillkit"];
 export const CATALOG = {
   "skool-owner-kit": {
     tier: "starter",
-    version: "0.4.0",
+    version: "0.5.0",
     useCase: "Turn your lessons into a member pack that walks new members to their first win, and measure it in a pilot",
     needs: "Python 3.10+. Your lessons as text, the tasks you teach, a pack spec. Skool CSV exports for the dashboard; Zapier (Skool Pro plan) only for automatic welcomes",
     cost: "Free. Members need Claude with skills. Optional AI-written welcome messages and skill tests use your API key",
@@ -18,7 +18,7 @@ export const CATALOG = {
   },
   skillport: {
     tier: "starter",
-    version: "0.2.0",
+    version: "0.2.1",
     useCase: "Turn n8n / Make.com templates into skills members can use in Claude",
     needs: "Python 3.10+. Exported workflow JSON files",
     cost: "Free. Converted skills may need the same services the workflow used",
@@ -30,7 +30,7 @@ export const CATALOG = {
   },
   skillkit: {
     tier: "starter",
-    version: "0.3.0",
+    version: "0.3.1",
     useCase: "Check, test and package a skill library for members",
     needs: "Python 3.10+. A folder of skills",
     cost: "Free. eval with a real model costs a few API calls per test case",

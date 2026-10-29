@@ -15,6 +15,7 @@ const List = ({ items }) => (
 export default function Pilot() {
   const t = EFFORT_TOTALS;
   const dest = P.enquiry.destination;
+  const priv = P.enquiry.privateDestination;
   return (
     <div className="page">
       <header className="tool__head">
@@ -36,8 +37,14 @@ export default function Pilot() {
         <DefTable monoFirst={false} rows={P.scope} />
       </Section>
 
-      <Section id="deliverables" title="Deliverables and acceptance criteria">
+      <Section id="deliverables" title="What you get for the fee, and what is only being tested">
+        <h3>1. What we commit to produce</h3>
         <DefTable monoFirst={false} head={["Deliverable", "What it is", "Accepted when"]} rows={P.deliverables} />
+        <p><strong>{P.paymentBasis}</strong></p>
+        <h3>2. What you'll be able to observe</h3>
+        <List items={P.observe} />
+        <h3>3. What the pilot tests, and nobody can promise</h3>
+        <List items={P.testing} />
         <h3>Included revisions</h3>
         <List items={P.revisions} />
       </Section>
@@ -91,27 +98,36 @@ export default function Pilot() {
           <li><strong>Cohort</strong>: everyone who joins in the pilot month gets the pack on day 1. Members whose outcome window or renewal date hasn't arrived yet are left out, not counted as failures.</li>
           <li><strong>Logged</strong>: installs, completed tasks, the first outcome, first renewals, reviewed tutor answers, and every hour and cost. Nothing is tracked automatically; you log it.</li>
           <li><strong>Thresholds</strong> are agreed in writing before the first pilot member joins.</li>
+          <li><strong>One operating checklist</strong>, <code>pilot/CHECKLIST.md</code> in every pack: fit and scope, content intake, pack construction, acceptance and installation, onboarding, adoption, completed tasks, answer corrections, staff effort and cash, renewal follow-up and the final report.</li>
           <li><strong>The report</strong> judges product quality, member outcomes and economics separately. A good outcome result is held back if quality fails or the economics are negative or over budget.</li>
           <li>Small observational cohorts can't establish cause; the report shows 95% ranges and says when there isn't enough data.</li>
         </ul>
         <CodeBlock label="Read a sample report (synthetic logs)" code={"skool-kit pilot examples/agency-lab/pilot-sample/pilot.yaml"} />
       </Section>
 
-      <Section id="enquire" title="Enquire about a scoped pilot">
-        <p>
-          {dest
-            ? `Enquiries go through ${P.enquiry.label}. It asks for the following, and we reply within 2 business days to arrange the fit check:`
-            : "Enquiries open once a contact address is published here. Until then, prepare:"}
-        </p>
-        <List items={P.enquiry.prepare} />
-        {dest ? <p className="muted">{P.enquiry.privacy}</p> : null}
-        {dest ? (
+      <Section id="enquire" title="Enquire about a pilot">
+        {priv ? (
           <p>
-            <a className="btn btn--primary" href={dest}>
-              Enquire about a pilot
-            </a>
+            <a className="btn btn--primary" href={priv}>
+              Enquire privately
+            </a>{" "}
+            {P.enquiry.privateLabel}
           </p>
         ) : null}
+        <p>
+          {priv ? "Or use " : "Enquiries go through "}
+          {P.enquiry.label}. {P.enquiry.requirements}
+        </p>
+        <h3>The public form asks only for</h3>
+        <List items={P.enquiry.fields} />
+        <h3>Kept for a private follow-up</h3>
+        <List items={P.enquiry.privateLater} />
+        <p className="muted">{P.enquiry.privateNote}</p>
+        <p>
+          <a className={priv ? "btn" : "btn btn--primary"} href={dest}>
+            Open the public enquiry form (GitHub)
+          </a>
+        </p>
         <p className="muted">
           Before you enquire: <RouteLink to="fit">fit questions</RouteLink> and <RouteLink to="value">the calculator</RouteLink>.
         </p>

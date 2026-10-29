@@ -2,8 +2,9 @@ import React from "react";
 import { SUITE } from "../data/tools.js";
 import { EVIDENCE, EVIDENCE_TONE } from "../data/evidence.js";
 import { EFFORT_TOTALS, rangeText } from "../data/effort.js";
+import { BENCHMARK } from "../data/benchmark.js";
 import { downloadFor } from "../data/downloads.js";
-import { PILOT_OFFER } from "../data/pilot-offer.js";
+import { PILOT_OFFER as P } from "../data/pilot-offer.js";
 import { DefTable, DownloadLink, RouteLink, Section } from "../components/ui.jsx";
 
 export const PATH = [
@@ -63,106 +64,101 @@ export default function Home() {
         <p className="eyebrow">For owners of paid AI-automation and AI-agency communities</p>
         <h1>{SUITE.name}</h1>
         <p className="lede">
-          Skills built from your lessons that help each new member finish their first real work, using your method:
-          their niche, a priced offer, their first outreach.
+          Claude skills built from your lessons that help each new member draft their first real work your way: a priced
+          offer for one niche, then their first outreach.
         </p>
         <p className="lede lede--sub">
-          Your classroom tells members how. A member pack does the first tasks <em>with</em> them, checks the result
-          against your rules, flags what's missing, and sends what your lessons don't cover to your Help channel. You
-          get a pilot kit to see whether more new members get there.
+          Members install one kit. Each task skill asks only for what's missing, follows the rules in your lessons, drafts
+          an editable deliverable, checks it against your criteria, and lists the gaps and claims to verify. When the
+          lessons don't cover something, it drafts a question for the member to post in your Help channel. The check is
+          Claude reviewing its own draft, so members still review what they send.
         </p>
         <div className="hero__actions">
-          <RouteLink to="example" className="btn btn--primary">
-            Inspect a real run
-          </RouteLink>
-          <RouteLink to="pilot" className="btn">
-            The scoped pilot
+          <RouteLink to="pilot" className="btn btn--primary">
+            See the {P.terms.fee} pilot
           </RouteLink>
           <DownloadLink file={kit}>Try it free</DownloadLink>
         </div>
+        <p className="muted">
+          Or first: <RouteLink to="example">inspect a real run and a fair comparison</RouteLink>.
+        </p>
       </header>
 
       <EvalPath />
 
-      <Section id="outcome" title="What members complete">
+      <Section id="outcome" title="What members can finish">
         <DefTable
           monoFirst={false}
           head={["Task", "What the member ends up with"]}
           rows={[
-            ["Build your one-page offer", "A niche scored with your filters, a headline in your formula, every section of your offer page, a price from your ladder, plus a pass/fail check, the gaps to fill and the next step"],
-            ["Write your first outreach", "First messages in your script for each prospect with a real observation, both follow-ups, a tracking sheet, and the prospects skipped and why"],
-            ["Ask the tutor", "Answers from your lessons with the lesson cited; for anything not covered, a ready-to-post question for a coach"],
+            ["Build your one-page offer", "A draft offer page in your formula: the niche scored with your filters (unconfirmed filters marked, not passed), a price from your ladder, then a check, the gaps to fill and a next step"],
+            ["Write your first outreach", "Draft first messages in your script for each prospect with a real observation, both follow-ups, a tracking sheet, and the prospects skipped and why"],
+            ["Ask the tutor", "Answers from your lessons with the lesson named; for anything not covered, a question the member can post for a coach"],
           ]}
         />
         <p className="muted">
-          These are the tasks in the worked example (a synthetic AI-agency community). Your pack follows your own first
-          outcome and lessons.
+          These are the tasks in the worked example, a synthetic AI-agency community. Your pack follows your own first
+          outcome and lessons. Members edit and send everything themselves.
         </p>
       </Section>
 
-      <Section id="better" title="Why this beats the lessons alone or a general AI assistant">
-        <DefTable
-          monoFirst={false}
-          head={["", "Lessons alone", "A general AI assistant", "Member pack"]}
-          rows={[
-            ["Uses your method", "Yes, if the member applies it", "No: general advice", "Yes: each step follows a named lesson"],
-            ["Finishes the work", "No", "Partly", "Yes: an editable deliverable"],
-            ["Keeps your rules", "If remembered", "No", "Yes: conflicts are named, e.g. a price below your minimum"],
-            ["Flags gaps and unsupported claims", "No", "Rarely", "Yes: a Gaps and assumptions section"],
-            ["Routes to your team", "Member must ask", "No", "Yes: a ready-to-post question for a coach"],
-          ]}
-        />
+      <Section id="receive" title={`What you get for ${P.terms.fee}`}>
+        <DefTable monoFirst={false} rows={P.deliverables.map(([name, what]) => [name, what])} />
+        <p>{P.paymentBasis} {P.terms.rows.find((r) => r[0] === "Payment")[1]}.</p>
         <p className="muted">
-          In the recorded runs, a member asked for an offer priced below the lesson's minimum, with a guaranteed 20% lift. The skill named both
-          conflicts with the lessons and asked only for the missing input: <RouteLink to="example/runs">see the run</RouteLink>.
-          The "general AI assistant" column is our judgement, not a measured comparison.
+          Design-partner terms for the first three communities that pass the fit check.{" "}
+          <RouteLink to="pilot">Scope, exclusions and what happens if acceptance fails</RouteLink>.
         </p>
       </Section>
 
-      <Section id="receive" title="What you receive, and what stays with you">
-        <DefTable
-          monoFirst={false}
-          rows={[
-            ["You receive", "A tutor and task skills from your lessons, acceptance cases, a member start guide, an admin review checklist and a pilot kit. Free to build yourself, or as a paid scoped pilot"],
-            ["Your time (estimate)", `${rangeText(t.customerSetup)} before launch, ${rangeText(t.customerPilot)} of logging during a pilot, ${rangeText(t.customerMonthly)} a month after. Not yet measured with a real community`],
-            ["Stays with you", "Approving the skills, keeping lessons accurate, member support beyond the tutor, and anything members send to clients"],
-            ["Members need", "Claude with skills turned on. Anthropic's pages differ on the Free plan; Pro is listed. Members who only use ChatGPT can't use it"],
-          ]}
-        />
-        <p className="muted">
-          Full breakdown: <RouteLink to="pilot/effort">effort</RouteLink>.
+      <Section id="verified" title="What has been shown, and what is still being tested">
+        <p>
+          <strong>Compared fairly</strong> (same model, same member messages, blind grading): {BENCHMARK.conclusion}{" "}
+          <RouteLink to="example/fair">See the comparison</RouteLink>.
         </p>
-      </Section>
-
-      <Section id="verified" title="What has actually been verified">
         <EvidenceTable />
       </Section>
 
-      <Section id="money" title="How it might earn or save money">
-        <ul className="list">
-          <li><strong>More first renewals</strong>, if more new members reach their first outcome. This is the main possible effect, and it is unmeasured.</li>
-          <li><strong>Less repeat support</strong>: time freed is capacity unless you cut paid hours, and correcting wrong answers costs time back.</li>
-        </ul>
-        <p>
-          <RouteLink to="value">The calculator</RouteLink> shows month by month what has to be true for a pilot to pay for
-          itself. Small communities (around 15 new paid members a month at lower prices) usually can't justify a paid
-          pilot; they should use the free tools.
+      <Section id="effort" title="Your effort">
+        <DefTable
+          monoFirst={false}
+          rows={[
+            ["Before launch (estimate)", `${rangeText(t.customerSetup)}: lessons as text, a 60-minute spec call, review, a test install, the launch post`],
+            ["During the pilot (estimate)", `${rangeText(t.customerPilot)} of logging spread over the cohort`],
+            ["After (estimate)", `${rangeText(t.customerMonthly)} a month, if you keep it`],
+            ["Stays with you", "Approving the skills, keeping lessons accurate, answering what members post in Help, and anything members send to clients"],
+            ["Members need", "Claude with skills turned on (listed for Free, Pro, Max, Team and Enterprise). Members who only use ChatGPT can't use it"],
+          ]}
+        />
+        <p className="muted">
+          Not yet timed with a real community. Breakdown: <RouteLink to="pilot/effort">effort</RouteLink>.
         </p>
       </Section>
 
-      <Section id="free" title="Free software, paid pilot">
+      <Section id="money" title="Will it pay for itself?">
+        <p>
+          Nobody knows yet. The main way it could is more new members making their first renewal because more of them
+          reach your first outcome; that is unmeasured. Whether the {P.terms.fee} would pay back depends on your price, how
+          many new members join, how many use the pack, your renewals today and your costs, not on size alone.
+        </p>
+        <p>
+          <RouteLink to="value">The calculator</RouteLink> shows, with your numbers, how large a change would have to be,
+          and says so plainly when it's unlikely. Support time freed is capacity, not cash, unless you cut paid hours.
+        </p>
+      </Section>
+
+      <Section id="enquire" title="How to enquire, or try it free">
         <DefTable
           monoFirst={false}
-          head={["", "Terms"]}
           rows={[
-            ["The software", "Free, MIT license: the member-pack builder, acceptance checks, pilot report and everything else on this site"],
-            ["Scoped pilot (paid)", "We build, test and launch a pack with you and run the pilot report. Scope, deliverables and exclusions are published. Design-partner fee for the first 3 communities: " + PILOT_OFFER.terms.fee + " fixed"],
-            ["Maintenance (optional, paid)", "Rebuilds and acceptance re-runs, quoted only after a pilot report says continue"],
+            ["Enquire about the pilot", `Through ${P.enquiry.label}. ${P.enquiry.requirements}`],
+            ["Try it yourself, free", "Everything on this site is MIT licensed: the member-pack builder, member kit, acceptance checks and pilot report"],
             ["Third-party costs", "Your members' Claude plans; optional API usage"],
           ]}
         />
         <p>
-          <RouteLink to="pilot" className="btn">See the scoped pilot</RouteLink>
+          <RouteLink to="pilot/enquire" className="btn">Enquire about the pilot</RouteLink>{" "}
+          <DownloadLink file={kit}>Download skool-owner-kit</DownloadLink>
         </p>
       </Section>
     </div>

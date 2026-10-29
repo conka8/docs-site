@@ -39,8 +39,10 @@ export function renderOffer() {
     "option for owners who want it built, tested and measured with them. No results are guaranteed.", "",
     "## Design-partner terms", "", "| | |", "|---|---|", ...P.terms.rows.map(([a, b]) => `| ${a} | ${b} |`), "",
     "## Scope", "", "| | |", "|---|---|", ...P.scope.map(([a, b]) => `| ${a} | ${b} |`), "",
-    "## Deliverables and acceptance criteria", "", "| Deliverable | What it is | Accepted when |", "|---|---|---|",
-    ...P.deliverables.map(([a, b, c]) => `| ${a} | ${b} | ${c} |`), "",
+    "## 1. What we commit to produce", "", "| Deliverable | What it is | Accepted when |", "|---|---|---|",
+    ...P.deliverables.map(([a, b, c]) => `| ${a} | ${b} | ${c} |`), "", `**${P.paymentBasis}**`, "",
+    "## 2. What you'll be able to observe", "", ...list(P.observe), "",
+    "## 3. What the pilot tests, and nobody can promise", "", ...list(P.testing), "",
     "## Included revisions", "", ...list(P.revisions), "",
     "## What you provide", "", ...list(P.customerInputs), "",
     `Estimated time on your side: ${rangeText(t.customerSetup)} before launch and ${rangeText(t.customerPilot)} of`,
@@ -53,10 +55,11 @@ export function renderOffer() {
     "## Optional maintenance after handover", "", ...list(P.maintenance), "",
     "## How it runs", "", ...P.process.map(([a, b], i) => `${i + 1}. **${a}**: ${b}`), "",
     "## How to enquire", "",
-    P.enquiry.destination
-      ? `Use ${P.enquiry.label}: ${P.enquiry.destination}. ${P.enquiry.privacy} It asks for:`
-      : "Enquiries open once a contact destination is published. Have this ready:",
-    "", ...list(P.enquiry.prepare), "",
+    ...(P.enquiry.privateDestination ? [`Privately: ${P.enquiry.privateDestination} (${P.enquiry.privateLabel}).`, ""] : []),
+    `${P.enquiry.privateDestination ? "Or publicly" : "Publicly"}, with ${P.enquiry.label}: ${P.enquiry.destination}`, "",
+    P.enquiry.requirements, "", "The form asks for:", "", ...list(P.enquiry.fields), "",
+    "Kept for a private follow-up, never in the issue:", "", ...list(P.enquiry.privateLater), "",
+    P.enquiry.privateNote, "",
   ].join("\n");
 }
 

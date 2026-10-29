@@ -3,7 +3,7 @@ import { DefTable, RouteLink, Section } from "../components/ui.jsx";
 
 export const DISCOVERY = [
   ["What outcome do you promise new members in their first weeks, and how do you know when someone reaches it?", "No clear first outcome, or no way to see it: the pack has nothing to aim at and nothing to measure."],
-  ["How many new paid members join per month, at what price, and what share make their first renewal?", "Under about 20 a month, a pilot takes months to say anything. Small and low-priced: a paid pilot rarely pays back (see the calculator). Renewal above 90%: little room to improve."],
+  ["How many new paid members join per month, at what price, and what share make their first renewal?", "Under about 20 a month, a pilot takes months to say anything. Whether the fee can pay back depends on price, adoption, baseline and costs together: run the calculator with your numbers. Renewal above 90%: little room to improve."],
   ["Do your lessons contain a method members can follow step by step (scripts, templates, rules, price ranges)?", "Mostly motivation, or video with no transcripts: there's little for a task skill to follow."],
   ["Which AI tools do most of your members use today?", "Mostly ChatGPT and unwilling to use Claude: members can't use these skills."],
   ["How many hours a week do you or your team spend answering the same questions?", "Under an hour: the support side won't matter."],

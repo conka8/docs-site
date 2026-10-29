@@ -14,6 +14,7 @@
 //   3. staff capacity freed (hours; never counted as cash)
 
 import { EFFORT_TOTALS, mid } from "./effort.js";
+import { PILOT_OFFER } from "./pilot-offer.js";
 
 // [group, key, label, unit, help, kind]  kind: count | money | pct | change | hours | months | minutes
 export const FIELDS = [
@@ -23,7 +24,8 @@ export const FIELDS = [
   ["Members and revenue", "feePct", "Payment fee (percent)", "%", "Skool Pro: 2.9% (help.skool.com, Sep 2026).", "pct"],
   ["Members and revenue", "feeFixed", "Payment fee (fixed, per payment)", "money", "Skool Pro: 30c per transaction.", "money"],
   ["Members and revenue", "baseRenewalPct", "New members who make their first renewal today", "%", "Your baseline, from your retention numbers.", "pct"],
-  ["Members and revenue", "renewalChangePts", "Change in that rate with the pack", "points", "Unknown until a pilot measures it. Can be 0 or negative.", "change"],
+  ["Members and revenue", "adoptionPct", "New members who use the pack", "%", "Not everyone installs it. The pilot measures this first.", "pct"],
+  ["Members and revenue", "userChangePts", "Change in first renewal among members who use it", "points", "Unknown until a pilot measures it. Can be 0 or negative.", "change"],
   ["Members and revenue", "laterRetentionPct", "Monthly retention after the first renewal", "%", "Applied to members gained or lost at the first renewal.", "pct"],
   ["Members and revenue", "maxPaidMonths", "Most months one member pays in total", "months", "Caps how long a gained member is counted.", "months"],
   ["Members and revenue", "refundPct", "Refunds (share of these payments)", "%", "", "pct"],
@@ -39,7 +41,7 @@ export const FIELDS = [
   ["Member questions", "correctionMinutes", "Staff minutes to correct one wrong answer", "minutes", "", "minutes"],
   ["Member questions", "hourlyCost", "Cost of a paid support hour", "money", "", "money"],
   ["Member questions", "paidHoursCut", "Paid support hours you will actually cut per month", "hours", "Only these become cash. 0 if you answer questions yourself.", "hours"],
-  ["Your costs", "implementationFee", "One-off implementation price (launch month)", "money", "Enter a real quote. Leave 0 to see the most you could pay.", "money"],
+  ["Your costs", "implementationFee", "Pilot or implementation price (launch month)", "money", `The published design-partner fee is ${PILOT_OFFER.terms.fee}. Enter amounts in the same currency throughout.`, "money"],
   ["Your costs", "monthlyFee", "Monthly maintenance or support fee", "money", "", "money"],
   ["Your costs", "apiMonthly", "API and software costs per month", "money", "", "money"],
   ["Your time (not cash)", "setupHours", "Your setup hours (one-off)", "hours", `Estimate: ${EFFORT_TOTALS.customerSetup.join("-")} hours (Effort breakdown).`, "hours"],
@@ -53,17 +55,24 @@ const COMMON = {
   laterRetentionPct: 85, maxPaidMonths: 12, refundPct: 1, deliveryCost: 0,
   addonEligible: 0, addonAdoptPct: 0, addonPrice: 0, addonDeliveryCost: 0,
   questions: 120, minutesPerQuestion: 6, correctionMinutes: 8, hourlyCost: 25, paidHoursCut: 0,
-  implementationFee: 0, monthlyFee: 0, apiMonthly: 10,
+  implementationFee: PILOT_OFFER.terms.feeAmount, monthlyFee: 0, apiMonthly: 10,
   setupHours: mid(EFFORT_TOTALS.customerSetup), pilotHours: mid(EFFORT_TOTALS.customerPilot),
   monthlyHours: mid(EFFORT_TOTALS.customerMonthly), ownHourValue: 50,
 };
 
 // ILLUSTRATIVE presets. Not measurements, forecasts or results from any community. Replace with your numbers.
+// Cohort-level change = adoption x change among users: 0, 3 and 8 points across all new members.
 export const SCENARIOS = {
-  conservative: { ...COMMON, renewalChangePts: 0, laterRetentionPct: 75, maxPaidMonths: 6, resolvedPct: 20, correctedPct: 15 },
-  base: { ...COMMON, renewalChangePts: 3, resolvedPct: 40, correctedPct: 10 },
-  optimistic: { ...COMMON, renewalChangePts: 8, laterRetentionPct: 90, maxPaidMonths: 18, resolvedPct: 60, correctedPct: 5, paidHoursCut: 4 },
+  conservative: { ...COMMON, adoptionPct: 40, userChangePts: 0, laterRetentionPct: 75, maxPaidMonths: 6, resolvedPct: 20, correctedPct: 15 },
+  base: { ...COMMON, adoptionPct: 50, userChangePts: 6, resolvedPct: 40, correctedPct: 10 },
+  optimistic: { ...COMMON, adoptionPct: 80, userChangePts: 10, laterRetentionPct: 90, maxPaidMonths: 18, resolvedPct: 60, correctedPct: 5, paidHoursCut: 4 },
 };
+
+// The inputs shown first; the rest sit under "Advanced assumptions".
+export const ESSENTIAL = ["newPaid", "price", "baseRenewalPct", "adoptionPct", "userChangePts", "implementationFee"];
+// A change among users above this is called large in the plain-language result: one more renewal for every
+// ten members who use the pack. A judgement for readability, not a benchmark.
+export const LARGE_CHANGE_PTS = 10;
 
 // ---------------------------------------------------------------- validation
 
@@ -87,12 +96,14 @@ export function validate(raw) {
   if (!errors.maxPaidMonths && (!Number.isInteger(v.maxPaidMonths) || v.maxPaidMonths < 1)) {
     errors.maxPaidMonths = "Whole months, at least 1.";
   }
-  if (!errors.renewalChangePts && !errors.baseRenewalPct) {
-    const after = v.baseRenewalPct + v.renewalChangePts;
+  if (!errors.userChangePts && !errors.baseRenewalPct) {
+    const after = v.baseRenewalPct + v.userChangePts;
     if (after < 0 || after > 100) {
-      errors.renewalChangePts = `With a ${v.baseRenewalPct}% baseline the change must be between ${-v.baseRenewalPct} and ${100 - v.baseRenewalPct} points.`;
+      errors.userChangePts = `With a ${v.baseRenewalPct}% baseline the change must be between ${-v.baseRenewalPct} and ${100 - v.baseRenewalPct} points.`;
     }
   }
+  // The model works with the change across all new members.
+  if (!errors.adoptionPct && !errors.userChangePts) v.renewalChangePts = (v.adoptionPct * v.userChangePts) / 100;
   if (!errors.resolvedPct && !errors.correctedPct && v.resolvedPct + v.correctedPct > 100) {
     errors.correctedPct = "Resolved and corrected answers together can't exceed 100%.";
   }
@@ -173,7 +184,10 @@ export function compute(raw) {
   else if (perPoint <= 0) changeNeeded = { status: "not reachable", points: null };
   else {
     const pts = -at0 / perPoint;
-    changeNeeded = pts > 100 - i.baseRenewalPct ? { status: "not reachable", points: pts } : { status: "needed", points: pts };
+    const users = i.adoptionPct > 0 ? (pts * 100) / i.adoptionPct : null;
+    changeNeeded = users === null || users > 100 - i.baseRenewalPct
+      ? { status: "not reachable", points: pts, userPoints: users }
+      : { status: "needed", points: pts, userPoints: users };
   }
   // Add-on buyers needed to cover what the period is short of without any add-on.
   const withoutAddon = horizonCash - f.months[0].addon;

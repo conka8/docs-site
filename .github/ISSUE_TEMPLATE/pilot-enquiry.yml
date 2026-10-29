@@ -1,54 +1,52 @@
 name: Pilot enquiry
-description: Ask about a design-partner member-pack pilot for your community
+description: Ask about a US$500 design-partner member-pack pilot for your community
 title: "Pilot enquiry: "
 labels: ["pilot-enquiry"]
 body:
   - type: markdown
     attributes:
       value: |
-        Scope and terms: https://docs-site-bjiz.vercel.app/#pilot. Fit questions: https://docs-site-bjiz.vercel.app/#fit.
+        Scope and terms: https://docs-site-x4mi.vercel.app/#pilot. Fit questions: https://docs-site-x4mi.vercel.app/#fit.
 
-        **This issue is public.** Post only what is already public about your community. We reply within 2 business days
-        and move private details (member numbers, renewal rates) to a private channel.
+        **This issue is public: anyone can read it.** Only give information that is already public on your community's page.
+        Don't post member numbers, renewal rates, revenue, lesson files or contact details. We reply here within 2 business
+        days and agree a private channel for those.
   - type: input
     id: community
     attributes:
       label: Community link
-      description: Your Skool (or other) community page
     validations:
       required: true
   - type: input
     id: price
     attributes:
-      label: Monthly membership price
-    validations:
-      required: true
-  - type: dropdown
-    id: joins
-    attributes:
-      label: New paid members per month, roughly
-      options: ["Under 20", "20-40", "40-80", "80 or more", "Prefer to say privately"]
+      label: Monthly membership price (as shown on your public page)
     validations:
       required: true
   - type: textarea
     id: outcome
     attributes:
-      label: First outcome you promise new members, and how you see when they reach it
+      label: First outcome you promise new members (as described on your public page)
     validations:
       required: true
-  - type: textarea
+  - type: dropdown
     id: lessons
     attributes:
-      label: Which lessons it would use, and whether they exist as text or transcripts
+      label: Do your lessons exist as text or transcripts?
+      options: ["Yes", "Partly", "No, video only", "Not sure"]
     validations:
       required: true
-  - type: input
+  - type: dropdown
     id: tools
     attributes:
-      label: Which AI tools most of your members use
+      label: Which AI tool do most of your members use?
+      options: ["Claude", "A mix of Claude and ChatGPT", "ChatGPT", "Not sure"]
     validations:
       required: true
-  - type: textarea
-    id: fit
+  - type: checkboxes
+    id: public
     attributes:
-      label: Anything from the fit questions you want to flag
+      label: Public issue
+      options:
+        - label: I understand this issue is public and I haven't posted private numbers, files or contact details.
+          required: true

@@ -1,16 +1,17 @@
 // Pages, their sections and search keywords. Section ids are used for deep links: #page/section.
 export const PAGES = [
   { id: "home", group: "Evaluate", label: "1. The outcome", sections: [
-    ["outcome", "What members complete", "tasks offer outreach tutor deliverable"],
-    ["better", "Why this beats the lessons alone or a general AI assistant", "chatgpt general ai comparison"],
-    ["receive", "What you receive, and what stays with you", "deliverables time effort responsibility claude plan"],
-    ["verified", "What has actually been verified", "evidence verified live run"],
-    ["money", "How it might earn or save money", "renewal support money roi"],
-    ["free", "Free software, paid pilot", "license mit price paid maintenance"],
+    ["outcome", "What members can finish", "tasks offer outreach tutor deliverable"],
+    ["receive", "What you get for the pilot fee", "deliverables price fee pilot what you get"],
+    ["verified", "What has been shown, and what is still being tested", "evidence verified comparison chatgpt general ai"],
+    ["effort", "Your effort", "time effort hours responsibility claude plan"],
+    ["money", "Will it pay for itself?", "renewal support money roi payback"],
+    ["enquire", "How to enquire, or try it free", "contact enquire free download license"],
   ] },
   { id: "example", group: "Evaluate", label: "2. A real run", sections: [
+    ["fair", "Compared fairly: is the skill better than Claude with the lessons?", "benchmark comparison general assistant chatgpt lessons fair"],
     ["content", "The admin's content", "lessons pack.yaml"],
-    ["runs", "The runs", "claude code runs results acceptance"],
+    ["runs", "The first runs (actual model execution)", "claude code runs results acceptance"],
     ["offer", "The offer task, after the fix", "offer niche price gaps"],
     ["defect", "The defect we found and fixed", "defect unsupported claim fix"],
     ["conflict", "Conflicting member input", "conflict price guarantee"],
@@ -31,7 +32,7 @@ export const PAGES = [
   { id: "pilot", group: "Evaluate", label: "5. Scoped pilot", sections: [
     ["terms", "Design-partner terms", "price fee payment terms design partner"],
     ["scope", "Scope", "scope lessons skills cohort"],
-    ["deliverables", "Deliverables and acceptance criteria", "deliverables acceptance revisions"],
+    ["deliverables", "What you get for the fee, and what is only being tested", "deliverables acceptance revisions observe test"],
     ["you", "What you provide and what stays yours", "inputs responsibilities"],
     ["effort", "Effort (estimates)", "hours effort time"],
     ["limits", "Dependencies, exclusions and failures", "exclusions dependencies maintenance fail"],

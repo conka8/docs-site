@@ -518,3 +518,18 @@ main:focus, h2[tabindex="-1"]:focus { outline: none; }
 .calc__err { display: block; color: #ff6b6b; font-size: 12px; margin-top: 4px; max-width: 180px; }
 .calc--months tr.is-neg td:last-child { color: #ff6b6b; }
 .tabs__tab[aria-pressed="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Calculator: one scenario, essential inputs first */
+.calc__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px 18px; margin: 14px 0; }
+.calc__field { display: flex; flex-direction: column; gap: 4px; }
+.calc__field label { font-size: 0.9375rem; color: var(--text); }
+.calc__field .calc__input { width: 100%; }
+.calc__field .calc__help { display: block; }
+.calc__field .calc__err { max-width: none; }
+.calc__more, .section details { border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; margin: 12px 0; }
+.calc__more summary, .section details summary { cursor: pointer; font-weight: 600; color: var(--text); }
+.calc__set { border: 0; padding: 0; margin: 14px 0 0; }
+.calc__set legend { color: var(--accent); font: 600 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; }
+.callout--ok { background: var(--info-soft); border: 1px solid rgba(0, 212, 255, 0.3); color: var(--text); }
+.callout--bad { background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.4); color: var(--text); }
+.callout--warn p, .callout--ok p, .callout--bad p { color: var(--text); margin: 0; }

@@ -3,24 +3,29 @@
 
 export const EVIDENCE = [
   {
-    level: "Packaging and lint",
+    level: "Package and install (local)",
     status: "done",
-    detail: "The worked example builds from a fresh install of the download, passes skillkit lint with no errors or warnings, and packs into Claude app upload zips.",
+    detail: "From the released download: install, build, lint, share the member kit, install it with START-HERE.md's commands into a sandboxed Claude Code folder, then update and reinstall. 45 scripted checks (scripts/acceptance_journey.py).",
   },
   {
-    level: "Acceptance checks on actual outputs",
+    level: "Replay of saved outputs",
     status: "done",
-    detail: "Six acceptance cases replayed against the saved outputs of real runs: 6 of 6 pass. This checks the outputs, not the model.",
+    detail: "The acceptance checks re-run on outputs saved from earlier model runs: 6 of 6 pass. This tests the checks and those outputs, not a new run: a replay passing is no evidence that a new model run will pass.",
+  },
+  {
+    level: "Model runs in Claude Code",
+    status: "partial",
+    detail: "Actual runs on 2026-10-29 (model alias \"sonnet\"): 8 earlier runs, a blind comparison of 21 replies, and 9 runs after fixes. Single turn, skill supplied by path, not chosen by Claude Code itself; skill choice was only simulated.",
+  },
+  {
+    level: "Claude app (claude.ai, desktop)",
+    status: "not done",
+    detail: "Upload, switching skills on, Claude choosing the skill, and multi-turn use are untested. Needs a Claude account; the steps are written down.",
   },
   {
     level: "API instruction evaluation",
     status: "not done",
     detail: "skillkit eval with a real provider needs an API key; none was used.",
-  },
-  {
-    level: "Skill execution in Claude",
-    status: "partial",
-    detail: "8 runs in Claude Code on 2026-10-29 (model alias \"sonnet\"): lesson questions, an uncovered question, the offer task, the outreach task and conflicting input. One defect found and fixed. Not yet run in the Claude app.",
   },
   {
     level: "Real member outcomes",
@@ -35,3 +40,12 @@ export const EVIDENCE = [
 ];
 
 export const EVIDENCE_TONE = { done: "ok", partial: "warn", "not done": "danger" };
+
+// How each piece of content on the site was produced. Used as labels on the demonstration page.
+export const CONTENT_KINDS = [
+  ["Actual model execution", "A complete, unedited reply from a model run, saved in the download"],
+  ["Excerpt", "A verbatim part of an actual model reply; the full reply is in the download"],
+  ["Illustration", "Written by us to explain something, such as the synthetic lessons and the calculator presets"],
+  ["Replay", "Saved outputs re-checked by the acceptance checks; no model is called"],
+  ["Real customer outcome", "None yet"],
+];

@@ -149,7 +149,7 @@ export default function Members() {
             ["python3: command not found (Windows)", "Use py instead of python3"],
             ["PowerShell: running scripts is disabled on this system", "Run Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser once, then activate again"],
             ["externally-managed-environment (from pip)", "You're outside a virtual environment. Do Install step 2 first"],
-            ["The skill zip upload fails", "Ask for the pack --format claude-app zip: the skill folder must be at the top of the zip and named like the skill"],
+            ["The skill zip upload fails", "Upload the zips inside your community's member kit one at a time, not the kit itself. Otherwise ask for the pack --format claude-app zip: the skill folder must be at the top of the zip and named like the skill"],
             ["Claude doesn't use the skill", "Name it in your request, check it's switched on in Customize > Skills, start a new chat"],
             ["… is not set (an API key)", "Set the key in the same terminal, then start Claude Code or the tool again"],
             ["Bridge skill: HTTP 404", "The workflow is off, or it's a test URL (/webhook-test/). Ask for the production URL"],

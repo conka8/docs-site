@@ -124,8 +124,19 @@ test("the enquiry only links somewhere real", () => {
   if (dest) assert.match(dest, /^(mailto:\S+@\S+\.\S+|https:\/\/\S+\.\S+)$/);
   const form = dest.match(/[?&]template=([\w.-]+)/);
   if (form) assert.ok(existsSync(new URL(`../.github/ISSUE_TEMPLATE/${form[1]}`, import.meta.url)), form[1]);
-  assert.ok(PILOT_OFFER.enquiry.prepare.length >= 3);
+  const priv = PILOT_OFFER.enquiry.privateDestination;
+  if (priv) assert.match(priv, /^(mailto:\S+@\S+\.\S+|https:\/\/\S+\.\S+)$/);
   for (const key of ["deliverables", "revisions", "customerInputs", "exclusions", "acceptanceFails", "maintenance"]) {
     assert.ok(PILOT_OFFER[key].length > 0, key);
   }
+});
+
+test("the public enquiry form asks only for what the site says, and nothing private", () => {
+  const form = readFileSync(new URL("../.github/ISSUE_TEMPLATE/pilot-enquiry.yml", import.meta.url), "utf8");
+  const labels = [...form.matchAll(/^      label: (.+)$/gm)].map((m) => m[1].trim()).filter((l) => l !== "Public issue");
+  assert.deepEqual(labels, PILOT_OFFER.enquiry.fields);
+  assert.match(form, /This issue is public/);
+  for (const f of PILOT_OFFER.enquiry.fields) assert.doesNotMatch(f, /members per month|renewal|revenue|email|phone/i, f);
+  assert.match(PILOT_OFFER.enquiry.requirements, /GitHub account/);
+  assert.match(PILOT_OFFER.enquiry.requirements, /public/);
 });

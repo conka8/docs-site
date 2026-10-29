@@ -106,7 +106,14 @@ export default function Admins() {
         <CodeBlock code={'skillkit pack my-skills -o dist --name my-community-skills --version 1.0.0 \\\n  --author "My Community" --marketplace'} />
         <p>Push the dist folder to a GitHub repository members can read. Members then type:</p>
         <CodeBlock code={"/plugin marketplace add your-org/your-repo\n/plugin install my-community-skills@my-community-skills-marketplace"} />
-        <h3>Claude app members: one zip per skill</h3>
+        <h3>A member pack: one kit for members</h3>
+        <CodeBlock code={"skool-kit pack-share member-pack -o share --version 1.0.0"} />
+        <p>
+          Send every member <code>share/&lt;prefix&gt;-member-kit-1.0.0.zip</code>: START-HERE.md with copyable install
+          steps and a first-task walkthrough, plus one upload zip per skill. Keep <code>member-pack/</code> to yourself.
+          It refuses unmerged updates and descriptions over the Claude app's 200 characters.
+        </p>
+        <h3>Other skills, Claude app members: one zip per skill</h3>
         <CodeBlock code={'skillkit pack my-skills -o dist --name my-community-skills --version 1.0.0 \\\n  --author "My Community" --format claude-app'} />
         <p>
           Share the zips and the generated <code>INSTALL.md</code>. Each member uploads each zip: Customize &gt; Skills
@@ -149,7 +156,7 @@ export default function Admins() {
           head={["Problem", "Prevent it by"]}
           rows={[
             ["\"The skill doesn't show up\"", "Say which surface you support (Claude Code or the app) and link the matching steps in the member guide"],
-            ["Upload rejected in the Claude app", "Run skillkit lint; fix frontmatter-upload-key warnings; ship pack --format claude-app zips"],
+            ["Upload rejected in the Claude app", "Run skillkit lint; fix frontmatter-upload-key and description-too-long-for-app warnings (the app accepts 200 characters); ship pack-share or pack --format claude-app zips"],
             ["\"It asks for an API key\"", "Converted skills list the accounts they need. Say which ones are required before members start"],
             ["Converted skill behaves differently from the original", "Review the Conversion check before sharing. Use a bridge skill for workflows that must stay exact"],
             ["Bridge skill shows only \"Workflow was started\"", "Set the n8n Webhook node to respond when the last node finishes, or use a Respond to Webhook node"],

@@ -1,16 +1,16 @@
 {
   "files": [
     {
-      "file": "builder-commons-starter-0.4.0.zip",
+      "file": "builder-commons-starter-0.5.0.zip",
       "tool": "builder-commons-starter",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "contains": [
         "skillport",
         "skillkit",
         "skool-owner-kit"
       ],
-      "bytes": 400950,
-      "sha256": "8d32d9b6dcc122602bbacad7346d4d154a52a945cab2bbe1a7a433681e4390f1"
+      "bytes": 486923,
+      "sha256": "ed88844e97caa20ad0796c8aecc7bef6256bd731deb4a0cbaf79c62c7fc6cf76"
     },
     {
       "file": "career-labs-0.1.1.zip",
@@ -53,34 +53,34 @@
       "sha256": "ed39b5b9ededef044364a86e770967607618d743ae7cdf240fdea07b90c3035f"
     },
     {
-      "file": "skillkit-0.3.0.zip",
+      "file": "skillkit-0.3.1.zip",
       "tool": "skillkit",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "contains": [
         "skillkit"
       ],
-      "bytes": 64929,
-      "sha256": "09329c127009014101a1a289d1959677cdd74919217a7e76ac34dbbae874809a"
+      "bytes": 65359,
+      "sha256": "353a14037f73fef06ba9871473d655d3e1e2f2dcb24f41934fa8b5c857aa65fc"
     },
     {
-      "file": "skillport-0.2.0.zip",
+      "file": "skillport-0.2.1.zip",
       "tool": "skillport",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "contains": [
         "skillport"
       ],
-      "bytes": 107980,
-      "sha256": "9c533e247025f74bb943a86e215789e27f5dfe359c90d78bbdd2a2815bf382ed"
+      "bytes": 108241,
+      "sha256": "0e319f73c31fae04941e9403a747026e312b229097c57c6053338a045b269067"
     },
     {
-      "file": "skool-owner-kit-0.4.0.zip",
+      "file": "skool-owner-kit-0.5.0.zip",
       "tool": "skool-owner-kit",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "contains": [
         "skool-owner-kit"
       ],
-      "bytes": 188154,
-      "sha256": "ef0576866860c657d51f4c3c39a95406bf58fbf974943d9bb584f891cc68e7a9"
+      "bytes": 269039,
+      "sha256": "7650f13abae4a160816fd4d22dbb057d0635c7f0647792575c2f833ea4f9fab6"
     },
     {
       "file": "vertical-packs-0.1.1.zip",

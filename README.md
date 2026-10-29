@@ -48,7 +48,7 @@ src/styles.css          dark theme tokens, layout
 src/shims/              used only by build:artifact (React from CDN)
 scripts/build-artifact.mjs
 tests/data.test.mjs     content shape
-tests/release.test.mjs  versions, commands, sample paths, downloads, readiness, no prices
+tests/release.test.mjs  versions, commands, sample paths, downloads, readiness, prices only in pilot terms
 ```
 
 ## Edit content

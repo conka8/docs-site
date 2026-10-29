@@ -1,6 +1,6 @@
 // The scoped paid pilot. Single source for the site's "Scoped pilot" page and ../PILOT-OFFER.md
-// (regenerate with `npm run offer-docs`). No price, deadline, guarantee or support commitment belongs here
-// until the maintainer decides one; `npm test` blocks price text.
+// (regenerate with `npm run offer-docs`). The only published price and support commitment are in `terms`, as decided
+// by the maintainer; `npm test` blocks price text in every other site file. No deadlines or guarantees.
 
 export const PILOT_OFFER = {
   name: "Scoped member-pack pilot",
@@ -9,7 +9,7 @@ export const PILOT_OFFER = {
     "test them in your members' Claude surface, help you launch them to new members, and give you the kit and a " +
     "report to judge whether it helped.",
   scope: [
-    ["Community", "One community, one member surface (Claude app, or Claude Code)"],
+    ["Community", "One community whose members use the Claude app (claude.ai on the web or desktop)"],
     ["Member outcome", "One clearly defined first outcome with a deadline (for example: offer posted and 20 messages sent within 14 days)"],
     ["Lessons", "Up to 10 lessons you choose, as text or transcripts"],
     ["Skills", "One tutor grounded in those lessons, and up to 2 task skills that complete the steps of the outcome"],
@@ -33,7 +33,7 @@ export const PILOT_OFFER = {
     "Your definition of the first outcome and how members report it",
     "A 60-minute specification call, and review time (see the effort breakdown)",
     "Your baseline numbers: first outcomes and first renewals for an earlier month of new members",
-    "A Claude account on the surface your members use, for acceptance testing",
+    "A Claude account on the plan your members use, for acceptance testing in the Claude app",
     "Logging during the pilot (joins, installs, completed tasks, reviewed answers, costs)",
   ],
   customerResponsibilities: [
@@ -78,10 +78,25 @@ export const PILOT_OFFER = {
     ["Decision report", "After the outcome window closes (and later the first renewals), we run the report together"],
     ["Handover", "Rebuild instructions and the files; optional maintenance from here"],
   ],
+  // Design-partner terms, decided by the maintainer on 2026-10-29. The standard price is set after these pilots.
+  terms: {
+    fee: "US$500",
+    rows: [
+      ["Who it's for", "The first 3 communities that pass the fit check"],
+      ["Fee", "US$500 fixed per community, for the scope above. Not billed by the hour"],
+      ["Payment", "Half when you approve the spec; half when the acceptance cases pass and the pack is handed over for launch. If we stop at acceptance (see below), the second half isn't due"],
+      ["In return", "Permission to publish anonymised timings, acceptance results and the pilot report. Your community is named only if you agree in writing"],
+      ["Replies", "We reply to enquiries and pilot questions within 2 business days. We don't support your members directly"],
+      ["Maintenance", "Optional, quoted only after the pilot report says continue"],
+      ["After the first 3", "The standard price is set once three design-partner pilots have finished; it isn't published yet"],
+    ],
+  },
   enquiry: {
-    // Set to a real, monitored destination (mailto: or https:) before publishing. Until then the site shows how
-    // to prepare an enquiry and no button.
-    destination: "",
+    // A real, monitored destination (mailto: or https:). The issue form lives in .github/ISSUE_TEMPLATE/ of the
+    // site's own repository; it works once that file is pushed.
+    destination: "https://github.com/conka8/docs-site/issues/new?template=pilot-enquiry.yml",
+    label: "a GitHub issue form",
+    privacy: "GitHub issues are public. Post only what is already public about your community; send member numbers once we have moved the conversation to a private channel.",
     prepare: [
       "Your community's link, monthly price and roughly how many new paid members join per month",
       "The first outcome you promise new members, and how you see when they reach it",

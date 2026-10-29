@@ -29,6 +29,7 @@ export const PAGES = [
     ["how", "How it's calculated", "formula model cohort"],
   ] },
   { id: "pilot", group: "Evaluate", label: "5. Scoped pilot", sections: [
+    ["terms", "Design-partner terms", "price fee payment terms design partner"],
     ["scope", "Scope", "scope lessons skills cohort"],
     ["deliverables", "Deliverables and acceptance criteria", "deliverables acceptance revisions"],
     ["you", "What you provide and what stays yours", "inputs responsibilities"],

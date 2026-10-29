@@ -111,9 +111,9 @@ test("no prices, checkout or purchase buttons anywhere on the site", () => {
   for (const f of files) {
     const text = readFileSync(f, "utf8");
     assert.doesNotMatch(text, /checkout|buy now|add to cart|pricing plan/i, f);
-    // tools.js holds calculator output such as "$300k", and Example.jsx quotes the synthetic member's own prices
-    // from the recorded runs. Everywhere else a currency amount would read as our price.
-    if (!f.endsWith("data/tools.js") && !f.endsWith("pages/Example.jsx")) {
+    // tools.js holds calculator output such as "$300k", Example.jsx quotes the synthetic member's own prices from
+    // the recorded runs, and pilot-offer.js holds the one decided price. Anywhere else an amount would be unsourced.
+    if (!["data/tools.js", "pages/Example.jsx", "data/pilot-offer.js"].some((x) => f.endsWith(x))) {
       assert.doesNotMatch(text, /[$€£]\s?\d|\/mo\b|\bUSD\s?\d/i, f);
     }
   }
@@ -122,6 +122,8 @@ test("no prices, checkout or purchase buttons anywhere on the site", () => {
 test("the enquiry only links somewhere real", () => {
   const dest = PILOT_OFFER.enquiry.destination;
   if (dest) assert.match(dest, /^(mailto:\S+@\S+\.\S+|https:\/\/\S+\.\S+)$/);
+  const form = dest.match(/[?&]template=([\w.-]+)/);
+  if (form) assert.ok(existsSync(new URL(`../.github/ISSUE_TEMPLATE/${form[1]}`, import.meta.url)), form[1]);
   assert.ok(PILOT_OFFER.enquiry.prepare.length >= 3);
   for (const key of ["deliverables", "revisions", "customerInputs", "exclusions", "acceptanceFails", "maintenance"]) {
     assert.ok(PILOT_OFFER[key].length > 0, key);

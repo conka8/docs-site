@@ -1,0 +1,54 @@
+name: Pilot enquiry
+description: Ask about a design-partner member-pack pilot for your community
+title: "Pilot enquiry: "
+labels: ["pilot-enquiry"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Scope and terms: https://docs-site-bjiz.vercel.app/#pilot. Fit questions: https://docs-site-bjiz.vercel.app/#fit.
+
+        **This issue is public.** Post only what is already public about your community. We reply within 2 business days
+        and move private details (member numbers, renewal rates) to a private channel.
+  - type: input
+    id: community
+    attributes:
+      label: Community link
+      description: Your Skool (or other) community page
+    validations:
+      required: true
+  - type: input
+    id: price
+    attributes:
+      label: Monthly membership price
+    validations:
+      required: true
+  - type: dropdown
+    id: joins
+    attributes:
+      label: New paid members per month, roughly
+      options: ["Under 20", "20-40", "40-80", "80 or more", "Prefer to say privately"]
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: First outcome you promise new members, and how you see when they reach it
+    validations:
+      required: true
+  - type: textarea
+    id: lessons
+    attributes:
+      label: Which lessons it would use, and whether they exist as text or transcripts
+    validations:
+      required: true
+  - type: input
+    id: tools
+    attributes:
+      label: Which AI tools most of your members use
+    validations:
+      required: true
+  - type: textarea
+    id: fit
+    attributes:
+      label: Anything from the fit questions you want to flag

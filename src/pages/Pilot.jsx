@@ -23,9 +23,14 @@ export default function Pilot() {
         <p className="lede">{P.summary}</p>
         <p className="muted">
           The software is free (MIT) and you can do all of this yourself with the guides. This is the paid option for owners
-          who want it built, tested and measured with them. Price agreed per community; no results are guaranteed.
+          who want it built, tested and measured with them. Design-partner fee: {P.terms.fee} fixed. No results are
+          guaranteed.
         </p>
       </header>
+
+      <Section id="terms" title="Design-partner terms">
+        <DefTable monoFirst={false} rows={P.terms.rows} />
+      </Section>
 
       <Section id="scope" title="Scope">
         <DefTable monoFirst={false} rows={P.scope} />
@@ -95,10 +100,11 @@ export default function Pilot() {
       <Section id="enquire" title="Enquire about a scoped pilot">
         <p>
           {dest
-            ? "Send the following, and we'll reply to arrange the fit check:"
+            ? `Enquiries go through ${P.enquiry.label}. It asks for the following, and we reply within 2 business days to arrange the fit check:`
             : "Enquiries open once a contact address is published here. Until then, prepare:"}
         </p>
         <List items={P.enquiry.prepare} />
+        {dest ? <p className="muted">{P.enquiry.privacy}</p> : null}
         {dest ? (
           <p>
             <a className="btn btn--primary" href={dest}>

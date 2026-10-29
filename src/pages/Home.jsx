@@ -3,6 +3,7 @@ import { SUITE } from "../data/tools.js";
 import { EVIDENCE, EVIDENCE_TONE } from "../data/evidence.js";
 import { EFFORT_TOTALS, rangeText } from "../data/effort.js";
 import { downloadFor } from "../data/downloads.js";
+import { PILOT_OFFER } from "../data/pilot-offer.js";
 import { DefTable, DownloadLink, RouteLink, Section } from "../components/ui.jsx";
 
 export const PATH = [
@@ -155,8 +156,8 @@ export default function Home() {
           head={["", "Terms"]}
           rows={[
             ["The software", "Free, MIT license: the member-pack builder, acceptance checks, pilot report and everything else on this site"],
-            ["Scoped pilot (paid)", "We build, test and launch a pack with you and run the pilot report. Scope, deliverables and exclusions are published; price agreed per community"],
-            ["Maintenance (optional, paid)", "Rebuilds and acceptance re-runs after the pilot"],
+            ["Scoped pilot (paid)", "We build, test and launch a pack with you and run the pilot report. Scope, deliverables and exclusions are published. Design-partner fee for the first 3 communities: " + PILOT_OFFER.terms.fee + " fixed"],
+            ["Maintenance (optional, paid)", "Rebuilds and acceptance re-runs, quoted only after a pilot report says continue"],
             ["Third-party costs", "Your members' Claude plans; optional API usage"],
           ]}
         />

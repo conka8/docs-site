@@ -36,7 +36,8 @@ export function renderOffer() {
     `# ${P.name}`, "", NOTE, "",
     P.summary, "",
     "The software is free and open source (MIT): you can do all of this yourself with the guides. This is the paid",
-    "option for owners who want it built, tested and measured with them. Prices are agreed per community.", "",
+    "option for owners who want it built, tested and measured with them. No results are guaranteed.", "",
+    "## Design-partner terms", "", "| | |", "|---|---|", ...P.terms.rows.map(([a, b]) => `| ${a} | ${b} |`), "",
     "## Scope", "", "| | |", "|---|---|", ...P.scope.map(([a, b]) => `| ${a} | ${b} |`), "",
     "## Deliverables and acceptance criteria", "", "| Deliverable | What it is | Accepted when |", "|---|---|---|",
     ...P.deliverables.map(([a, b, c]) => `| ${a} | ${b} | ${c} |`), "",
@@ -53,7 +54,7 @@ export function renderOffer() {
     "## How it runs", "", ...P.process.map(([a, b], i) => `${i + 1}. **${a}**: ${b}`), "",
     "## How to enquire", "",
     P.enquiry.destination
-      ? `Send the following to ${P.enquiry.destination}:`
+      ? `Use ${P.enquiry.label}: ${P.enquiry.destination}. ${P.enquiry.privacy} It asks for:`
       : "Enquiries open once a contact destination is published. Have this ready:",
     "", ...list(P.enquiry.prepare), "",
   ].join("\n");

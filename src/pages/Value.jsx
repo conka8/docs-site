@@ -1,56 +1,68 @@
 import React, { useState } from "react";
-import { FIELDS, SCENARIOS, compute } from "../data/value-model.js";
-import { Callout, RouteLink, Section } from "../components/ui.jsx";
+import { FIELDS, SCENARIOS, compute, paybackText } from "../data/value-model.js";
+import { RouteLink, Section } from "../components/ui.jsx";
 
 const NAMES = { conservative: "Conservative", base: "Base", optimistic: "Optimistic" };
-const money = (x) => (x === null ? "n/a" : (x < 0 ? "−" : "") + Math.round(Math.abs(x)).toLocaleString("en-US"));
+const KEYS = Object.keys(NAMES);
+const money = (x) => (x === null || x === undefined ? "n/a" : (x < -0.5 ? "−" : "") + Math.round(Math.abs(x)).toLocaleString("en-US"));
 const hours = (x) => `${(Math.round(x * 10) / 10).toLocaleString("en-US")} h`;
 
+function changeText(c) {
+  if (c.status === "not needed") return "none: covered without it";
+  if (c.status === "not reachable") return c.points === null ? "can't cover it in this period" : `would need ${c.points.toFixed(1)} points: impossible`;
+  return `${c.points.toFixed(1)} points`;
+}
+function buyersText(b) {
+  if (b.status === "not needed") return "none needed";
+  if (b.status === "not reachable") return "can't (no margin per buyer)";
+  return b.status === "more than offered" ? `${b.buyers} (more than you offer it to)` : String(b.buyers);
+}
+
 const ROWS = [
-  ["Cash", [
-    ["Extra renewal revenue per month of new members", (r) => money(r.renewalCashMonthly), "Extra renewing members × net price × further months"],
-    ["Add-on revenue (one-off)", (r) => money(r.addonCashOneOff), "After fees and refunds"],
-    ["Support cash actually avoided per month", (r) => money(r.cashAvoidedMonthly), "Only when you cut paid support hours"],
-    ["Your cash costs per month", (r) => money(-r.cashCostMonthly), "Maintenance fee + API and software"],
-    ["Net cash per month", (r) => money(r.netCashMonthly), ""],
-    ["Net cash over 12 months (after the one-off price)", (r) => money(r.net12), ""],
-    ["Payback", (r, i) => (+i.implementationFee ? (r.paybackMonths === null ? "never" : `${Math.ceil(r.paybackMonths)} months`) : "enter a quote"), ""],
+  ["Cash inside the period", [
+    ["Extra renewal payments", (r) => money(r.renewalCash), "After payment fees, refunds and delivery costs. Negative when renewals fall."],
+    ["Add-on sales", (r) => money(r.addonCash), "Launch month only."],
+    ["Support spending actually avoided", (r) => money(r.supportCashAvoided), "Only the paid hours you cut."],
+    ["Your cash costs", (r) => money(-r.cashCosts), "Implementation price, monthly fee, API and software."],
+    ["Net cash in the period", (r) => money(r.horizonCash), ""],
+    ["Payback (from cumulative cash)", (r) => paybackText(r.payback), ""],
   ]],
-  ["Break-even", [
-    ["Renewal lift needed to cover cash costs and the one-off over 12 months", (r) => (r.liftNeededPts === null ? "n/a" : `${r.liftNeededPts.toFixed(1)} points`), ""],
-    ["Add-on buyers needed to cover the one-off", (r) => (r.addonBuyersNeeded === null ? "n/a" : String(r.addonBuyersNeeded)), ""],
-    ["Most you could pay one-off and break even within 12 months", (r) => money(r.maxOneOffFor12mPayback), "Cash only, before your time"],
+  ["Outside the period (not cash yet)", [
+    ["Projected contribution after the period", (r) => money(r.futureContribution), "From members who joined inside the period, if they keep paying as assumed."],
   ]],
-  ["Time (not cash)", [
-    ["Support capacity freed per month", (r) => hours(r.capacityHoursMonthly), "After time spent correcting answers"],
-    ["Your setup time (one-off) / per month", (r) => `${hours(r.timeCostOneOffHours)} / ${hours(r.timeCostMonthlyHours)}`, ""],
-    ["12-month view counting hours at your hourly value", (r) => money(r.net12WithTime), "Cash net + capacity freed − your time"],
+  ["What would have to be true", [
+    ["Renewal change needed to break even in the period", (r) => changeText(r.changeNeeded), ""],
+    ["Add-on buyers needed to break even", (r) => buyersText(r.buyersNeeded), ""],
+    ["Most you could pay one-off and break even in the period", (r) => money(r.maxOneOff), "Before counting your time."],
+  ]],
+  ["Time (never counted as cash)", [
+    ["Support capacity freed per month", (r) => hours(r.support.capacityHoursMonthly), "Tutor time saved minus correction time, minus hours turned into cash. Negative means extra staff time."],
+    ["Your hours over the period", (r) => hours(r.time.ownHours), "Setup + pilot logging + maintenance."],
+    ["Your hours, valued", (r) => money(r.time.ownTimeValue), "At what you said an hour is worth."],
   ]],
 ];
 
 export default function Value() {
   const [inputs, setInputs] = useState(() => structuredClone(SCENARIOS));
-  const results = Object.fromEntries(Object.keys(inputs).map((k) => [k, compute(inputs[k])]));
+  const [shown, setShown] = useState("base");
+  const results = Object.fromEntries(KEYS.map((k) => [k, compute(inputs[k])]));
   const set = (scenario, key, value) => setInputs((s) => ({ ...s, [scenario]: { ...s[scenario], [key]: value } }));
   let group = "";
 
   return (
     <div className="page">
       <header className="tool__head">
-        <p className="eyebrow">Decide</p>
+        <p className="eyebrow">Step 4 · Economics</p>
         <h1>Estimate value</h1>
         <p className="lede">
-          Would the member pack earn or save more than it costs you? Enter your own numbers. The model keeps new cash,
-          cash you actually stop spending, and staff time apart, so nothing is counted twice.
+          Would a member pack earn or save more than it costs you? A month-by-month model: payments count only in the month
+          they'd arrive, and new cash, support spending you really stop, and staff time stay separate.
+        </p>
+        <p className="muted">
+          The three presets are <strong>illustrations</strong>, not measurements or results from any community. The renewal
+          change is unknown until a <RouteLink to="pilot">pilot</RouteLink> measures it; nothing here is evidence that it will happen.
         </p>
       </header>
-
-      <Callout tone="warn" title="A decision aid, not a forecast">
-        <p>
-          The starting numbers are illustrations, not measurements or results from any community. The renewal lift is the
-          biggest unknown: nobody has measured it for this product yet. That's what the <RouteLink to="pilot">pilot</RouteLink> is for.
-        </p>
-      </Callout>
 
       <Section id="inputs" title="Your numbers">
         <div className="table-wrap">
@@ -58,8 +70,8 @@ export default function Value() {
             <thead>
               <tr>
                 <th scope="col">Input</th>
-                {Object.keys(inputs).map((k) => (
-                  <th key={k} scope="col">{NAMES[k]}</th>
+                {KEYS.map((k) => (
+                  <th key={k} scope="col">{NAMES[k]} <span className="calc__unit">(illustrative)</span></th>
                 ))}
               </tr>
             </thead>
@@ -76,19 +88,27 @@ export default function Value() {
                         {label} <span className="calc__unit">({unit})</span>
                         {help ? <span className="calc__help">{help}</span> : null}
                       </th>
-                      {Object.keys(inputs).map((k) => (
-                        <td key={k}>
-                          <input
-                            className="calc__input"
-                            type="number"
-                            inputMode="decimal"
-                            step="any"
-                            aria-label={`${label}, ${NAMES[k]}`}
-                            value={inputs[k][key]}
-                            onChange={(e) => set(k, key, e.target.value)}
-                          />
-                        </td>
-                      ))}
+                      {KEYS.map((k) => {
+                        const err = results[k].errors[key];
+                        const id = `in-${k}-${key}`;
+                        return (
+                          <td key={k}>
+                            <input
+                              id={id}
+                              className={"calc__input" + (err ? " calc__input--bad" : "")}
+                              type="number"
+                              inputMode="decimal"
+                              step="any"
+                              aria-label={`${label}, ${NAMES[k]}`}
+                              aria-invalid={err ? "true" : undefined}
+                              aria-describedby={err ? id + "-err" : undefined}
+                              value={inputs[k][key]}
+                              onChange={(e) => set(k, key, e.target.value)}
+                            />
+                            {err ? <span id={id + "-err"} className="calc__err">{err}</span> : null}
+                          </td>
+                        );
+                      })}
                     </tr>
                   </React.Fragment>
                 );
@@ -96,7 +116,7 @@ export default function Value() {
             </tbody>
           </table>
         </div>
-        <p className="muted">
+        <p>
           <button type="button" className="btn" onClick={() => setInputs(structuredClone(SCENARIOS))}>
             Reset to the illustrations
           </button>
@@ -109,7 +129,7 @@ export default function Value() {
             <thead>
               <tr>
                 <th scope="col">Result</th>
-                {Object.keys(inputs).map((k) => (
+                {KEYS.map((k) => (
                   <th key={k} scope="col">{NAMES[k]}</th>
                 ))}
               </tr>
@@ -124,8 +144,8 @@ export default function Value() {
                         {label}
                         {help ? <span className="calc__help">{help}</span> : null}
                       </th>
-                      {Object.keys(inputs).map((k) => (
-                        <td key={k} className="num">{fn(results[k], inputs[k])}</td>
+                      {KEYS.map((k) => (
+                        <td key={k} className="num">{results[k].ok ? fn(results[k]) : "fix inputs"}</td>
                       ))}
                     </tr>
                   ))}
@@ -136,15 +156,57 @@ export default function Value() {
         </div>
       </Section>
 
+      <Section id="monthly" title="Cumulative cash, month by month">
+        <div className="tabs__list" role="group" aria-label="Scenario">
+          {KEYS.map((k) => (
+            <button key={k} type="button" className="tabs__tab" aria-pressed={shown === k} onClick={() => setShown(k)}>
+              {NAMES[k]}
+            </button>
+          ))}
+        </div>
+        {results[shown].ok ? (
+          <div className="table-wrap">
+            <table className="calc calc--months">
+              <thead>
+                <tr>
+                  <th scope="col">Month</th>
+                  <th scope="col">Renewals</th>
+                  <th scope="col">Add-on</th>
+                  <th scope="col">Support cash</th>
+                  <th scope="col">Costs</th>
+                  <th scope="col">Cumulative</th>
+                </tr>
+              </thead>
+              <tbody>
+                {results[shown].months.map((m) => (
+                  <tr key={m.month} className={m.cumulative < 0 ? "is-neg" : ""}>
+                    <th scope="row">{m.month === 0 ? "0 (launch)" : m.month}</th>
+                    <td className="num">{money(m.renewal)}</td>
+                    <td className="num">{money(m.addon)}</td>
+                    <td className="num">{money(m.supportCash)}</td>
+                    <td className="num">{money(-m.costs)}</td>
+                    <td className="num">{money(m.cumulative)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="calc__err">Fix the highlighted inputs for this scenario.</p>
+        )}
+      </Section>
+
       <Section id="how" title="How it's calculated">
         <ul className="list">
-          <li><strong>Extra renewal revenue</strong> = new paid members × renewal lift × price after fees × further paid months. It is credited to each month of new members, so read it as "per month of new members", not as revenue that appears next month.</li>
-          <li><strong>Support cash avoided</strong> = (questions resolved × minutes − time spent correcting answers) × hourly cost, and only when you set "reduce paid support hours" to 1. Otherwise the same hours appear as capacity freed.</li>
-          <li><strong>Your time</strong> is never subtracted from cash. The last row shows a wider view that does count it.</li>
-          <li>Members' own Claude subscriptions are their cost, not yours, but a member without one can't use the pack. Skills are listed on Claude's Free and Pro plans (claude.com/pricing, checked 2026-10-29).</li>
+          <li><strong>Cohorts.</strong> Each month in the period, the same number of new paid members join and get the pack. Their joining payment is unchanged.</li>
+          <li><strong>The assumed effect</strong> is a change in the share who make their <em>first</em> renewal payment, one month after joining. Members gained or lost there keep paying at the later monthly retention rate, up to the cap on total paid months.</li>
+          <li><strong>Each payment</strong> counts in the month it would arrive, after the percentage fee, the fixed fee, refunds and any delivery cost per member. Payments after the period are shown separately and never counted as cash.</li>
+          <li><strong>Support.</strong> Tutor time saved minus time spent correcting wrong answers gives net hours freed. Only the paid hours you say you'll cut become cash; the rest is capacity.</li>
+          <li><strong>Payback</strong> is the first month after which cumulative cash stays at or above zero for the rest of the period. If it reaches zero and then falls back, the result says so.</li>
+          <li><strong>Members' own costs</strong> (a Claude plan with skills) are theirs, but a member without one can't use the pack.</li>
         </ul>
         <p className="muted">
-          Same formulas in code: <code>src/data/value-model.js</code>. Next step: <RouteLink to="pilot">measure it in a pilot</RouteLink>.
+          Same formulas in code: <code>src/data/value-model.js</code>, with tests. Next: <RouteLink to="pilot">the scoped pilot</RouteLink>.
         </p>
       </Section>
     </div>

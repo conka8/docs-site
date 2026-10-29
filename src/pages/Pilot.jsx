@@ -1,85 +1,113 @@
 import React from "react";
+import { PILOT_OFFER as P } from "../data/pilot-offer.js";
+import { EFFORT, EFFORT_TOTALS, rangeText } from "../data/effort.js";
 import { CodeBlock, DefTable, RouteLink, Section } from "../components/ui.jsx";
 
-export const DISCOVERY = [
-  ["What outcome do you promise new members in their first weeks, and how do you know when someone reaches it?", "No clear first outcome, or no way to see it: the pack has nothing to aim at and nothing to measure."],
-  ["How many new paid members join per month, and what share renew after month 1?", "Under about 20 a month, a pilot takes several months to say anything. Renewal already above 90%: little room to improve."],
-  ["Do your lessons contain a method members can follow step by step (scripts, templates, rules, price ranges)?", "Mostly motivation or video with no transcripts: there's little for a task skill to follow."],
-  ["Which AI tools do most of your members use today?", "Mostly ChatGPT and unwilling to use Claude: members can't use these skills (skills on ChatGPT personal plans are unconfirmed)."],
-  ["How many hours a week do you or your team spend answering the same questions?", "Under an hour: the support side won't matter."],
-  ["Who would review the generated skills and keep them updated when lessons change?", "Nobody: the pack will drift out of date and give wrong answers."],
-  ["Would you include the pack in membership, or sell it as an add-on?", "Add-on: there's no public evidence yet that members pay extra for AI tools; test it separately."],
-  ["Can you log first outcomes and renewals per member for two cohorts?", "No: you can still try the pack, but you won't learn whether it worked."],
-];
+const h = (r) => (r[0] === 0 && r[1] === 0 ? "-" : rangeText(r, "h"));
+const List = ({ items }) => (
+  <ul className="list">
+    {items.map((x) => (
+      <li key={x}>{x}</li>
+    ))}
+  </ul>
+);
 
 export default function Pilot() {
+  const t = EFFORT_TOTALS;
+  const dest = P.enquiry.destination;
   return (
     <div className="page">
       <header className="tool__head">
-        <p className="eyebrow">Decide</p>
-        <h1>Pilot and fit</h1>
-        <p className="lede">
-          A pilot that can tell you whether the member pack earned its keep, and the questions to answer before you start.
+        <p className="eyebrow">Step 5 · Paid option</p>
+        <h1>{P.name}</h1>
+        <p className="lede">{P.summary}</p>
+        <p className="muted">
+          The software is free (MIT) and you can do all of this yourself with the guides. This is the paid option for owners
+          who want it built, tested and measured with them. Price agreed per community; no results are guaranteed.
         </p>
       </header>
 
-      <Section id="discovery" title="Questions to answer first">
-        <p>If several of these point to "poor fit", don't buy implementation help: try the free tools on your own first, or skip it.</p>
-        <DefTable monoFirst={false} head={["Question", "Answer that signals a poor fit"]} rows={DISCOVERY} />
+      <Section id="scope" title="Scope">
+        <DefTable monoFirst={false} rows={P.scope} />
       </Section>
 
-      <Section id="design" title="Pilot design">
+      <Section id="deliverables" title="Deliverables and acceptance criteria">
+        <DefTable monoFirst={false} head={["Deliverable", "What it is", "Accepted when"]} rows={P.deliverables} />
+        <h3>Included revisions</h3>
+        <List items={P.revisions} />
+      </Section>
+
+      <Section id="you" title="What you provide and what stays yours">
+        <h3>You provide</h3>
+        <List items={P.customerInputs} />
+        <h3>Stays your responsibility</h3>
+        <List items={P.customerResponsibilities} />
+      </Section>
+
+      <Section id="effort" title="Effort (estimates)">
+        <p>
+          From building the synthetic example; no customer engagement has been timed yet. Your side: {rangeText(t.customerSetup)} before
+          launch and {rangeText(t.customerPilot)} of logging during the pilot. Ours: {rangeText(t.ourOneOff)}.
+        </p>
         <DefTable
           monoFirst={false}
-          head={["Part", "What to do"]}
+          head={["Activity", "What it involves", "You, one-off", "We, one-off", "You, per month after"]}
           rows={[
-            ["Primary outcome", "Share of new paid members who reach your first outcome (for example: offer posted and 20 messages sent) within 14 days of joining"],
-            ["Pilot cohort", "Every new paid member who joins in one calendar month gets the pack on day 1"],
-            ["Baseline", "Members who joined in an earlier month without the pack. Choose a month without a launch, sale or price change"],
-            ["Baseline period", "Collect the baseline before the pilot starts: first outcomes from your #wins posts, first renewals from your platform's payment history"],
-            ["Adoption", "Share of pilot members who install, and who report using a skill"],
-            ["Quality", "Tutor answers reviewed, and the share someone had to correct; manual acceptance runs before launch"],
-            ["Money", "First renewal rate per cohort (Skool's dashboard shows retention and churn); refunds"],
-            ["Costs", "Every cash cost (implementation, API) and every hour you and your team spend"],
-            ["Problems", "Anything that went wrong goes in the note column of the logs: wrong answers, install trouble, member complaints"],
-            ["Length", "One cohort month, plus 14 days for the outcome, plus the first renewal date: about 2 months"],
+            ...EFFORT.map(([, name, what, c1, w1, cm]) => [name, what, h(c1), h(w1), h(cm)]),
+            ["Total", "", rangeText(t.customerOneOff), rangeText(t.ourOneOff), rangeText(t.customerMonthly)],
           ]}
         />
-        <p>
-          <code>skool-kit pack-build</code> writes the plan and empty logs into <code>member-pack/pilot/</code>. When the
-          pilot ends:
-        </p>
-        <CodeBlock code="skool-kit pilot member-pack/pilot/pilot.yaml --format md -o pilot-report.md" />
       </Section>
 
-      <Section id="decide" title="Deciding what to do next">
-        <DefTable
-          monoFirst={false}
-          head={["Result", "Suggestion", "Why"]}
-          rows={[
-            ["Fewer than 20 members in either cohort", "Not enough data", "Run another month before deciding"],
-            ["Fewer than 40% of pilot members installed", "Change", "Fix onboarding first: an unused pack can't move the outcome"],
-            ["Outcome rate 10+ points above baseline", "Continue", "If the 95% ranges overlap, run a second cohort before treating it as settled"],
-            ["Between 0 and 10 points", "Extend", "Run another cohort"],
-            ["No better than baseline", "Stop or change", "Change the tasks or onboarding, or stop paying for it"],
-            ["More than 10% of reviewed tutor answers needed correcting", "Fix before scaling", "Wrong answers cost trust and staff time"],
-          ]}
-        />
-        <p>
-          The thresholds are yours to set in <code>pilot.yaml</code> before you start, not after you see the numbers.
-        </p>
+      <Section id="limits" title="Dependencies, exclusions and failures">
+        <h3>Assumptions and dependencies</h3>
+        <List items={P.dependencies} />
+        <h3>Not included</h3>
+        <List items={P.exclusions} />
+        <h3>If acceptance checks fail</h3>
+        <List items={P.acceptanceFails} />
+        <h3>Optional maintenance after handover</h3>
+        <List items={P.maintenance} />
       </Section>
 
-      <Section id="limits" title="What a pilot can and can't tell you">
+      <Section id="process" title="How it runs">
+        <ol className="list">
+          {P.process.map(([a, b]) => (
+            <li key={a}>
+              <strong>{a}</strong>: {b}
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section id="measure" title="How the pilot is measured">
         <ul className="list">
-          <li>It compares two months of members. It can't prove the pack caused a difference: season, marketing and who joined also change.</li>
-          <li>With 30 to 50 members per cohort, only large differences stand out from chance. The report shows 95% ranges so you can see this.</li>
-          <li>Self-reported outcomes undercount. Log the same way for both cohorts.</li>
-          <li>Renewal is a later and noisier signal than the first outcome. Treat a renewal difference as a clue, not proof of revenue earned.</li>
-          <li>Support time freed is capacity, not cash, unless you actually reduce paid hours.</li>
+          <li><strong>Baseline</strong>: new paid members from an earlier month, logged the same way, before launch.</li>
+          <li><strong>Cohort</strong>: everyone who joins in the pilot month gets the pack on day 1. Members whose outcome window or renewal date hasn't arrived yet are left out, not counted as failures.</li>
+          <li><strong>Logged</strong>: installs, completed tasks, the first outcome, first renewals, reviewed tutor answers, and every hour and cost. Nothing is tracked automatically; you log it.</li>
+          <li><strong>Thresholds</strong> are agreed in writing before the first pilot member joins.</li>
+          <li><strong>The report</strong> judges product quality, member outcomes and economics separately. A good outcome result is held back if quality fails or the economics are negative or over budget.</li>
+          <li>Small observational cohorts can't establish cause; the report shows 95% ranges and says when there isn't enough data.</li>
         </ul>
+        <CodeBlock label="Read a sample report (synthetic logs)" code={"skool-kit pilot examples/agency-lab/pilot-sample/pilot.yaml"} />
+      </Section>
+
+      <Section id="enquire" title="Enquire about a scoped pilot">
+        <p>
+          {dest
+            ? "Send the following, and we'll reply to arrange the fit check:"
+            : "Enquiries open once a contact address is published here. Until then, prepare:"}
+        </p>
+        <List items={P.enquiry.prepare} />
+        {dest ? (
+          <p>
+            <a className="btn btn--primary" href={dest}>
+              Enquire about a pilot
+            </a>
+          </p>
+        ) : null}
         <p className="muted">
-          Turn measured numbers into money with <RouteLink to="value">Estimate value</RouteLink>.
+          Before you enquire: <RouteLink to="fit">fit questions</RouteLink> and <RouteLink to="value">the calculator</RouteLink>.
         </p>
       </Section>
     </div>

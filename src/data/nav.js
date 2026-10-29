@@ -1,32 +1,42 @@
 // Pages, their sections and search keywords. Section ids are used for deep links: #page/section.
 export const PAGES = [
-  { id: "home", group: "Evaluate", label: "The offer", sections: [
-    ["offer", "The offer", "who problem receive members accomplish pay"],
-    ["costs", "Effort, costs and limits", "time claude plan chatgpt cost limits"],
-    ["free", "What's free, what's paid", "license mit price paid services implementation support"],
-    ["evidence", "What's verified so far", "evidence verified results"],
-    ["tools", "The tools behind it", "skool skillport skillkit download starter"],
+  { id: "home", group: "Evaluate", label: "1. The outcome", sections: [
+    ["outcome", "What members complete", "tasks offer outreach tutor deliverable"],
+    ["better", "Why this beats the lessons alone or a general AI assistant", "chatgpt general ai comparison"],
+    ["receive", "What you receive, and what stays with you", "deliverables time effort responsibility claude plan"],
+    ["verified", "What has actually been verified", "evidence verified live run"],
+    ["money", "How it might earn or save money", "renewal support money roi"],
+    ["free", "Free software, paid pilot", "license mit price paid maintenance"],
   ] },
-  { id: "example", group: "Evaluate", label: "Worked example", sections: [
-    ["content", "1. The admin's own content", "lessons classroom"],
-    ["problem", "2. Where members get stuck", "problem stuck questions"],
-    ["produced", "3. What Builder Commons produces", "pack.yaml pack-build tutor offer outreach"],
-    ["member", "4. How a member installs and uses it", "install upload"],
-    ["output", "5. A completed task", "offer output result"],
-    ["review", "6. What the admin must review", "review acceptance"],
-    ["measure", "7. What gets measured in a pilot", "pilot measure"],
+  { id: "example", group: "Evaluate", label: "2. A real run", sections: [
+    ["content", "The admin's content", "lessons pack.yaml"],
+    ["runs", "The runs", "claude code runs results acceptance"],
+    ["offer", "The offer task, after the fix", "offer niche price gaps"],
+    ["defect", "The defect we found and fixed", "defect unsupported claim fix"],
+    ["conflict", "Conflicting member input", "conflict price guarantee"],
+    ["escalation", "When the lessons don't cover it", "not covered coach escalation"],
+    ["evidence", "What this does and doesn't show", "evidence limits"],
     ["try", "Try it yourself", "download sample"],
   ] },
-  { id: "value", group: "Evaluate", label: "Estimate value", sections: [
-    ["inputs", "Your numbers", "calculator roi renewal price members support"],
-    ["results", "What it adds up to", "payback break-even net cash"],
-    ["how", "How it's calculated", "formula model"],
+  { id: "fit", group: "Evaluate", label: "3. Check fit", sections: [
+    ["questions", "Fit questions", "fit discovery questions poor fit"],
+    ["good", "A good fit looks like", "good fit"],
   ] },
-  { id: "pilot", group: "Evaluate", label: "Pilot and fit", sections: [
-    ["discovery", "Questions to answer first", "fit discovery questions"],
-    ["design", "Pilot design", "cohort baseline outcome adoption"],
-    ["decide", "Deciding what to do next", "continue stop change thresholds"],
-    ["limits", "What a pilot can and can't tell you", "causal evidence sample size"],
+  { id: "value", group: "Evaluate", label: "4. Estimate economics", sections: [
+    ["inputs", "Your numbers", "calculator roi renewal price members support validation"],
+    ["results", "What it adds up to", "payback break-even net cash future"],
+    ["monthly", "Cumulative cash, month by month", "cohort monthly cash flow"],
+    ["how", "How it's calculated", "formula model cohort"],
+  ] },
+  { id: "pilot", group: "Evaluate", label: "5. Scoped pilot", sections: [
+    ["scope", "Scope", "scope lessons skills cohort"],
+    ["deliverables", "Deliverables and acceptance criteria", "deliverables acceptance revisions"],
+    ["you", "What you provide and what stays yours", "inputs responsibilities"],
+    ["effort", "Effort (estimates)", "hours effort time"],
+    ["limits", "Dependencies, exclusions and failures", "exclusions dependencies maintenance fail"],
+    ["process", "How it runs", "process steps"],
+    ["measure", "How the pilot is measured", "pilot baseline cohort thresholds report"],
+    ["enquire", "Enquire about a scoped pilot", "contact enquire buy"],
   ] },
   { id: "admins", group: "Use it", label: "Admin guide", sections: [
     ["choose", "1. Choose what to build", "lessons classroom n8n make bridge claude code claude app team enterprise openclaw"],
@@ -57,6 +67,7 @@ export const PAGES = [
     ["table", "Tools side by side", "prerequisites cost output readiness use case"],
   ] },
   { id: "trust", group: "Reference", label: "Readiness & data", sections: [
+    ["evidence", "Member pack: evidence by level", "evidence verified claude code app"],
     ["readiness", "Integration readiness", "live verified fakes fixtures unverified"],
     ["data", "Data and costs", "privacy data api cost keys"],
     ["tests", "Automated tests", "tests pytest"],

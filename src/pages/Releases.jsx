@@ -4,8 +4,19 @@ import { CodeBlock, RouteLink, Section } from "../components/ui.jsx";
 // Keep in step with ../CHANGELOG.md (the repository copy has the full list).
 const RELEASE = {
   date: "2026-10-29",
-  title: "Member pack and pilot (starter bundle 0.3.0)",
+  title: "Verified member workflow, cohort value model, scoped pilot",
   groups: [
+    ["skool-owner-kit 0.4.0", [
+      "Task skills finish the work: minimum questions, rules tied to lessons, conflicts named, and a deliverable ending in a pass/fail check, gaps and assumptions, a next step and a question for a coach.",
+      "Unsupported money, number and customer-behaviour claims are flagged \"verify before use\" (a defect found in a real run).",
+      "Pilot report: observation windows, completed tasks, acceptance results, and separate quality, outcome and economics verdicts.",
+      "8 recorded runs of the example pack in Claude Code; example outputs are now actual outputs.",
+    ]],
+    ["Site", [
+      "Month-by-month value calculator with input validation and payback from cumulative cash.",
+      "A published scope for a paid pilot, and one effort breakdown used everywhere.",
+    ]],
+    ["Earlier the same day: member pack and pilot (starter bundle 0.3.0)", []],
     ["skool-owner-kit 0.3.0", [
       "pack-build: a member pack from your lessons: a tutor that cites lessons and routes what isn't covered to your support channel, task skills for your first-win steps, acceptance checks, member and admin guides, and a pilot kit. Rebuilds keep your edits.",
       "pilot: compares a pilot cohort with a baseline (first-outcome rate with 95% ranges, adoption, first renewal, answer corrections, costs) and suggests what to do next.",

@@ -2,6 +2,7 @@ import React from "react";
 import { SUITE, TOOLS, TOTAL_TESTS } from "../data/tools.js";
 import { READINESS, STATUSES, readinessSummary } from "../data/readiness.js";
 import { Badge, Callout, DefTable, ReadinessTable, RouteLink, Section } from "../components/ui.jsx";
+import { EvidenceTable } from "./Home.jsx";
 
 const DATA = [
   ["skillport", "Workflow files you export", "Nothing. Bridge skills send member input to your own n8n webhook", "No"],
@@ -25,6 +26,10 @@ export default function Trust() {
         <h1>Readiness &amp; data</h1>
         <p className="lede">How far each integration has been tested, what each tool reads and sends, and what can cost money.</p>
       </header>
+
+      <Section id="evidence" title="Member pack: evidence by level">
+        <EvidenceTable />
+      </Section>
 
       <Section id="readiness" title="Integration readiness">
         <Callout tone="warn" title={`${c.live} of ${c.local + c.fixture + c.live + c.experimental} integrations verified against a live service so far`}>

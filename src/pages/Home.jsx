@@ -1,145 +1,167 @@
 import React from "react";
-import { SUITE, TOOLS } from "../data/tools.js";
-import { CATALOG, STARTER } from "../data/catalog.js";
-import { READINESS } from "../data/readiness.js";
-import { SERVICES } from "../data/offer.js";
+import { SUITE } from "../data/tools.js";
+import { EVIDENCE, EVIDENCE_TONE } from "../data/evidence.js";
+import { EFFORT_TOTALS, rangeText } from "../data/effort.js";
 import { downloadFor } from "../data/downloads.js";
-import { Badge, DefTable, DownloadLink, RouteLink, Section } from "../components/ui.jsx";
+import { DefTable, DownloadLink, RouteLink, Section } from "../components/ui.jsx";
 
-const PATH = [
-  ["1", "Understand the offer", "home/offer"],
-  ["2", "See the worked example", "example"],
-  ["3", "Estimate the value", "value"],
-  ["4", "Check fit and plan a pilot", "pilot"],
-  ["5", "Try it on the sample", "start"],
+export const PATH = [
+  ["1", "See the outcome", "home/outcome"],
+  ["2", "Inspect a real run", "example"],
+  ["3", "Check fit", "fit"],
+  ["4", "Estimate economics", "value"],
+  ["5", "Scoped pilot", "pilot"],
 ];
 
-function statusSummary(id) {
-  const rows = READINESS[id] || [];
-  return ["live", "local", "fixture", "experimental"].filter((s) => rows.some((r) => r[1] === s));
+export function EvidenceTable() {
+  return (
+    <div className="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Status</th>
+            <th>What it means</th>
+          </tr>
+        </thead>
+        <tbody>
+          {EVIDENCE.map((e) => (
+            <tr key={e.level}>
+              <td>{e.level}</td>
+              <td>
+                <span className={"badge badge--" + EVIDENCE_TONE[e.status]}>{e.status}</span>
+              </td>
+              <td>{e.detail}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export function EvalPath() {
+  return (
+    <nav className="path" aria-label="Evaluate Builder Commons">
+      {PATH.map(([n, label, to]) => (
+        <RouteLink key={to} to={to} className="path__step">
+          <span className="path__num">{n}</span>
+          {label}
+        </RouteLink>
+      ))}
+    </nav>
+  );
 }
 
 export default function Home() {
   const kit = downloadFor("skool-owner-kit");
-  const starter = downloadFor("builder-commons-starter");
+  const t = EFFORT_TOTALS;
   return (
     <div className="page">
       <header className="hero">
         <p className="eyebrow">For owners of paid AI-automation and AI-agency communities</p>
         <h1>{SUITE.name}</h1>
         <p className="lede">
-          Turn your lessons into Claude skills that walk each new member to their first win, then measure whether more of
-          them get there and stay.
+          Skills built from your lessons that help each new member finish their first real work, using your method:
+          their niche, a priced offer, their first outreach.
         </p>
         <p className="lede lede--sub">
-          Your members pay monthly to get a result, but the classroom only tells them how. A member pack does the first
-          tasks <em>with</em> them, step by step, using your method: their niche, their offer, their first outreach. It
-          answers questions from your lessons and sends what isn't covered to your Help channel.
+          Your classroom tells members how. A member pack does the first tasks <em>with</em> them, checks the result
+          against your rules, flags what's missing, and sends what your lessons don't cover to your Help channel. You
+          get a pilot kit to see whether more new members get there.
         </p>
         <div className="hero__actions">
           <RouteLink to="example" className="btn btn--primary">
-            See the worked example
+            Inspect a real run
           </RouteLink>
-          <RouteLink to="value" className="btn">
-            Estimate value
+          <RouteLink to="pilot" className="btn">
+            The scoped pilot
           </RouteLink>
-          <DownloadLink file={kit}>Try it</DownloadLink>
+          <DownloadLink file={kit}>Try it free</DownloadLink>
         </div>
       </header>
 
-      <nav className="path" aria-label="Evaluate Builder Commons">
-        {PATH.map(([n, label, to]) => (
-          <RouteLink key={to} to={to} className="path__step">
-            <span className="path__num">{n}</span>
-            {label}
-          </RouteLink>
-        ))}
-      </nav>
+      <EvalPath />
 
-      <Section id="offer" title="The offer">
+      <Section id="outcome" title="What members complete">
         <DefTable
           monoFirst={false}
+          head={["Task", "What the member ends up with"]}
           rows={[
-            ["Who it's for", "Owners of paid communities that promise members a concrete early result (a first client, a first automation), with a classroom of written or transcribed lessons and roughly 20 or more new paid members a month"],
-            ["The expensive problem", "New members who pay but don't act on the lessons in their first weeks, ask the same questions again and again, and are the easiest to lose at their first renewal"],
-            ["What you get", "A tutor skill grounded in your lessons, task skills for your first-win steps, acceptance checks, a member start guide, an admin review checklist, and a pilot kit"],
-            ["What members accomplish", "Finished deliverables using your method: a scored niche choice, a priced one-page offer, personalised outreach with follow-ups"],
-            ["How it could pay", "More new members reaching the first win could mean more first renewals. Fewer repeat questions frees coach time, which is cash only if you cut paid hours. Neither is proven yet: a pilot measures both"],
-            ["What you provide", "Your lessons as text, the tasks and rules you teach, two hours to write the spec, an hour to review, and logging during the pilot"],
-            ["What stays your job", "Reviewing the skills, keeping lessons current, member support beyond the tutor, and anything members send to their clients"],
+            ["Build your one-page offer", "A niche scored with your filters, a headline in your formula, every section of your offer page, a price from your ladder, plus a pass/fail check, the gaps to fill and the next step"],
+            ["Write your first outreach", "First messages in your script for each prospect with a real observation, both follow-ups, a tracking sheet, and the prospects skipped and why"],
+            ["Ask the tutor", "Answers from your lessons with the lesson cited; for anything not covered, a ready-to-post question for a coach"],
           ]}
         />
-      </Section>
-
-      <Section id="costs" title="Effort, costs and limits">
-        <ul className="list">
-          <li><strong>Your time:</strong> our estimate from building the example is 10 to 16 hours to write the spec, review the skills and run acceptance tests, then a few hours a month to keep it current. Not yet measured with a real community.</li>
-          <li><strong>Third-party costs:</strong> members need a Claude account with skills and code execution turned on. Claude's help center lists skills on the Free and Pro plans, while one Anthropic developer page says Pro or higher; check before you promise it to members (claude.com/pricing and support.claude.com, checked 2026-10-29). Optional tests with an API key are usage-billed.</li>
-          <li><strong>Not yet verified live:</strong> uploading the generated skills to the Claude app and running them. Every step works locally; the live run is a manual acceptance step you do before members see it.</li>
-          <li><strong>Members on ChatGPT:</strong> skills on ChatGPT personal plans are unconfirmed. If most of your members won't use Claude, this isn't for you yet.</li>
-          <li><strong>No result is guaranteed.</strong> The value depends on whether your members use it; the pilot tells you.</li>
-        </ul>
-      </Section>
-
-      <Section id="free" title="What's free, what's paid">
-        <DefTable
-          monoFirst={false}
-          head={["What", "Terms"]}
-          rows={[
-            ["The software", "Free, MIT license. Everything on this site, including the member-pack builder and the pilot report. Keep each tool's LICENSE file in copies you hand out"],
-            ["Implementation help", SERVICES.enabled && SERVICES.contact ? "Available: see below" : "Not offered through this site yet"],
-            ["Maintenance and support", SERVICES.enabled && SERVICES.contact ? "Available: see below" : "Not offered through this site yet"],
-            ["Third-party costs", "Paid by you or your members, only if used: Claude plans, optional API usage, your community platform"],
-          ]}
-        />
-        {SERVICES.enabled && SERVICES.contact ? (
-          <div className="services">
-            <h3>Optional help</h3>
-            <p>{SERVICES.intro}</p>
-            <DefTable monoFirst={false} head={["Service", "What it covers"]} rows={SERVICES.items} />
-            <p>
-              <a className="btn" href={SERVICES.contact}>
-                Ask about implementation
-              </a>
-            </p>
-          </div>
-        ) : null}
-      </Section>
-
-      <Section id="evidence" title="What's verified so far">
-        <ul className="list">
-          <li>The member-pack builder, acceptance checks and pilot report run end to end on the synthetic example, from a fresh install of the download.</li>
-          <li>Generated skills pass skillkit's checks against the published skill format rules (Claude docs, checked 2026-10-29).</li>
-          <li>Not yet: a live run in the Claude app, a real community's lessons, or any pilot with real members. There are no customer results.</li>
-        </ul>
         <p className="muted">
-          Full status per integration: <RouteLink to="trust/readiness">Readiness &amp; data</RouteLink>.
+          These are the tasks in the worked example (a synthetic AI-agency community). Your pack follows your own first
+          outcome and lessons.
         </p>
       </Section>
 
-      <Section id="tools" title="The tools behind it">
-        <div className="cards">
-          {STARTER.map((id) => {
-            const t = TOOLS.find((x) => x.id === id);
-            return (
-              <RouteLink key={id} to={id} className="card">
-                <span className="card__top">
-                  <span className="card__name">{t.name}</span>
-                  <span className="card__tests">v{CATALOG[id].version}</span>
-                </span>
-                <span className="card__tagline">{CATALOG[id].useCase}</span>
-                <span className="card__badges">
-                  {statusSummary(id).map((s) => (
-                    <Badge key={s} status={s} />
-                  ))}
-                </span>
-              </RouteLink>
-            );
-          })}
-        </div>
+      <Section id="better" title="Why this beats the lessons alone or a general AI assistant">
+        <DefTable
+          monoFirst={false}
+          head={["", "Lessons alone", "A general AI assistant", "Member pack"]}
+          rows={[
+            ["Uses your method", "Yes, if the member applies it", "No: general advice", "Yes: each step follows a named lesson"],
+            ["Finishes the work", "No", "Partly", "Yes: an editable deliverable"],
+            ["Keeps your rules", "If remembered", "No", "Yes: conflicts are named, e.g. a price below your minimum"],
+            ["Flags gaps and unsupported claims", "No", "Rarely", "Yes: a Gaps and assumptions section"],
+            ["Routes to your team", "Member must ask", "No", "Yes: a ready-to-post question for a coach"],
+          ]}
+        />
         <p className="muted">
-          <DownloadLink file={starter}>Download the starter bundle</DownloadLink>{" "}
-          Six more free tools for specific audiences: <RouteLink to="compare">compare them</RouteLink>.
+          In the recorded runs, a member asked for an offer priced below the lesson's minimum, with a guaranteed 20% lift. The skill named both
+          conflicts with the lessons and asked only for the missing input: <RouteLink to="example/runs">see the run</RouteLink>.
+          The "general AI assistant" column is our judgement, not a measured comparison.
+        </p>
+      </Section>
+
+      <Section id="receive" title="What you receive, and what stays with you">
+        <DefTable
+          monoFirst={false}
+          rows={[
+            ["You receive", "A tutor and task skills from your lessons, acceptance cases, a member start guide, an admin review checklist and a pilot kit. Free to build yourself, or as a paid scoped pilot"],
+            ["Your time (estimate)", `${rangeText(t.customerSetup)} before launch, ${rangeText(t.customerPilot)} of logging during a pilot, ${rangeText(t.customerMonthly)} a month after. Not yet measured with a real community`],
+            ["Stays with you", "Approving the skills, keeping lessons accurate, member support beyond the tutor, and anything members send to clients"],
+            ["Members need", "Claude with skills turned on. Anthropic's pages differ on the Free plan; Pro is listed. Members who only use ChatGPT can't use it"],
+          ]}
+        />
+        <p className="muted">
+          Full breakdown: <RouteLink to="pilot/effort">effort</RouteLink>.
+        </p>
+      </Section>
+
+      <Section id="verified" title="What has actually been verified">
+        <EvidenceTable />
+      </Section>
+
+      <Section id="money" title="How it might earn or save money">
+        <ul className="list">
+          <li><strong>More first renewals</strong>, if more new members reach their first outcome. This is the main possible effect, and it is unmeasured.</li>
+          <li><strong>Less repeat support</strong>: time freed is capacity unless you cut paid hours, and correcting wrong answers costs time back.</li>
+        </ul>
+        <p>
+          <RouteLink to="value">The calculator</RouteLink> shows month by month what has to be true for a pilot to pay for
+          itself. Small communities (around 15 new paid members a month at lower prices) usually can't justify a paid
+          pilot; they should use the free tools.
+        </p>
+      </Section>
+
+      <Section id="free" title="Free software, paid pilot">
+        <DefTable
+          monoFirst={false}
+          head={["", "Terms"]}
+          rows={[
+            ["The software", "Free, MIT license: the member-pack builder, acceptance checks, pilot report and everything else on this site"],
+            ["Scoped pilot (paid)", "We build, test and launch a pack with you and run the pilot report. Scope, deliverables and exclusions are published; price agreed per community"],
+            ["Maintenance (optional, paid)", "Rebuilds and acceptance re-runs after the pilot"],
+            ["Third-party costs", "Your members' Claude plans; optional API usage"],
+          ]}
+        />
+        <p>
+          <RouteLink to="pilot" className="btn">See the scoped pilot</RouteLink>
         </p>
       </Section>
     </div>

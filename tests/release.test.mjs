@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { TOOLS } from "../src/data/tools.js";
 import { CATALOG, STARTER } from "../src/data/catalog.js";
 import { READINESS, STATUSES } from "../src/data/readiness.js";
-import { SERVICES } from "../src/data/offer.js";
+import { PILOT_OFFER } from "../src/data/pilot-offer.js";
 import { PAGES } from "../src/data/nav.js";
 import { renderReadiness } from "../scripts/write-readiness.mjs";
 
@@ -111,12 +111,19 @@ test("no prices, checkout or purchase buttons anywhere on the site", () => {
   for (const f of files) {
     const text = readFileSync(f, "utf8");
     assert.doesNotMatch(text, /checkout|buy now|add to cart|pricing plan/i, f);
-    // tools.js holds calculator output such as "$300k"; everywhere else a currency amount would be a price.
-    if (!f.endsWith("data/tools.js")) assert.doesNotMatch(text, /[$€£]\s?\d|\/mo\b|\bUSD\s?\d/i, f);
+    // tools.js holds calculator output such as "$300k", and Example.jsx quotes the synthetic member's own prices
+    // from the recorded runs. Everywhere else a currency amount would read as our price.
+    if (!f.endsWith("data/tools.js") && !f.endsWith("pages/Example.jsx")) {
+      assert.doesNotMatch(text, /[$€£]\s?\d|\/mo\b|\bUSD\s?\d/i, f);
+    }
   }
 });
 
-test("paid services only show with a working contact", () => {
-  if (SERVICES.enabled) assert.match(SERVICES.contact, /^(mailto:\S+@\S+|https:\/\/\S+)$/);
-  for (const [name, body] of SERVICES.items) assert.ok(name && body);
+test("the enquiry only links somewhere real", () => {
+  const dest = PILOT_OFFER.enquiry.destination;
+  if (dest) assert.match(dest, /^(mailto:\S+@\S+\.\S+|https:\/\/\S+\.\S+)$/);
+  assert.ok(PILOT_OFFER.enquiry.prepare.length >= 3);
+  for (const key of ["deliverables", "revisions", "customerInputs", "exclusions", "acceptanceFails", "maintenance"]) {
+    assert.ok(PILOT_OFFER[key].length > 0, key);
+  }
 });

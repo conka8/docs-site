@@ -6,7 +6,7 @@ export const STARTER = ["skool-owner-kit", "skillport", "skillkit"];
 export const CATALOG = {
   "skool-owner-kit": {
     tier: "starter",
-    version: "0.3.0",
+    version: "0.4.0",
     useCase: "Turn your lessons into a member pack that walks new members to their first win, and measure it in a pilot",
     needs: "Python 3.10+. Your lessons as text, the tasks you teach, a pack spec. Skool CSV exports for the dashboard; Zapier (Skool Pro plan) only for automatic welcomes",
     cost: "Free. Members need Claude with skills. Optional AI-written welcome messages and skill tests use your API key",

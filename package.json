@@ -11,7 +11,8 @@
     "build:artifact": "node scripts/build-artifact.mjs",
     "test": "node --test tests/*.test.mjs",
     "readiness": "node scripts/write-readiness.mjs",
-    "downloads": "python3 ../scripts/package_tools.py"
+    "downloads": "python3 ../scripts/package_tools.py",
+    "offer-docs": "node scripts/write-offer-docs.mjs"
   },
   "dependencies": {
     "react": "18.3.1",

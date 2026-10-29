@@ -15,10 +15,11 @@ import Releases from "./pages/Releases.jsx";
 import Example from "./pages/Example.jsx";
 import Value from "./pages/Value.jsx";
 import Pilot from "./pages/Pilot.jsx";
+import Fit from "./pages/Fit.jsx";
 import "./styles.css";
 
 const ROUTES = new Set([...PAGE_IDS, ...TOOLS.map((t) => t.id)]);
-const PAGES = { start: GettingStarted, trust: Trust, admins: Admins, members: Members, compare: Compare, releases: Releases, example: Example, value: Value, pilot: Pilot };
+const PAGES = { start: GettingStarted, trust: Trust, admins: Admins, members: Members, compare: Compare, releases: Releases, example: Example, value: Value, pilot: Pilot, fit: Fit };
 
 // "#skillport/limits" -> { route: "skillport", section: "limits" }
 function currentLocation() {

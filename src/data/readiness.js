@@ -28,8 +28,9 @@ export const READINESS = {
   ],
   "skool-owner-kit": [
     ["Member pack builder (pack-build)", "local", "Builds the synthetic agency-lab pack from a fresh install; output passes skillkit lint and its acceptance checks on hand-written examples.", null],
-    ["Pilot report (pilot)", "local", "Runs on the synthetic pilot logs. No real pilot has been run.", null],
-    ["Generated skills doing the task in the Claude app", "experimental", "Not run live. ADMIN-REVIEW.md has the manual acceptance procedure to do before members see a pack.", null],
+    ["Pilot report (pilot)", "local", "Runs on the synthetic pilot logs: observation windows, quality, outcomes and economics. No real pilot has been run.", null],
+    ["Generated skills doing the tasks in Claude Code", "live", "8 runs of the example pack's acceptance cases (lesson questions, uncovered question, offer task, outreach task, conflicting input); one defect found and fixed. Outputs in examples/agency-lab/live-runs/.", { date: "2026-10-29", version: "Claude Code, model alias sonnet (fresh subagent per run)", what: "skills read from their folders and followed on test inputs; skill auto-selection not tested" }],
+    ["Generated skills in the Claude app (claude.ai, desktop)", "experimental", "Not run. ADMIN-REVIEW.md has the acceptance procedure to do before members see a pack.", null],
     ["Classroom files to tutor skill", "local", "Runs on the bundled sample classroom.", null],
     ["Welcome messages and dashboard from CSV", "local", "Runs on the bundled sample export.", null],
     ["Real Skool member export columns", "experimental", "Skool doesn't document its export columns. Columns are matched loosely; run skool-kit inspect first.", null],

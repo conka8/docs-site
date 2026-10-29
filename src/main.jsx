@@ -1,45 +1,66 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { SUITE, TOOLS } from "./data/tools.js";
+import { PAGE_IDS } from "./data/nav.js";
 import Sidebar from "./components/Sidebar.jsx";
 import { RouteLink } from "./components/ui.jsx";
 import Home from "./pages/Home.jsx";
 import ToolPage from "./pages/ToolPage.jsx";
 import GettingStarted from "./pages/GettingStarted.jsx";
 import Trust from "./pages/Trust.jsx";
+import Admins from "./pages/Admins.jsx";
+import Members from "./pages/Members.jsx";
+import Compare from "./pages/Compare.jsx";
+import Releases from "./pages/Releases.jsx";
 import "./styles.css";
 
-const ROUTES = new Set(["home", "start", "trust", ...TOOLS.map((t) => t.id)]);
+const ROUTES = new Set([...PAGE_IDS, ...TOOLS.map((t) => t.id)]);
+const PAGES = { start: GettingStarted, trust: Trust, admins: Admins, members: Members, compare: Compare, releases: Releases };
 
-function currentRoute() {
-  const h = location.hash.slice(1);
-  return ROUTES.has(h) ? h : "home";
+// "#skillport/limits" -> { route: "skillport", section: "limits" }
+function currentLocation() {
+  const [route, section = ""] = location.hash.slice(1).split("/");
+  return ROUTES.has(route) ? { route, section } : { route: "home", section: "" };
 }
 
 function App() {
-  const [route, setRoute] = useState(currentRoute);
+  const [{ route, section }, setLoc] = useState(currentLocation);
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const mainRef = useRef(null);
+  const first = useRef(true);
 
   useEffect(() => {
     const onHash = () => {
-      setRoute(currentRoute());
+      setLoc(currentLocation());
       setMenuOpen(false);
-      window.scrollTo(0, 0);
     };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
+  // After each navigation: scroll to the linked section (or the top) and move focus into the page.
+  useEffect(() => {
+    const el = section && document.getElementById("s-" + section);
+    if (el) {
+      el.scrollIntoView({ block: "start" });
+      el.querySelector("h2")?.focus({ preventScroll: true });
+    } else {
+      window.scrollTo(0, 0);
+      if (!first.current) mainRef.current?.focus({ preventScroll: true });
+    }
+    first.current = false;
+  }, [route, section]);
+
   const tool = TOOLS.find((t) => t.id === route);
-  let page;
-  if (tool) page = <ToolPage key={tool.id} tool={tool} />;
-  else if (route === "start") page = <GettingStarted />;
-  else if (route === "trust") page = <Trust />;
-  else page = <Home />;
+  const Page = PAGES[route] || Home;
+  const page = tool ? <ToolPage key={tool.id} tool={tool} /> : <Page />;
 
   return (
     <div className="shell">
+      <a className="skip-link" href="#main" onClick={(e) => { e.preventDefault(); mainRef.current?.focus(); }}>
+        Skip to content
+      </a>
       <header className="topbar">
         <RouteLink to="home" className="brand">
           <svg className="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
@@ -73,13 +94,15 @@ function App() {
         <div id="sidebar" className="layout__side">
           <Sidebar route={route} query={query} setQuery={setQuery} open={menuOpen} onNavigate={() => setMenuOpen(false)} />
         </div>
-        <main className="layout__main">
+        <main id="main" className="layout__main" ref={mainRef} tabIndex={-1}>
           {page}
           <footer className="footer">
             <span>
               {SUITE.name} · {SUITE.license} licensed · Python {SUITE.python}
             </span>
-            <span>Tested {SUITE.testedOn}</span>
+            <span>
+              Tested {SUITE.testedOn} · <RouteLink to="releases">Release notes</RouteLink>
+            </span>
           </footer>
         </main>
       </div>

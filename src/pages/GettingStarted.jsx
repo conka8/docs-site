@@ -1,88 +1,132 @@
 import React from "react";
 import { SUITE, TOOLS } from "../data/tools.js";
-import { Callout, CodeBlock, DefTable, RouteLink, Section } from "../components/ui.jsx";
+import { CATALOG } from "../data/catalog.js";
+import { DOWNLOADS, sizeLabel } from "../data/downloads.js";
+import { Callout, CodeBlock, DefTable, RouteLink, Section, Tabs } from "../components/ui.jsx";
 
-const STEPS = [
-  {
-    title: "Check Python",
-    body: `Every tool needs Python ${SUITE.python}. macOS and Linux usually have it; on Windows, install it from python.org and tick “Add to PATH”.`,
-    code: "python3 --version",
-  },
-  {
-    title: "Install a tool from its folder",
-    body: "The tools are not on PyPI yet. Open a terminal inside the tool's folder and install it. pipx keeps each tool separate; plain pip works too.",
-    code: "cd shipsafe\npython3 -m pip install .",
-  },
-  {
-    title: "Run the demo",
-    body: "Every tool that calls an outside service has a demo mode, so the first run needs no account or API key.",
-    code: "shipsafe scan ./my-app --format html -o report.html",
-  },
-];
+function name(d) {
+  return d.tool === "builder-commons-starter" ? "Starter bundle (skool-owner-kit, skillport, skillkit + guides)" : d.tool;
+}
 
 export default function GettingStarted() {
+  const rows = [...DOWNLOADS]
+    .sort((a, b) => (a.tool === "builder-commons-starter" ? -1 : b.tool === "builder-commons-starter" ? 1 : 0))
+    .map((d) => [
+      <a href={"./downloads/" + d.file} download>
+        {name(d)}
+      </a>,
+      d.version,
+      sizeLabel(d.bytes),
+      <code className="hash">{d.sha256.slice(0, 16)}…</code>,
+    ]);
+
   return (
     <div className="page">
       <header className="tool__head">
         <p className="eyebrow">Guide</p>
-        <h1>Getting started</h1>
-        <p className="lede">From zero to a first report in about five minutes.</p>
+        <h1>Install &amp; downloads</h1>
+        <p className="lede">Download, install into a private environment, and check it worked. About five minutes.</p>
       </header>
 
-      <ol className="steps">
-        {STEPS.map((s, i) => (
-          <li key={s.title} className="step">
-            <span className="step__num">{i + 1}</span>
-            <div className="step__body">
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-              <CodeBlock code={s.code} />
-            </div>
-          </li>
-        ))}
-      </ol>
-
-      <Section id="skills" title="Use the tools from Claude">
+      <Section id="downloads" title="Downloads">
         <p>
-          Most tools ship a ready-made skill in their <code>skills/</code> folder. Copy that folder into{" "}
-          <code>~/.claude/skills/</code> for Claude Code, upload it as a skill in the Claude app, or place it in your
-          OpenClaw skills folder. Members can then ask in plain words, for example “audit my app before launch”.
+          Each zip holds one tool with its sample files, README and LICENSE. Most admins want the starter bundle. The tools
+          aren't on PyPI: don't <code>pip install</code> them by name, because those names may belong to someone else.
         </p>
-        <CodeBlock code="cp -r shipsafe/skills/shipsafe-audit ~/.claude/skills/" />
+        <DefTable head={["Download", "Version", "Size", "SHA-256"]} rows={rows} monoFirst={false} />
+        <p className="muted">
+          Full checksums are in <a href="./downloads/manifest.json">manifest.json</a>.
+        </p>
       </Section>
 
-      <Section id="demo-commands" title="Demo commands, no keys needed">
-        <DefTable
-          head={["Tool", "Try this first"]}
-          rows={TOOLS.map((t) => [t.name, t.quickstart.find((q) => /demo|fake|scripted|inspect|lint|list|scan|rental/i.test(q.label + q.code))?.code.split("\n")[0] || t.quickstart[0].code.split("\n")[0]])}
-        />
-      </Section>
-
-      <Section id="keys" title="API keys, when you need them">
-        <p>Four tools can call AI providers, and only when you leave demo mode. Keys are read from environment variables and are never written into reports.</p>
-        <DefTable
-          head={["Variable", "Used by"]}
-          rows={[
-            ["ANTHROPIC_API_KEY", "geo-audit, voice-qa, skillkit eval, skool-kit --llm"],
-            ["OPENAI_API_KEY", "geo-audit, voice-qa, skillkit eval, skool-kit --llm"],
-            ["PERPLEXITY_API_KEY", "geo-audit"],
-            ["GEMINI_API_KEY", "geo-audit"],
-            ["GHL_TOKEN, GHL_LOCATION_ID", "ghl-kit (a private integration token from the client's sub-account)"],
+      <Section id="python" title="1. Get Python">
+        <p>
+          Every tool needs Python {SUITE.python}. Check with the command below. If it's missing or older, install it from{" "}
+          <a href="https://www.python.org/downloads/">python.org/downloads</a>. On Windows, tick "Add python.exe to PATH".
+        </p>
+        <Tabs
+          label="Check Python"
+          tabs={[
+            { label: "macOS / Linux", content: <CodeBlock code="python3 --version" /> },
+            { label: "Windows PowerShell", content: <CodeBlock code="py --version" /> },
           ]}
         />
       </Section>
 
-      <Callout tone="note" title="Exit codes are consistent">
+      <Section id="install" title="2. Install in a private environment">
         <p>
-          <code>0</code> means OK. <code>1</code> means the tool found something you asked it to fail on (a critical finding,
-          a score under the bar, a changed configuration). <code>2</code> means bad input or a missing key. That makes every
-          tool safe to drop into a GitHub Action or a cron job.
+          Unzip the download and open a terminal in the unzipped folder. A virtual environment keeps the tools separate from
+          everything else on your computer.
         </p>
-      </Callout>
+        <Tabs
+          label="Install"
+          tabs={[
+            {
+              label: "macOS / Linux",
+              content: (
+                <>
+                  <CodeBlock label="Starter bundle" code={"python3 -m venv .venv\nsource .venv/bin/activate\npython -m pip install ./skool-owner-kit ./skillport ./skillkit"} />
+                  <CodeBlock label="A single tool (run inside its folder)" code={"python3 -m venv .venv\nsource .venv/bin/activate\npython -m pip install ."} />
+                </>
+              ),
+            },
+            {
+              label: "Windows PowerShell",
+              content: (
+                <>
+                  <CodeBlock label="Starter bundle" code={"py -m venv .venv\n.venv\\Scripts\\Activate.ps1\npython -m pip install .\\skool-owner-kit .\\skillport .\\skillkit"} />
+                  <CodeBlock label="A single tool (run inside its folder)" code={"py -m venv .venv\n.venv\\Scripts\\Activate.ps1\npython -m pip install ."} />
+                  <p className="muted">
+                    "Running scripts is disabled"? Run <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>{" "}
+                    once (<a href="https://docs.python.org/3/library/venv.html">Python docs</a>).
+                  </p>
+                </>
+              ),
+            },
+          ]}
+        />
+        <p className="muted">
+          Each new terminal: activate again (the second line). pipx also works for single tools:{" "}
+          <code>pipx install .</code> inside the tool's folder (
+          <a href="https://packaging.python.org/en/latest/guides/installing-stand-alone-command-line-tools/">guide</a>).
+          Commands from the Python packaging docs, checked 2026-10-29.
+        </p>
+      </Section>
 
-      <p className="muted next-hint">
-        Next: pick a tool from the sidebar, or read <RouteLink to="trust">how the tools are tested</RouteLink>.
-      </p>
+      <Section id="check" title="3. Check it worked">
+        <p>
+          Each tool prints its version (<code>skillport --version</code>), then runs its first example on the files that
+          ship in its folder. No account or API key needed.
+        </p>
+        <DefTable
+          monoFirst={false}
+          head={["Tool", "First run (inside the tool's folder)", "You should see"]}
+          rows={TOOLS.map((t) => [
+            <RouteLink to={t.id + "/quickstart"}>{t.name}</RouteLink>,
+            <code className="pre-line">{CATALOG[t.id].firstRun.code.replace(/ \\\n\s*/g, " ")}</code>,
+            CATALOG[t.id].firstRun.expect,
+          ])}
+        />
+      </Section>
+
+      <Section id="upgrade" title="Upgrade or remove">
+        <p>
+          Download the new zip, unzip it, activate the same environment and install again: <code>python -m pip install .</code>{" "}
+          replaces the old version. Your own files are untouched. Remove a tool with{" "}
+          <code>python -m pip uninstall &lt;name&gt;</code>, or delete the <code>.venv</code> folder to remove everything.
+          What changed: <RouteLink to="releases">Release notes</RouteLink>.
+        </p>
+      </Section>
+
+      <Section id="codes" title="Exit codes">
+        <Callout tone="note" title="The same in every tool">
+          <p>
+            <code>0</code> OK. <code>1</code> the tool found something you asked it to fail on (a critical finding, a score
+            under the bar, a failed conversation, lint errors). <code>2</code> bad input or a missing key. That makes the
+            tools usable in a GitHub Action or a scheduled job.
+          </p>
+        </Callout>
+      </Section>
     </div>
   );
 }

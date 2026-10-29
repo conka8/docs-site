@@ -1,0 +1,106 @@
+{
+  "files": [
+    {
+      "file": "builder-commons-starter-0.2.0.zip",
+      "tool": "builder-commons-starter",
+      "version": "0.2.0",
+      "contains": [
+        "skillport",
+        "skillkit",
+        "skool-owner-kit"
+      ],
+      "bytes": 280024,
+      "sha256": "70e82cdb753e38067f09be837c510e7a6996cda4632866fdc62ca8aa28b32042"
+    },
+    {
+      "file": "career-labs-0.1.1.zip",
+      "tool": "career-labs",
+      "version": "0.1.1",
+      "contains": [
+        "career-labs"
+      ],
+      "bytes": 140103,
+      "sha256": "8b13103d749b79d1aca5992da0bafd8709b04a707d291b15297674a86039094c"
+    },
+    {
+      "file": "geo-audit-0.1.1.zip",
+      "tool": "geo-audit",
+      "version": "0.1.1",
+      "contains": [
+        "geo-audit"
+      ],
+      "bytes": 79312,
+      "sha256": "35895311e924b17f1eb6815cc20350bf2dc150fafcb041c65adb148040b4f19c"
+    },
+    {
+      "file": "ghl-agency-kit-0.1.1.zip",
+      "tool": "ghl-agency-kit",
+      "version": "0.1.1",
+      "contains": [
+        "ghl-agency-kit"
+      ],
+      "bytes": 72459,
+      "sha256": "ec0042a239e974d559676ba159a34a286b9d595d2c511b7c2fe7caf610457861"
+    },
+    {
+      "file": "shipsafe-0.1.1.zip",
+      "tool": "shipsafe",
+      "version": "0.1.1",
+      "contains": [
+        "shipsafe"
+      ],
+      "bytes": 104319,
+      "sha256": "ed39b5b9ededef044364a86e770967607618d743ae7cdf240fdea07b90c3035f"
+    },
+    {
+      "file": "skillkit-0.2.0.zip",
+      "tool": "skillkit",
+      "version": "0.2.0",
+      "contains": [
+        "skillkit"
+      ],
+      "bytes": 64277,
+      "sha256": "7981f48c014a520b31abb546ea239b84490b9be6c588fb94c451048b5df4165d"
+    },
+    {
+      "file": "skillport-0.2.0.zip",
+      "tool": "skillport",
+      "version": "0.2.0",
+      "contains": [
+        "skillport"
+      ],
+      "bytes": 107980,
+      "sha256": "9c533e247025f74bb943a86e215789e27f5dfe359c90d78bbdd2a2815bf382ed"
+    },
+    {
+      "file": "skool-owner-kit-0.2.0.zip",
+      "tool": "skool-owner-kit",
+      "version": "0.2.0",
+      "contains": [
+        "skool-owner-kit"
+      ],
+      "bytes": 84608,
+      "sha256": "fba642760a97b1f60875580e727ce54600a2597016cfa3a8f8b60fa34536bbc9"
+    },
+    {
+      "file": "vertical-packs-0.1.1.zip",
+      "tool": "vertical-packs",
+      "version": "0.1.1",
+      "contains": [
+        "vertical-packs"
+      ],
+      "bytes": 78160,
+      "sha256": "1c7e93e51f3b9c4d3e65c3472df6aa8123fe5729acffa271ab1497c8aa522b59"
+    },
+    {
+      "file": "voice-qa-0.1.1.zip",
+      "tool": "voice-qa",
+      "version": "0.1.1",
+      "contains": [
+        "voice-qa"
+      ],
+      "bytes": 102438,
+      "sha256": "cdee04e03526b92d2118fb59c79eed619808c4627f3d51fe5289c8a440741d59"
+    }
+  ]
+}

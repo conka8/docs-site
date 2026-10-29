@@ -18,6 +18,8 @@ npm run dev        # local site with hot reload at http://localhost:5173
 | `npm run preview` | Serve `dist/` locally to check the production build |
 | `npm test` | Check the docs content (fields, ids, test totals, tool folders exist) |
 | `npm run build:artifact` | Build `artifact-dist/artifact.html`, a single-file copy for a claude.ai artifact link |
+| `npm run readiness` | Regenerate `../READINESS.md` from `src/data/readiness.js` |
+| `npm run downloads` | Rebuild `public/downloads/` (tool zips, starter bundle, manifest) from the tool folders next to this repo |
 
 ## Deploy
 
@@ -31,16 +33,26 @@ npm run dev        # local site with hot reload at http://localhost:5173
 ```
 index.html              page shell, fonts
 src/main.jsx            app, hash routing, layout
-src/pages/              Home, ToolPage, GettingStarted, Trust
+src/pages/              Home, Admins, Members, GettingStarted (install), Compare, Trust (readiness), Releases, ToolPage
 src/components/         Sidebar, CodeBlock, tables, callouts
-src/data/tools.js       all text, commands and test counts
+src/data/tools.js       tool text, commands and test counts
+src/data/catalog.js     starter/more tier, version, needs, costs, first run per tool
+src/data/readiness.js   integration readiness (source of ../READINESS.md)
+src/data/nav.js         pages, sections, search keywords
+src/data/offer.js       optional paid services (off until enabled with a contact)
+src/data/downloads.js   reads public/downloads/manifest.json
+public/downloads/       tool zips + manifest (built by ../scripts/package_tools.py)
 src/styles.css          dark theme tokens, layout
 src/shims/              used only by build:artifact (React from CDN)
 scripts/build-artifact.mjs
-tests/data.test.mjs
+tests/data.test.mjs     content shape
+tests/release.test.mjs  versions, commands, sample paths, downloads, readiness, no prices
 ```
 
 ## Edit content
 
 Everything visitors read is in `src/data/tools.js`. Change `SUITE.name` there to rename the collection.
-Each tool page has its own link (`#shipsafe`, `#geo-audit`, ...), so you can send one founder the page that fits them.
+Each page and section has its own link: `#skillport`, `#skillport/limits`, `#admins/ship`. Hover a heading and use
+the `#` next to it to copy the link.
+
+Before a release, follow `../MAINTAINING.md`.

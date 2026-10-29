@@ -1,20 +1,20 @@
 import React from "react";
-import { GROUPS, SUITE, TOOLS } from "../data/tools.js";
-import { Callout, Chip, CodeBlock, DefTable, RouteLink, Section } from "../components/ui.jsx";
-
-function jump(id) {
-  const el = document.getElementById("s-" + id);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
+import { SUITE, TOOLS } from "../data/tools.js";
+import { CATALOG } from "../data/catalog.js";
+import { READINESS } from "../data/readiness.js";
+import { downloadFor } from "../data/downloads.js";
+import { Callout, Chip, CodeBlock, DefTable, DownloadLink, ReadinessTable, RouteLink, Section, Video } from "../components/ui.jsx";
 
 export default function ToolPage({ tool }) {
   const idx = TOOLS.findIndex((t) => t.id === tool.id);
   const prev = TOOLS[idx - 1];
   const next = TOOLS[idx + 1];
-  const group = GROUPS.find((g) => g.id === tool.group);
+  const info = CATALOG[tool.id];
+  const download = downloadFor(tool.id);
 
   const sections = [
     ["quickstart", "Quickstart"],
+    ["readiness", "Readiness"],
     tool.labs ? ["labs", "Labs"] : null,
     tool.packs ? ["packs", "Packs"] : null,
     ["commands", "Commands"],
@@ -29,10 +29,11 @@ export default function ToolPage({ tool }) {
   return (
     <article className="page tool">
       <header className="tool__head">
-        <p className="eyebrow">{group.label}</p>
+        <p className="eyebrow">{info.tier === "starter" ? "Starter bundle" : "More tools"}</p>
         <h1 className="tool__name">{tool.name}</h1>
         <p className="lede">{tool.tagline}</p>
         <div className="chips">
+          <Chip>v{info.version}</Chip>
           <Chip tone="ok">{tool.tests} tests passing</Chip>
           <Chip>Python {SUITE.python}</Chip>
           <Chip>{SUITE.license}</Chip>
@@ -40,7 +41,21 @@ export default function ToolPage({ tool }) {
             command: <code>{tool.cli}</code>
           </Chip>
         </div>
+        <div className="hero__actions">
+          <DownloadLink file={download} primary>
+            Download {tool.name}
+          </DownloadLink>
+        </div>
       </header>
+
+      {tool.id === "shipsafe" ? (
+        <Video
+          label="42-second demo"
+          src="./media/shipsafe-demo.webm"
+          poster="./media/shipsafe-demo-poster.jpg"
+          description="No sound. shipsafe checks a sample app that has fake keys, gives it an F, explains each finding with a fix prompt, then writes a shareable HTML report. Recorded with version 0.1.0; counts in 0.1.1 differ slightly."
+        />
+      ) : null}
 
       <div className="tool__intro">
         <div className="tool__summary">
@@ -62,22 +77,37 @@ export default function ToolPage({ tool }) {
 
       <nav className="toc" aria-label="On this page">
         {sections.map(([id, label]) => (
-          <button key={id} type="button" onClick={() => jump(id)}>
+          <RouteLink key={id} to={`${tool.id}/${id}`}>
             {label}
-          </button>
+          </RouteLink>
         ))}
       </nav>
 
       <Section id="quickstart" title="Quickstart">
         <p className="muted">
-          Install once from the tool's folder with <code>pip install .</code> (Python {SUITE.python}). See{" "}
-          <RouteLink to="start">Getting started</RouteLink> for details.
+          Unzip the download, then install inside its folder with <code>python -m pip install .</code> in a virtual
+          environment (Python {SUITE.python}): <RouteLink to="start/install">step-by-step for Windows, macOS and Linux</RouteLink>.
+          Needs: {info.needs}. Running costs: {info.cost}.
         </p>
+        <div className="first-run">
+          <CodeBlock label="First run, with the sample files in the download" code={info.firstRun.code} />
+          <p className="first-run__expect">
+            <strong>You should see: </strong>
+            {info.firstRun.expect}
+          </p>
+        </div>
         <div className="stack">
           {tool.quickstart.map((q) => (
             <CodeBlock key={q.label} label={q.label} code={q.code} />
           ))}
         </div>
+      </Section>
+
+      <Section id="readiness" title="Readiness">
+        <ReadinessTable rows={READINESS[tool.id]} />
+        <p className="muted">
+          What the labels mean: <RouteLink to="trust/readiness">Readiness &amp; data</RouteLink>.
+        </p>
       </Section>
 
       {tool.labs ? (
@@ -132,7 +162,7 @@ export default function ToolPage({ tool }) {
           ))}
         </ul>
         <Callout tone="warn" title="Check before relying on it">
-          <p>These third-party details were written from public documentation and tested against fakes, not live accounts:</p>
+          <p>These third-party details were written from public documentation and have not been checked against a live account:</p>
           <ul className="list list--tight">
             {tool.verify.map((v) => (
               <li key={v}>{v}</li>

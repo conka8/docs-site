@@ -3,10 +3,10 @@
 
 export const SUITE = {
   name: "Builder Commons",
-  tagline: "Free, open-source tools for people who teach AI automation, run agencies and lead online communities.",
+  tagline: "Give your members Claude skills built from your own lessons and automations, checked and packaged so they install in a few clicks.",
   license: "MIT",
   python: "3.10+",
-  testedOn: "October 28, 2026",
+  testedOn: "October 29, 2026",
 };
 
 export const GROUPS = [
@@ -23,30 +23,31 @@ export const TOOLS = [
     name: "skillport",
     cli: "skillport",
     group: "skills",
-    tests: 238,
-    tagline: "Turn n8n workflows and Make.com scenarios into Claude skills.",
+    tests: 251,
+    tagline: "Turn n8n workflows and Make.com scenarios into Claude skills, with a list of what to check before you share them.",
     audience: ["Automation educators", "n8n / Make template libraries"],
     summary:
-      "Point skillport at one blueprint or a folder of 300 and get one skill folder per workflow. Each folder works in Claude Code, the Claude app and OpenClaw, lists the accounts it needs, and includes a README your members can follow.",
+      "Point skillport at one blueprint or a folder of 300 and get one skill folder per workflow, in the SKILL.md format Claude Code, the Claude app and OpenClaw read. Each folder lists the accounts it needs, includes a README your members can follow, and starts with a Conversion check: what the skill does differently from the original automation.",
     why:
       "Blueprint libraries are locked in n8n and Make format while members are moving to Claude skills. skillport converts the whole library in one run and strips API keys and account IDs on the way.",
     highlights: [
       "Branches, merges and loops written out as plain numbered steps",
+      "Every skill flags code steps, schedules, AI steps, loops and lost error handling for review",
       "Bridge mode keeps the workflow running in n8n and lets Claude call its webhook",
       "Batch mode with a summary table; one bad file never stops the run",
       "A browser page converts n8n JSON with nothing uploaded",
     ],
     quickstart: [
-      { label: "See what's inside a workflow (writes nothing)", code: "skillport inspect my-workflow.json" },
-      { label: "Make a skill folder, plus a zip to share", code: "skillport convert my-workflow.json -o skills --zip" },
-      { label: "Convert a whole folder of blueprints", code: "skillport batch blueprints/ -o skills" },
+      { label: "Try the bundled samples (2 n8n workflows, 1 Make.com scenario)", code: "skillport batch examples -o my-skills" },
+      { label: "See what's inside a workflow (writes nothing)", code: "skillport inspect examples/lead-capture.json" },
+      { label: "Your own workflow, plus a zip to share", code: "skillport convert my-workflow.json -o skills --zip" },
       {
         label: "Bridge skill: Claude calls your live n8n webhook",
         code: "skillport convert my-workflow.json -o skills --mode bridge \\\n  --webhook-url https://your-n8n.example.com/webhook/lead-capture",
       },
     ],
     commands: [
-      ["skillport inspect FILE", "Prints steps, branches, accounts, inputs and warnings. Add --format json for machines."],
+      ["skillport inspect FILE", "Prints steps, branches, accounts, inputs, warnings and what to check before sharing. Add --format json for machines."],
       ["skillport convert FILE -o OUT", "Writes OUT/<skill-name>/ with SKILL.md, README.md and source/workflow.json."],
       ["skillport batch DIR -o OUT", "Converts every .json under DIR, prints a summary, exits 1 if any file failed."],
     ],
@@ -83,38 +84,41 @@ Converted "Lead Capture → AI Scoring 🚀" (n8n) -> skills/lead-capture-ai-sco
     ],
     owners: [
       "Run skillport batch on your blueprint folder to get a ready skill library, then check it with skillkit lint before sharing.",
-      "Treat converted skills as a starting point and test each one, especially workflows with Code nodes.",
+      "Read each skill's Conversion check, fix what matters, then delete its needs-review line; skillkit lint warns until you do.",
       "Bridge skills give members something that works today, because the workflow keeps running in n8n.",
     ],
     limits: [
+      "A converted skill is written instructions that Claude follows with its own tools. It does not run n8n or Make.com, so results can differ from the original.",
       "About 45 common n8n node types get a plain-English description; others get a generic line and a note to check the original.",
+      "Schedules don't carry over: a skill runs when someone asks Claude. Error handling (continue on fail, retries, error workflows) is not converted.",
+      "Bridge skills need network access to your n8n host. The Claude API's skill sandbox has none, so they don't work there.",
       "Make.com error handlers and scenario schedules are not converted.",
       "Secret removal is pattern-based. Look over the output before you publish it.",
       "Environment variable names for accounts are suggestions. Google services work best through a connected app or MCP server.",
     ],
-    verify: ["n8n export field names and per-node parameters", "Make.com blueprint fields", "Where the Claude app and OpenClaw expect uploaded skills", "n8n webhook URL format"],
+    verify: ["n8n per-node parameter names", "Make.com blueprint fields", "n8n webhook response modes"],
   },
   {
     id: "shipsafe",
     name: "shipsafe",
     cli: "shipsafe",
     group: "apps",
-    tests: 350,
-    tagline: "The safety check to run before a vibe-coded app goes live.",
+    tests: 374,
+    tagline: "A pre-launch check for the most common mistakes in vibe-coded apps.",
     audience: ["Vibe-coding communities", "MVP agencies", "No-code SaaS founders"],
     summary:
       "shipsafe checks apps built with Lovable, Bolt, Cursor or Claude Code for the mistakes that hurt beginners: leaked API keys, database tables anyone can read, open Firebase rules, AI endpoints anyone can run on your bill, and admin pages with no login.",
     why:
       "Members ship real apps with real users' data. One leaked key or a surprise AI bill becomes a refund request and a bad review for the community. Every finding comes with a plain-English reason and a fix prompt to paste back into the AI coding tool.",
     highlights: [
-      "36 checks across secrets, Supabase, Firebase, env files, AI endpoints and admin pages",
+      "37 checks across secrets, Supabase, Firebase, env files, AI endpoints and admin pages",
       "Folder scan runs fully on your computer; nothing is uploaded",
-      "Secrets are never printed in full in any report format",
+      "Key-like values are masked in every report format",
       "A–F grade and white-label HTML report for courses and clients",
     ],
     quickstart: [
-      { label: "Check a project folder", code: "shipsafe scan ./my-app" },
-      { label: "Shareable HTML report", code: "shipsafe scan ./my-app --format html -o report.html" },
+      { label: "Make the deliberately leaky demo app and scan it", code: "python3 examples/make_demo_app.py demo-app\nshipsafe scan demo-app" },
+      { label: "Your own project, as a shareable HTML report", code: "shipsafe scan ./my-app --format html -o report.html" },
       { label: "Check the live site (only sites you own)", code: "shipsafe url https://my-app.vercel.app" },
       { label: "List every check", code: "shipsafe rules" },
     ],
@@ -134,10 +138,10 @@ Converted "Lead Capture → AI Scoring 🚀" (n8n) -> skills/lead-capture-ai-sco
     ],
     example: {
       title: "A leaky app",
-      code: `shipsafe 0.1.0 - launch safety check
+      code: `shipsafe 0.1.1 - launch safety check
 Target: ./my-app
 Grade:  F  (score 0/100)  Do not launch yet: fix the critical items first.
-Found:  3 critical, 4 high, 2 medium, 1 low, 1 info
+Found:  11 critical, 13 high, 9 medium, 5 low, 1 info
 
 1. [CRITICAL] Secret key in a public environment variable: NEXT_PUBLIC_OPENAI_API_KEY  (SS-PUBLIC-ENV-SECRET)
    Where: .env.local:4
@@ -164,10 +168,11 @@ Found:  3 critical, 4 high, 2 medium, 1 low, 1 info
     owners: [
       "Add \"run shipsafe before you launch\" as a lesson; it fits in five minutes.",
       "Copy skills/shipsafe-audit into .claude/skills and members can say \"audit my app before launch\".",
-      "Run python examples/make_demo_app.py ./demo to create a deliberately leaky app for a video.",
+      "Run python3 examples/make_demo_app.py demo-app to create a deliberately leaky app for a video (all keys in it are fake).",
     ],
     limits: [
-      "A fast pattern-based checklist, not a full security audit. A clean report does not prove an app is safe.",
+      "A fixed set of pattern-based checks, not a security audit. A clean result means these checks found nothing; it does not prove the app is secure.",
+      "An empty or wrong folder stops with exit 2 instead of giving a grade.",
       "Login and rate-limit detection is keyword-based, so unusual helper names can cause false alarms.",
       "SQL parsing is regex-based; tables created in the Supabase dashboard are only seen with --probe-supabase.",
       "URL mode reads scripts linked from the homepage only.",
@@ -180,11 +185,11 @@ Found:  3 critical, 4 high, 2 medium, 1 low, 1 info
     name: "geo-audit",
     cli: "geo-audit",
     group: "agency",
-    tests: 276,
-    tagline: "Does ChatGPT recommend this business? A white-label AI-visibility report.",
+    tests: 285,
+    tagline: "How often do AI assistants name this business? A white-label AI-visibility report.",
     audience: ["SEO / GEO educators", "Local-business agencies"],
     summary:
-      "geo-audit asks ChatGPT, Claude, Perplexity and Gemini the questions a customer would ask, like \"best dentist in Fresno?\", and reports whether the business is named, which competitors are named instead, and which websites the AIs trust.",
+      "geo-audit asks the OpenAI, Anthropic, Perplexity and Gemini APIs the questions a customer would ask, like \"best dentist in Fresno?\", and reports whether the business is named, which competitors are named instead, and which websites the AIs trust.",
     why:
       "AI search visibility is the newest question local businesses ask. Agency members need a door-opener they can send to prospects, and the batch mode finds the businesses that need help most.",
     highlights: [
@@ -203,7 +208,7 @@ Found:  3 critical, 4 high, 2 medium, 1 low, 1 info
         code: 'export OPENAI_API_KEY=sk-...   # and/or ANTHROPIC_, PERPLEXITY_, GEMINI_API_KEY\ngeo-audit run --business "Smile Dental" --city "Fresno, CA" --category dentist \\\n  --website smiledental.com -o report.html \\\n  --brand-name "Your Agency" --brand-color "#0f766e" --agency-contact "you@agency.com"',
       },
       { label: "Preview the questions before paying for anything", code: 'geo-audit questions --business "Smile Dental" --city "Fresno, CA" --category dentist' },
-      { label: "A whole prospect list", code: 'geo-audit batch prospects.csv -o reports/ --brand-name "Your Agency"' },
+      { label: "A whole prospect list (demo answers, free)", code: 'geo-audit batch examples/prospects.csv -o reports/ --providers fake --brand-name "Your Agency"' },
     ],
     commands: [
       ["geo-audit run", "Audits one business and writes HTML, JSON, Markdown or CSV."],
@@ -239,7 +244,8 @@ Smile Dental: 58.3% AI visibility (grade B), mentioned in 14 of 24 answers. Repo
     ],
     limits: [
       "AI answers change by day, account and location. A report is a snapshot, not a ranking guarantee.",
-      "API answers are not identical to the consumer ChatGPT or Gemini apps.",
+      "Answers come from the providers' APIs. The consumer ChatGPT, Claude, Perplexity and Gemini apps add personalisation, location and different search settings, so people may see different answers. Reports say so.",
+      "Demo-provider reports carry a Demo data banner. Never send them to a client as real results.",
       "Very generic business names can match other businesses; check the question-by-question section.",
       "Competitors written in plain sentences are only found when passed with --competitor.",
     ],
@@ -250,7 +256,7 @@ Smile Dental: 58.3% AI visibility (grade B), mentioned in 14 of 24 answers. Repo
     name: "ghl-agency-kit",
     cli: "ghl-kit",
     group: "agency",
-    tests: 107,
+    tests: 116,
     tagline: "Onboarding, weekly client reports and config backups for GoHighLevel agencies.",
     audience: ["AI agency owners on GoHighLevel"],
     summary:
@@ -269,8 +275,8 @@ Smile Dental: 58.3% AI visibility (grade B), mentioned in 14 of 24 answers. Repo
         code: 'ghl-kit --fake-api demo report --from 2026-10-01 --to 2026-10-07 --compare-previous \\\n  --brand-name "Peak AI Agency" --client-name "Bright Smile Dental" -o report.html',
       },
       { label: "Connect a real sub-account", code: "export GHL_TOKEN=paste-the-token-here\nexport GHL_LOCATION_ID=paste-the-location-id-here" },
-      { label: "Preview a client onboarding", code: "ghl-kit onboard plan.yaml --dry-run" },
-      { label: "Back up and compare a configuration", code: "ghl-kit snapshot export -o before.json\nghl-kit snapshot export -o after.json\nghl-kit snapshot diff before.json after.json" },
+      { label: "Preview a client onboarding on the demo account", code: "ghl-kit --fake-api demo onboard examples/plan.yaml --dry-run" },
+      { label: "Real account: back up and compare a configuration", code: "ghl-kit snapshot export -o before.json\nghl-kit snapshot export -o after.json\nghl-kit snapshot diff before.json after.json" },
     ],
     commands: [
       ["ghl-kit report --from --to", "Client results for a date range, with --compare-previous for change vs the prior period."],
@@ -332,11 +338,11 @@ Workflows:
     name: "voice-qa",
     cli: "voice-qa",
     group: "agency",
-    tests: 191,
-    tagline: "Test an AI phone receptionist before it answers a client's calls.",
+    tests: 205,
+    tagline: "Test an AI receptionist's answers with simulated text conversations before it takes a client's calls.",
     audience: ["Voice AI agencies", "AI sales-rep builders"],
     summary:
-      "voice-qa plays ten realistic callers per industry, from the angry customer to the \"are you a robot?\" caller and the prompt-injection prank, and produces a pass/fail scorecard a client can read, plus JSON and JUnit XML for CI.",
+      "voice-qa runs ten simulated text conversations per industry, from the angry customer to the \"are you a robot?\" caller and the prompt-injection prank, and produces a pass/fail scorecard a client can read, plus JSON and JUnit XML for CI.",
     why:
       "A receptionist that gives medical advice or lies about being human loses the client on day one. A scorecard also shows the client exactly what was fixed, which supports a higher price.",
     highlights: [
@@ -352,7 +358,7 @@ Workflows:
         label: "Your agent's prompt, played by Claude or OpenAI",
         code: 'export ANTHROPIC_API_KEY=sk-ant-...\nvoice-qa run --agent prompt --prompt-file my_prompt.txt \\\n  --pack dental --business-name "Smile Dental" -o out/',
       },
-      { label: "A Vapi assistant export", code: "voice-qa run --agent vapi-config --config-file assistant.json --pack dental -o out/" },
+      { label: "A Vapi assistant export (needs OPENAI_API_KEY for the simulated caller)", code: "voice-qa run --agent vapi-config --config-file assistant.json --pack dental -o out/" },
       { label: "In CI: fail below 85%", code: 'voice-qa run --agent http --url "$AGENT_URL" --pack dental -o qa/ --fail-under 85' },
     ],
     commands: [
@@ -402,11 +408,11 @@ Overall: 35% (grade F), 2 of 10 calls passed.`,
     name: "skillkit",
     cli: "skillkit",
     group: "skills",
-    tests: 247,
+    tests: 255,
     tagline: "Lint, test and package a library of Claude skills.",
     audience: ["Communities that sell skill and prompt libraries"],
     summary:
-      "skillkit checks every skill for mistakes, tests skills on sample inputs so you notice when a model update breaks them, and packages the whole library as one installable Claude Code plugin.",
+      "skillkit checks every skill for mistakes, tests skill instructions on sample inputs so you notice when a model update changes the answers, and packages the library as a Claude Code plugin or as upload zips for the Claude app.",
     why:
       "The library is the product. A skill with a broken link, a leaked key or a name Claude refuses to load is a support ticket, and a recipe that quietly stops working after a model update is a cancellation.",
     highlights: [
@@ -416,9 +422,10 @@ Overall: 35% (grade F), 2 of 10 calls passed.`,
       "Packs a Claude Code plugin with marketplace file and zip",
     ],
     quickstart: [
-      { label: "Check a whole library", code: "skillkit lint my-skills" },
-      { label: "Fix the safe things automatically", code: "skillkit lint my-skills --fix" },
-      { label: "Test skills without an API key", code: "skillkit eval my-skills --cases cases.yaml --provider fake" },
+      { label: "Check the bundled sample library", code: "skillkit lint examples/skills" },
+      { label: "See an eval report (canned answers, marked DEMO DATA)", code: "skillkit eval examples/skills --cases examples/cases.yaml" },
+      { label: "Your library: check, then fix the safe things", code: "skillkit lint my-skills\nskillkit lint my-skills --fix" },
+      { label: "Claude app members: one upload zip per skill", code: 'skillkit pack my-skills -o dist --name my-skills --version 1.0.0 \\\n  --author "Your Community" --format claude-app' },
       {
         label: "Package as a Claude Code plugin",
         code: 'skillkit pack my-skills -o dist --name my-skills --version 1.0.0 \\\n  --author "Your Community" --marketplace --zip',
@@ -478,13 +485,13 @@ Checked 12 skills: 2 errors, 1 warning.`,
     name: "skool-owner-kit",
     cli: "skool-kit",
     group: "community",
-    tests: 153,
-    tagline: "Welcome messages, churn-risk dashboard and a classroom tutor for Skool owners.",
+    tests: 155,
+    tagline: "A classroom tutor skill, welcome messages and an inactivity dashboard for Skool owners.",
     audience: ["Every Skool community owner"],
     summary:
-      "Personalised first-week paths for new members, a dashboard that shows who is going quiet before they cancel, and a Claude or OpenClaw tutor skill built from your own lessons.",
+      "A Claude or OpenClaw tutor skill built from your own lessons, personalised first-week paths for new members, and a dashboard that shows who has gone quiet.",
     why:
-      "Retention is revenue. The kit uses only your own data: CSV exports you download and Zapier events you send it. It never scrapes Skool, never logs in as you, and never needs your password or cookies.",
+      "Quiet members are easy to miss until they leave. The kit uses only your own data: CSV exports you download and Zapier events you send it. It never scrapes Skool, never logs in as you, and never needs your password or cookies.",
     highlights: [
       "Reads Skool exports with loose column matching and any date format",
       "Join answers decide the segment, goal, lessons and first action",
@@ -492,19 +499,19 @@ Checked 12 skills: 2 errors, 1 warning.`,
       "Lessons become a tutor skill that cites lesson titles",
     ],
     quickstart: [
-      { label: "Check your export", code: "skool-kit inspect members.csv" },
-      { label: "Welcome messages for new members", code: 'skool-kit onboard members.csv --since 2026-10-14 --community-name "AI Builders" -o messages.md' },
-      { label: "Churn-risk dashboard", code: "skool-kit health members.csv --activity activity.csv -o dashboard.html --at-risk at_risk.csv" },
       {
-        label: "Classroom to tutor skill",
-        code: 'skool-kit classroom-to-skill lessons/ --name ai-builders-tutor --community-name "AI Builders" \\\n  --classroom-url "https://www.skool.com/your-community/classroom" -o skills-out/',
+        label: "Classroom to tutor skill (sample lessons)",
+        code: 'skool-kit classroom-to-skill examples/classroom --name ai-builders-tutor --community-name "AI Builders" \\\n  --classroom-url "https://www.skool.com/your-community/classroom" -o skills-out/',
       },
+      { label: "Check an export (sample file)", code: "skool-kit inspect examples/members.csv" },
+      { label: "Welcome messages for new members", code: 'skool-kit onboard examples/members.csv --since 2026-10-14 --community-name "AI Builders" -o messages.md' },
+      { label: "Inactivity dashboard", code: "skool-kit health examples/members.csv --activity examples/activity.csv \\\n  -o dashboard.html --at-risk at_risk.csv --as-of 2026-10-28" },
     ],
     commands: [
       ["skool-kit inspect CSV", "Shows which columns were detected and which rows were skipped."],
       ["skool-kit onboard CSV", "Writes a welcome message and first-week path per new member."],
-      ["skool-kit webhook", "Receives Zapier new-member events and returns or forwards the message."],
-      ["skool-kit health CSV", "Engagement KPIs and a 0–100 churn-risk score per member."],
+      ["skool-kit webhook", "Receives Zapier events (Skool's Answered Membership Questions or New Paid Member trigger) and returns or forwards the message."],
+      ["skool-kit health CSV", "Engagement KPIs and a 0–100 inactivity-risk score per member, with an explanation of how it's calculated."],
       ["skool-kit classroom-to-skill DIR", "Builds a tutor skill with a lesson index and references."],
       ["skool-kit rules -o rules.yaml", "Writes the default rules so you can use your own lesson names."],
     ],
@@ -527,7 +534,7 @@ Reply here if you get stuck. Happy to help!`,
     example2: { title: "Dashboard summary", code: "36 members, 77.8% active in 30 days, 15 at risk (8 paying)." },
     outputs: [
       ["messages.csv / .md", "One message per new member, ready to review and send"],
-      ["dashboard.html", "Active %, new members per week, cohort retention, risk bands, top contributors"],
+      ["dashboard.html", "Active %, new members per week, cohort activity, inactivity-risk bands, top contributors, how-to-read notes"],
       ["at_risk.csv", "At-risk members with a suggested re-engagement message"],
       ["Tutor skill", "SKILL.md plus references/<module>/<lesson>.md"],
     ],
@@ -537,17 +544,17 @@ Reply here if you get stuck. Happy to help!`,
     ],
     limits: [
       "Skool's export columns and Zapier field names are not publicly documented; run inspect first.",
-      "An export lists current members only, so retention means activity by join month, not cancellations.",
+      "An export lists current members only, so cohort activity is not a cancellation or retention rate. The risk score is a transparent heuristic, not a prediction of who will cancel.",
       "Classroom videos are not transcribed; paste transcripts into lesson files.",
     ],
-    verify: ["Skool export column names", "Zapier new-member field names"],
+    verify: ["Skool export column names", "Field names in real Zapier events"],
   },
   {
     id: "career-labs",
     name: "career-labs",
-    cli: "python -m labgrade",
+    cli: "labgrade",
     group: "careers",
-    tests: 72,
+    tests: 76,
     tagline: "Auto-graded hands-on labs for data, security, SRE and MLOps careers.",
     audience: ["Career-coaching communities", "Bootcamps"],
     summary:
@@ -569,14 +576,13 @@ Reply here if you get stuck. Happy to help!`,
       ["ml-01-mlops-basics", "MLOps", "Logistic regression from scratch, ROC-AUC, PSI drift detection, model card", 9],
     ],
     quickstart: [
-      { label: "Install the grader's requirements", code: "python -m pip install pytest pyyaml" },
-      { label: "List labs", code: "python -m labgrade list" },
-      { label: "Grade your work", code: "python -m labgrade run de-01-orders-pipeline" },
+      { label: "List labs (from the career-labs folder, after pip install .)", code: "labgrade list" },
+      { label: "Grade your work", code: "labgrade run de-01-orders-pipeline" },
     ],
     commands: [
-      ["python -m labgrade list", "Lists the labs (--json for machines)."],
-      ["python -m labgrade run LAB", "Grades the starter folder, or another copy with --solution PATH."],
-      ["python -m labgrade classroom", "Prints a GitHub Classroom autograding.json."],
+      ["labgrade list", "Lists the labs (--json for machines)."],
+      ["labgrade run LAB", "Grades the starter folder, or another copy with --solution PATH."],
+      ["labgrade classroom", "Prints a GitHub Classroom autograding.json."],
     ],
     options: [
       ["--solution starter|reference|PATH", "Which copy to grade (default starter)"],
@@ -616,7 +622,7 @@ Score: 10/100 points (10%)  - 2/10 checks passed`,
     name: "vertical-packs",
     cli: "vpacks",
     group: "careers",
-    tests: 305,
+    tests: 335,
     tagline: "Calculators and Claude skills for five niche business communities.",
     audience: ["Airbnb hosts", "Property managers", "Real estate investors", "Freight brokers", "Self-published authors"],
     summary:
@@ -625,7 +631,7 @@ Score: 10/100 points (10%)  - 2/10 checks passed`,
       "Niche communities want tools that speak their numbers: cap rate, DSCR, rate per mile, KDP keyword limits. Each pack answers one real question in seconds.",
     highlights: [
       "Hand-checked math: $300k at 7% over 30 years = $1,995.91 a month",
-      "Maintenance triage understands negation (\"no leak\") and emergencies",
+      "Maintenance triage is keyword-based and always escalates when unsure: gas, smoke, CO and burst pipes go to a human now",
       "Text, Markdown or JSON output for Skool posts and automations",
       "Clear errors for impossible inputs like 120% occupancy",
     ],

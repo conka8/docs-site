@@ -5,9 +5,12 @@ import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { GROUPS, SUITE, TOOLS, TOTAL_TESTS } from "../src/data/tools.js";
+import { PAGE_IDS } from "../src/data/nav.js";
 
 const projectsDir = fileURLToPath(new URL("../../", import.meta.url));
-const RESERVED_HASHES = ["settings", "sidebar", "customize", "upgrade", "downloads", "home", "start", "trust"];
+// The tools live next to this repository on the maintainer's machine; on a CI checkout of the docs alone they don't.
+const hasProjects = existsSync(projectsDir + "skillport/pyproject.toml");
+const RESERVED_HASHES = ["settings", "sidebar", "customize", "upgrade", "downloads", "main", ...PAGE_IDS];
 
 test("suite has a name and license", () => {
   assert.ok(SUITE.name.length > 0);
@@ -47,16 +50,16 @@ test("every group has at least one tool", () => {
 
 test("total test count matches the sum shown on the site", () => {
   assert.equal(TOTAL_TESTS, TOOLS.reduce((s, t) => s + t.tests, 0));
-  assert.equal(TOTAL_TESTS, 1939);
+  assert.equal(TOTAL_TESTS, 2052);
 });
 
-test("every documented tool exists next to the docs", () => {
+test("every documented tool exists next to the docs", { skip: !hasProjects }, () => {
   for (const t of TOOLS) {
     assert.ok(existsSync(projectsDir + t.id + "/README.md"), `missing ${t.id}/README.md`);
   }
 });
 
-test("the home page demo video and its poster are in public/media", () => {
+test("the shipsafe demo video and its poster are in public/media", () => {
   const media = fileURLToPath(new URL("../public/media/", import.meta.url));
   for (const f of ["shipsafe-demo.webm", "shipsafe-demo-poster.jpg"]) assert.ok(existsSync(media + f), `missing public/media/${f}`);
 });

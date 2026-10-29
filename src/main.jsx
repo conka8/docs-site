@@ -42,9 +42,20 @@ function App() {
     <div className="shell">
       <header className="topbar">
         <RouteLink to="home" className="brand">
-          <span className="brand__mark" aria-hidden="true">
-            BC
-          </span>
+          <svg className="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+            <defs>
+              <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="#00ff88" />
+                <stop offset="1" stopColor="#00d4ff" />
+              </linearGradient>
+            </defs>
+            <rect x=".5" y=".5" width="31" height="31" rx="7" fill="#12121a" stroke="#2a2a35" />
+            <g fill="url(#brand-grad)">
+              <rect x="5" y="16.5" width="10.5" height="10.5" rx="1.5" />
+              <rect x="16.5" y="16.5" width="10.5" height="10.5" rx="1.5" />
+              <rect x="10.75" y="5" width="10.5" height="10.5" rx="1.5" />
+            </g>
+          </svg>
           <span className="brand__name">{SUITE.name}</span>
           <span className="brand__tag">docs</span>
         </RouteLink>

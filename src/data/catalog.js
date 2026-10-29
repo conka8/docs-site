@@ -6,14 +6,14 @@ export const STARTER = ["skool-owner-kit", "skillport", "skillkit"];
 export const CATALOG = {
   "skool-owner-kit": {
     tier: "starter",
-    version: "0.2.0",
-    useCase: "Turn your classroom into a tutor skill; welcome and re-engage members",
-    needs: "Python 3.10+. Your lesson text and Skool CSV exports. Zapier (Skool Pro plan) only for automatic welcomes",
-    cost: "Free. Optional AI-written messages use your Anthropic or OpenAI key",
-    produces: "Tutor skill folder, welcome messages, HTML dashboard",
+    version: "0.3.0",
+    useCase: "Turn your lessons into a member pack that walks new members to their first win, and measure it in a pilot",
+    needs: "Python 3.10+. Your lessons as text, the tasks you teach, a pack spec. Skool CSV exports for the dashboard; Zapier (Skool Pro plan) only for automatic welcomes",
+    cost: "Free. Members need Claude with skills. Optional AI-written welcome messages and skill tests use your API key",
+    produces: "Tutor and task skills, acceptance checks, member and admin guides, pilot kit and report; also welcome messages and a dashboard",
     firstRun: {
-      code: 'skool-kit classroom-to-skill examples/classroom --name ai-builders-tutor \\\n  --community-name "AI Builders" -o my-skills',
-      expect: "Created my-skills/ai-builders-tutor: 5 lessons in 3 modules, 7 reference files.",
+      code: "cd examples/agency-lab\nskool-kit pack-build pack.yaml -o my-pack\nskool-kit pilot pilot-sample/pilot.yaml",
+      expect: "Built my-pack: 3 skills (northwind-tutor, northwind-offer-builder, northwind-outreach-sprint). Then a synthetic pilot report starting Suggestion: CONTINUE, with a warning that the ranges overlap.",
     },
   },
   skillport: {
@@ -30,7 +30,7 @@ export const CATALOG = {
   },
   skillkit: {
     tier: "starter",
-    version: "0.2.0",
+    version: "0.3.0",
     useCase: "Check, test and package a skill library for members",
     needs: "Python 3.10+. A folder of skills",
     cost: "Free. eval with a real model costs a few API calls per test case",

@@ -20,13 +20,16 @@ export const READINESS = {
   ],
   skillkit: [
     ["lint, new, pack (files on disk)", "local", "Runs on the bundled sample library.", null],
-    ["eval with Anthropic Messages API", "fixture", "Request and response shapes tested against fakes.", null],
+    ["eval with Anthropic Messages API", "fixture", "Request and response shapes tested against fakes. --include-references sends lesson files too; also tested against fakes only.", null],
     ["eval with OpenAI-compatible APIs", "fixture", "Request and response shapes tested against fakes.", null],
     ["Claude Code plugin + marketplace from pack", "fixture", "Layout follows Claude Code plugin docs (checked 2026-10-29). Not installed in a live session.", null],
     ["Claude app upload zips from pack --format claude-app", "fixture", "Zip layout follows the Claude help center (checked 2026-10-29). Not uploaded to a live account.", null],
     ["ClawHub bundle from pack --format clawhub", "experimental", "Layout is a best guess.", null],
   ],
   "skool-owner-kit": [
+    ["Member pack builder (pack-build)", "local", "Builds the synthetic agency-lab pack from a fresh install; output passes skillkit lint and its acceptance checks on hand-written examples.", null],
+    ["Pilot report (pilot)", "local", "Runs on the synthetic pilot logs. No real pilot has been run.", null],
+    ["Generated skills doing the task in the Claude app", "experimental", "Not run live. ADMIN-REVIEW.md has the manual acceptance procedure to do before members see a pack.", null],
     ["Classroom files to tutor skill", "local", "Runs on the bundled sample classroom.", null],
     ["Welcome messages and dashboard from CSV", "local", "Runs on the bundled sample export.", null],
     ["Real Skool member export columns", "experimental", "Skool doesn't document its export columns. Columns are matched loosely; run skool-kit inspect first.", null],

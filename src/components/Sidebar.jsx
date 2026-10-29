@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { TOOLS } from "../data/tools.js";
-import { PAGES } from "../data/nav.js";
+import { PAGES, PAGE_GROUPS } from "../data/nav.js";
 import { STARTER } from "../data/catalog.js";
 import { RouteLink } from "./ui.jsx";
 
@@ -86,18 +86,20 @@ export default function Sidebar({ route, query, setQuery, open, onNavigate }) {
         </div>
       ) : (
         <>
+          {PAGE_GROUPS.map((g) => (
+            <div key={g} className="nav-group">
+              <p className="nav-group__label">{g}</p>
+              <ul className="nav-list">
+                {PAGES.filter((p) => p.group === g).map((p) => (
+                  <NavItem key={p.id} to={p.id} route={route} onNavigate={onNavigate}>
+                    {p.label}
+                  </NavItem>
+                ))}
+              </ul>
+            </div>
+          ))}
           <div className="nav-group">
-            <p className="nav-group__label">Guides</p>
-            <ul className="nav-list">
-              {PAGES.map((p) => (
-                <NavItem key={p.id} to={p.id} route={route} onNavigate={onNavigate}>
-                  {p.label}
-                </NavItem>
-              ))}
-            </ul>
-          </div>
-          <div className="nav-group">
-            <p className="nav-group__label">Starter bundle</p>
+            <p className="nav-group__label">Starter tools</p>
             <ul className="nav-list">
               {starter.map((t) => (
                 <NavItem key={t.id} to={t.id} route={route} onNavigate={onNavigate} tool>

@@ -482,3 +482,35 @@ main:focus, h2[tabindex="-1"]:focus { outline: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+/* Evaluation path on the home page */
+.path { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.path__step {
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 0.9375rem;
+}
+.path__step:hover { border-color: var(--accent); color: var(--accent); }
+.path__num {
+  flex: none; display: grid; place-items: center; width: 24px; height: 24px;
+  border: 1px solid var(--accent); color: var(--accent); font: 600 12px var(--font-mono);
+}
+
+/* Value calculator */
+.calc th[scope="row"] { font-weight: 500; min-width: 240px; }
+.calc__unit { color: var(--faint); font: 400 11px var(--font-mono); }
+.calc__help { display: block; color: var(--faint); font-size: 12.5px; font-weight: 400; margin-top: 2px; }
+.calc__group th { background: var(--raised); color: var(--accent); font: 600 11px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; }
+.calc__input {
+  width: 100%; min-width: 84px; padding: 6px 8px; font: 500 0.9375rem var(--font-mono); color: var(--ink);
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 2px; text-align: right;
+}
+.calc__input:focus { border-color: var(--accent); outline: none; }
+.calc td.num { font-family: var(--font-mono); text-align: right; white-space: nowrap; }
+.calc th[scope="row"], .compare th[scope="row"] {
+  font-family: var(--font-body); font-size: 0.9375rem; text-transform: none; letter-spacing: 0;
+  color: var(--ink); white-space: normal; background: transparent; vertical-align: top;
+}
+.calc th[scope="row"] { min-width: 180px; max-width: 360px; }
+.compare th[scope="row"] { font-family: var(--font-mono); font-weight: 600; }
+.calc__input { min-width: 70px; }
+@media (max-width: 560px) { .calc th[scope="row"] { min-width: 150px; } .calc__help { display: none; } }

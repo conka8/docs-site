@@ -4,8 +4,17 @@ import { CodeBlock, RouteLink, Section } from "../components/ui.jsx";
 // Keep in step with ../CHANGELOG.md (the repository copy has the full list).
 const RELEASE = {
   date: "2026-10-29",
-  title: "Starter bundle 0.2.0, other tools 0.1.1",
+  title: "Member pack and pilot (starter bundle 0.3.0)",
   groups: [
+    ["skool-owner-kit 0.3.0", [
+      "pack-build: a member pack from your lessons: a tutor that cites lessons and routes what isn't covered to your support channel, task skills for your first-win steps, acceptance checks, member and admin guides, and a pilot kit. Rebuilds keep your edits.",
+      "pilot: compares a pilot cohort with a baseline (first-outcome rate with 95% ranges, adoption, first renewal, answer corrections, costs) and suggests what to do next.",
+      "A synthetic worked example in examples/agency-lab.",
+    ]],
+    ["skillkit 0.3.0", [
+      "eval --include-references also sends the lesson and example files each skill points to.",
+    ]],
+    ["Earlier the same day: starter bundle 0.2.0, other tools 0.1.1", []],
     ["Downloads", [
       "Every tool and a starter bundle can now be downloaded from this site, with checksums. Each download is install-tested in a fresh environment.",
       "Every quickstart starts with sample files that ship in the download.",
@@ -51,7 +60,7 @@ export default function Releases() {
         {RELEASE.groups.map(([title, items]) => (
           <div key={title}>
             <h3>{title}</h3>
-            <ul className="list">
+            <ul className="list" hidden={!items.length}>
               {items.map((i) => (
                 <li key={i}>{i}</li>
               ))}

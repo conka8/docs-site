@@ -33,13 +33,15 @@ npm run dev        # local site with hot reload at http://localhost:5173
 ```
 index.html              page shell, fonts
 src/main.jsx            app, hash routing, layout
-src/pages/              Home, Admins, Members, GettingStarted (install), Compare, Trust (readiness), Releases, ToolPage
+src/pages/              Home (the offer), Example, Value (calculator), Pilot, Admins, Members, GettingStarted (install),
+                        Compare, Trust (readiness), Releases, ToolPage
 src/components/         Sidebar, CodeBlock, tables, callouts
 src/data/tools.js       tool text, commands and test counts
 src/data/catalog.js     starter/more tier, version, needs, costs, first run per tool
 src/data/readiness.js   integration readiness (source of ../READINESS.md)
 src/data/nav.js         pages, sections, search keywords
 src/data/offer.js       optional paid services (off until enabled with a contact)
+src/data/value-model.js the value calculator's formulas (tested in tests/offer.test.mjs)
 src/data/downloads.js   reads public/downloads/manifest.json
 public/downloads/       tool zips + manifest (built by ../scripts/package_tools.py)
 src/styles.css          dark theme tokens, layout

@@ -112,7 +112,7 @@ test("no prices, checkout or purchase buttons anywhere on the site", () => {
     const text = readFileSync(f, "utf8");
     assert.doesNotMatch(text, /checkout|buy now|add to cart|pricing plan/i, f);
     // tools.js holds calculator output such as "$300k"; everywhere else a currency amount would be a price.
-    if (!f.endsWith("data/tools.js")) assert.doesNotMatch(text, /[$€£]\d|per month|\/mo\b/i, f);
+    if (!f.endsWith("data/tools.js")) assert.doesNotMatch(text, /[$€£]\s?\d|\/mo\b|\bUSD\s?\d/i, f);
   }
 });
 

@@ -22,6 +22,7 @@ export default function Pilot() {
         <p className="eyebrow">Step 5 · Paid option</p>
         <h1>{P.name}</h1>
         <p className="lede">{P.summary}</p>
+        <p className="muted"><strong>{P.experimental}</strong></p>
         <p className="muted">
           The software is free (MIT) and you can do all of this yourself with the guides. This is the paid option for owners
           who want it built, tested and measured with them. Design-partner fee: {P.terms.fee} fixed. No results are

@@ -1,3 +1,5 @@
+import { PILOT_OFFER } from "./pilot-offer.js";
+
 // Pages, their sections and search keywords. Section ids are used for deep links: #page/section.
 export const PAGES = [
   { id: "home", group: "Evaluate", label: "1. The job", sections: [
@@ -7,6 +9,9 @@ export const PAGES = [
     ["money", "Is it worth the fee?", "economics roi payback reviews cash capacity renewal"],
     ["verified", "What has been shown so far", "evidence verified comparison claude project synthetic"],
     ["free", "Free, and still available", "free license member kit tools mit"],
+    ...(PILOT_OFFER.enquiry.privateDestination
+      ? [["research", "Research: free groups and new-member messages", "research free group leads join answers call"]]
+      : []),
     ["enquire", "Next step", "contact enquire download"],
   ] },
   { id: "example", group: "Evaluate", label: "2. A real run", sections: [

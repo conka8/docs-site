@@ -35,7 +35,7 @@ export function renderOffer() {
   const t = EFFORT_TOTALS;
   return [
     `# ${P.name}`, "", NOTE, "",
-    P.summary, "",
+    P.summary, "", `**${P.experimental}**`, "",
     "The software is free and open source (MIT): you can do all of this yourself with the guides. This is the paid",
     "option for owners who want it built, tested and measured with them. No results are guaranteed.", "",
     "## Design-partner terms", "", "| | |", "|---|---|", ...P.terms.rows.map(([a, b]) => `| ${a} | ${b} |`), "",

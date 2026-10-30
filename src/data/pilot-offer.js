@@ -4,6 +4,9 @@
 
 export const PILOT_OFFER = {
   name: "Member-work review pilot",
+  // Shown next to the offer wherever it appears. Remove only when a real community has completed the pilot.
+  experimental:
+    "Experimental offer: no community has used it yet, and coach time savings haven't been measured.",
   // The job: coaches reviewing members' submitted work against the owner's method. Chosen 2026-10-30 over the member
   // kit because its cost falls on the admin, it recurs weekly, and its result is measurable within a month.
   summary:
@@ -128,6 +131,16 @@ export const PILOT_OFFER = {
       ["Maintenance", "Optional, quoted only after the pilot report says continue"],
       ["After the first 3", "The standard price is set once three design-partner pilots have finished; it isn't published yet"],
     ],
+  },
+  // Research call-out (discovery/DEMAND-TEST.md). No price, no service. Shown only once privateDestination is set,
+  // because it asks owners for a conversation and, later, an export that must not go through a public issue.
+  research: {
+    title: "Run a free group that leads to a programme or call?",
+    body:
+      "We're studying how owners decide which new members to message. If more people join than you can message, " +
+      "we'd like to ask you about last week's joins (20 minutes). If it's useful afterwards, we can sort a past " +
+      "export of your join answers against who booked, at no charge, and show you where your buyers landed. " +
+      "Nothing to install, and nothing is sent to your members.",
   },
   enquiry: {
     // A private route (a monitored mailto: address or booking page) is preferred. None is configured, so it stays

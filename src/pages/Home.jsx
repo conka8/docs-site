@@ -71,6 +71,7 @@ export default function Home() {
           drafts the feedback. Then we measure with you whether reviews get faster without missing problems. A coach
           approves every word.
         </p>
+        <p className="muted"><strong>{P.experimental}</strong></p>
         <div className="hero__actions">
           <RouteLink to="pilot" className="btn btn--primary">
             See the {P.terms.fee} pilot
@@ -172,6 +173,15 @@ export default function Home() {
           <RouteLink to="admins">Admin guide</RouteLink> · <RouteLink to="members">Member guide</RouteLink>.
         </p>
       </Section>
+
+      {P.enquiry.privateDestination && (
+        <Section id="research" title={P.research.title}>
+          <p>{P.research.body}</p>
+          <p>
+            <a className="btn" href={P.enquiry.privateDestination}>{P.enquiry.privateLabel}</a>
+          </p>
+        </Section>
+      )}
 
       <Section id="enquire" title="Next step">
         <DefTable

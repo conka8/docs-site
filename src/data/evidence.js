@@ -43,6 +43,11 @@ export const EVIDENCE = [
     detail: "No real community or member has used a pack.",
   },
   {
+    level: "Owner demand",
+    status: "not done",
+    detail: "2026-10-30: public research only (job posts, vendor pages, Skool's help centre); no owner interviewed and no buyer has paid. Findings and sources: discovery/EVIDENCE.md in the repository.",
+  },
+  {
     level: "Financial outcomes",
     status: "not done",
     detail: "No pilot has been run. Every money figure on this site is a model input or an illustration.",

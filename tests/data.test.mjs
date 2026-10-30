@@ -50,7 +50,7 @@ test("every group has at least one tool", () => {
 
 test("total test count matches the sum shown on the site", () => {
   assert.equal(TOTAL_TESTS, TOOLS.reduce((s, t) => s + t.tests, 0));
-  assert.equal(TOTAL_TESTS, 2126);
+  assert.equal(TOTAL_TESTS, 2128);
 });
 
 test("every documented tool exists next to the docs", { skip: !hasProjects }, () => {

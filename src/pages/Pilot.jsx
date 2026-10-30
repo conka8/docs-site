@@ -49,6 +49,20 @@ export default function Pilot() {
         <List items={P.revisions} />
       </Section>
 
+      <Section id="diy" title="Doing it yourself, or paying us">
+        <p>
+          The realistic alternative: you upload your lessons to a Claude Project and write clear instructions. Here is
+          what we add, and what it changes. Not every community needs all of it.
+        </p>
+        <DefTable monoFirst={false} head={["Your problem", "What we deliver", "Accepted when", "Effort it affects"]} rows={P.contributions} />
+        <DefTable monoFirst={false} head={["", "Doing it yourself", "Paid pilot: you", "Paid pilot: us"]} rows={P.diy} />
+        <p><strong>{P.diyVerdict}</strong></p>
+        <p className="muted">
+          All hours are estimates; none has been timed with a real community. Both sides log their minutes during the
+          pilot (time rows in pilot/costs.csv), and the first three pilots replace these estimates.
+        </p>
+      </Section>
+
       <Section id="you" title="What you provide and what stays yours">
         <h3>You provide</h3>
         <List items={P.customerInputs} />

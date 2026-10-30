@@ -37,8 +37,8 @@ export const COMPARISON = {
   date: "2026-10-30",
   setup: "Claude Code subagents, model claude-sonnet-5-5 for every conversation, 8 cases (4 regression, 4 held out), 1 to 3 turns with the member's later turns scripted in advance, graded blind by claude-opus-5-5 with a fixed rubric",
   conditions: [
-    ["Claude Project", "The project instructions and its 15 files: all 8 lessons, one task guide per task, the examples"],
-    ["Skill kit", "The 3 installed skills; the model chose the skill itself from their names and descriptions"],
+    ["Claude Project (simulated)", "Project-like context, not a Claude Project in the app: the project's instructions in the prompt and its 15 files (all 8 lessons, one task guide per task, the examples) to read"],
+    ["Skill kit (simulated)", "Skill-like loading, not the app's: the 3 installed skills' names and descriptions; the model chose a skill itself, then read its files"],
   ],
   results: [
     ["Lesson rules applied correctly (0-2)", "1.88", "1.75"],
@@ -50,7 +50,7 @@ export const COMPARISON = {
     ["Grader's preferred conversation (of 8)", "5", "2"],
   ],
   conclusion:
-    "Given the same reviewed lessons and instructions, the Claude Project did at least as well as the skills and was " +
+    "Given the same reviewed lessons and instructions, the Project-like setup did at least as well as the skills and was " +
     "preferred in 5 of 8 cases (1 tie). The skills' lower scores came from the format: a task skill carries only its " +
     "own task's lessons. Every quoted lesson passage was found in the lesson it named. This is 8 cases in one " +
     "synthetic community: exploratory, not a general benchmark.",

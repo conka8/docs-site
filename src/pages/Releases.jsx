@@ -4,9 +4,18 @@ import { CodeBlock, RouteLink, Section } from "../components/ui.jsx";
 // Keep in step with ../CHANGELOG.md (the repository copy has the full list).
 const RELEASE = {
   date: "2026-10-30",
-  title: "Checkable citations, skills or a Claude Project, a draft spec from your lessons",
+  title: "One offer: a reviewed AI member kit, as a Claude Project or skills",
   groups: [
-    ["skool-owner-kit 0.6.0", [
+    ["skool-owner-kit 0.7.0", [
+      "pack-share --format project or skills: only the format your members will use, with a matching launch post.",
+      "ADMIN-REVIEW.md starts with the rules that aren't word for word in their lesson, for you to confirm first.",
+      "The pilot checklist adds the format choice and proportional logging; the acceptance journey checks the Project kit too.",
+    ]],
+    ["Site (later on 2026-10-30)", [
+      "The paid pilot is format-neutral: a Claude Project by default, or skills. Price and terms unchanged.",
+      "A shorter home page, and an honest comparison with doing it yourself in a Claude Project.",
+    ]],
+    ["skool-owner-kit 0.6.0 (2026-10-30)", [
       "Every skill quotes the lesson sentence it relies on; check-citations confirms each quoted sentence is in the lesson it names.",
       "Skills keep lessons, the member's words and their own suggestions apart, show unknown facts as \"?\" or [brackets], and ask for what the deliverable can't be right without.",
       "pack-share also writes the same reviewed pack as one Claude Project: instructions to paste, the lessons and a task guide per skill.",

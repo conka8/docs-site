@@ -2,7 +2,6 @@ import React from "react";
 import { SUITE } from "../data/tools.js";
 import { EVIDENCE, EVIDENCE_TONE } from "../data/evidence.js";
 import { EFFORT_TOTALS, rangeText } from "../data/effort.js";
-import { COMPARISON } from "../data/benchmark.js";
 import { downloadFor } from "../data/downloads.js";
 import { PILOT_OFFER as P } from "../data/pilot-offer.js";
 import { DefTable, DownloadLink, RouteLink, Section } from "../components/ui.jsx";
@@ -61,18 +60,11 @@ export default function Home() {
   return (
     <div className="page">
       <header className="hero">
-        <p className="eyebrow">For owners of paid AI-automation and AI-agency communities</p>
+        <p className="eyebrow">For owners of paid communities that teach a method, such as AI automation or agency courses</p>
         <h1>{SUITE.name}</h1>
         <p className="lede">
-          Claude skills built from your lessons that help each new member draft their first real work your way: a priced
-          offer for one niche, then their first outreach.
-        </p>
-        <p className="lede lede--sub">
-          Members install one kit. Each task skill asks only for what's missing, follows the rules in your lessons, quotes
-          the lesson sentence it relies on, drafts an editable deliverable, checks it against your criteria, and lists the
-          gaps and claims to verify. When the
-          lessons don't cover something, it drafts a question for the member to post in your Help channel. The check is
-          Claude reviewing its own draft, so members still review what they send.
+          A reviewed AI member kit built from your community's lessons. New members use it in Claude to draft their
+          first real work your way, and bring you the questions your lessons don't answer.
         </p>
         <div className="hero__actions">
           <RouteLink to="pilot" className="btn btn--primary">
@@ -80,80 +72,93 @@ export default function Home() {
           </RouteLink>
           <DownloadLink file={kit}>Try it free</DownloadLink>
         </div>
-        <p className="muted">
-          Or first: <RouteLink to="example">inspect a real run and a fair comparison</RouteLink>.
-        </p>
       </header>
 
       <EvalPath />
 
-      <Section id="outcome" title="What members can finish">
+      <Section id="outcome" title="What members produce">
         <DefTable
           monoFirst={false}
           head={["Task", "What the member ends up with"]}
           rows={[
-            ["Build your one-page offer", "A draft offer page in your formula: the niche scored with your filters (unconfirmed filters marked, not passed), a price from your ladder, then a check, the gaps to fill and a next step"],
-            ["Write your first outreach", "Draft first messages in your script for each prospect with a real observation, both follow-ups, a tracking sheet, and the prospects skipped and why"],
-            ["Ask the tutor", "Answers from your lessons with the lesson named; for anything not covered, a question the member can post for a coach"],
+            ["Build your one-page offer", "A draft offer in your formula: a niche checked against your filters, a price from your ladder, what's still missing, and the next step"],
+            ["Write your first outreach", "Draft first messages in your script, both follow-ups, a tracking sheet, and which prospects to skip and why"],
+            ["Ask the tutor", "Answers from your lessons that say which lesson they come from, so members and you can check them; anything not covered becomes a question for your coaches"],
           ]}
         />
         <p className="muted">
-          These are the tasks in the worked example, a synthetic AI-agency community. Your pack follows your own first
-          outcome and lessons. Members edit and send everything themselves.
+          From the worked example, a synthetic AI-agency community. Your kit follows your own first outcome and lessons.
+          Members review and send everything themselves.
         </p>
       </Section>
 
       <Section id="receive" title={`What you get for ${P.terms.fee}`}>
-        <DefTable monoFirst={false} rows={P.deliverables.map(([name, what]) => [name, what])} />
-        <p>{P.paymentBasis} {P.terms.rows.find((r) => r[0] === "Payment")[1]}.</p>
+        <ul className="list">
+          {P.deliverables.map(([name, what]) => (
+            <li key={name}><strong>{name}</strong>: {what}</li>
+          ))}
+        </ul>
+        <p>
+          Delivered as one Claude Project (our default) or as Claude skills, built from the same reviewed files.{" "}
+          {P.paymentBasis}
+        </p>
         <p className="muted">
           Design-partner terms for the first three communities that pass the fit check.{" "}
-          <RouteLink to="pilot">Scope, exclusions and what happens if acceptance fails</RouteLink>.
+          <RouteLink to="pilot">Scope, acceptance criteria and terms</RouteLink>.
         </p>
       </Section>
 
-      <Section id="verified" title="What has been shown, and what is still being tested">
+      <Section id="diy" title="What we do that you'd otherwise do yourself">
         <p>
-          <strong>Compared fairly</strong> (same model, same lessons and instructions, blind grading): {COMPARISON.conclusion}{" "}
-          <RouteLink to="example/fair">See the comparison</RouteLink>.
+          You could upload your lessons to a Claude Project and write instructions yourself. Here is what we add:
         </p>
-        <EvidenceTable />
+        <DefTable monoFirst={false} head={["Your problem", "What we deliver"]} rows={P.contributions.map(([a, b]) => [a, b])} />
+        <p>{P.diyVerdict}</p>
+        <p className="muted">
+          Your time, estimated: {rangeText(t.customerSetup)} before launch and {rangeText(t.customerPilot)} of pilot
+          logging. Side by side with doing it yourself: <RouteLink to="pilot/diy">the comparison</RouteLink>.
+        </p>
       </Section>
 
-      <Section id="effort" title="Your effort">
-        <DefTable
-          monoFirst={false}
-          rows={[
-            ["Before launch (estimate)", `${rangeText(t.customerSetup)}: lessons as text, a 60-minute spec call, review, a test install, the launch post`],
-            ["During the pilot (estimate)", `${rangeText(t.customerPilot)} of logging spread over the cohort`],
-            ["After (estimate)", `${rangeText(t.customerMonthly)} a month, if you keep it`],
-            ["Stays with you", "Approving the skills, keeping lessons accurate, answering what members post in Help, and anything members send to clients"],
-            ["Members need", "Claude on any plan (Free, Pro, Max, Team or Enterprise) with code execution turned on, which skills need. The free kit also builds the same pack as a Claude Project. Members who only use ChatGPT can't use it"],
-          ]}
-        />
-        <p className="muted">
-          Not yet timed with a real community. Breakdown: <RouteLink to="pilot/effort">effort</RouteLink>.
-        </p>
+      <Section id="verified" title="What has been shown so far">
+        <ul className="list">
+          <li>
+            In tests on a synthetic community, the kit's drafts followed the lessons, named requests that conflict with
+            them, and marked what it didn't know instead of guessing. Every lesson sentence it quoted was found in that
+            lesson.
+          </li>
+          <li>
+            Given the same reviewed lessons and instructions, a Claude Project did at least as well as skills
+            (preferred in 5 of 8 cases), so we deliver either. Neither gave better answers than Claude with the same
+            lessons and instructions; what you pay for is the work above.{" "}
+            <RouteLink to="example/fair">The comparison</RouteLink>.
+          </li>
+          <li>
+            <strong>Not yet shown:</strong> use in the Claude app, any real community, member result or renewal
+            change. Those runs were model tests in Claude Code. Your pilot's acceptance runs are the first in the app,
+            and members get nothing until they pass.
+          </li>
+        </ul>
+        <details className="calc__more">
+          <summary>Evidence by level</summary>
+          <EvidenceTable />
+        </details>
       </Section>
 
       <Section id="money" title="Will it pay for itself?">
         <p>
-          Nobody knows yet. The main way it could is more new members making their first renewal because more of them
-          reach your first outcome; that is unmeasured. Whether the {P.terms.fee} would pay back depends on your price, how
-          many new members join, how many use the pack, your renewals today and your costs, not on size alone.
-        </p>
-        <p>
-          <RouteLink to="value">The calculator</RouteLink> shows, with your numbers, how large a change would have to be,
-          and says so plainly when it's unlikely. Support time freed is capacity, not cash, unless you cut paid hours.
+          Nobody knows yet. The likeliest way is more new members renewing because more reach your first outcome; that
+          is unmeasured. <RouteLink to="value">The calculator</RouteLink> shows, with your numbers, the renewal change
+          needed to cover the fee, and to cover the fee plus your time, and says plainly when that's unlikely.
         </p>
       </Section>
 
-      <Section id="enquire" title="How to enquire, or try it free">
+      <Section id="enquire" title="Next step">
         <DefTable
           monoFirst={false}
           rows={[
             ["Enquire about the pilot", `Through ${P.enquiry.label}. ${P.enquiry.requirements}`],
-            ["Try it yourself, free", "Everything on this site is MIT licensed: the member-pack builder, member kit, acceptance checks and pilot report"],
+            ["Or do it yourself, free", "Everything here is MIT licensed: the kit builder, the member kit, the acceptance checks and the pilot report"],
             ["Third-party costs", "Your members' Claude plans; optional API usage"],
           ]}
         />

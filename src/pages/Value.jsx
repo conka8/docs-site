@@ -45,14 +45,17 @@ export function verdict(r) {
   }
   const per100 = pts(c.userPoints);
   const large = c.userPoints > LARGE_CHANGE_PTS;
+  const largeWithTime = !large && (t.status === "not reachable" || (t.status === "needed" && t.userPoints > LARGE_CHANGE_PTS));
   const now = r.horizonCash >= 0
     ? ` At the change you entered, net cash in the period is ${money(r.horizonCash)} and payback is ${paybackText(r.payback)}.`
     : ` At the change you entered, the period ends ${money(r.horizonCash)} short.`;
   return {
-    tone: large ? "bad" : "warn",
+    tone: large || largeWithTime ? "bad" : "warn",
     text: `To cover ${fee} within ${period}, about ${per100} more of every 100 members who use the pack would need to make their first renewal.` +
       (large ? " That's a large change, and nothing so far shows a change that big: treat payback as unlikely unless your pilot measures it." : " Nobody has measured that yet; it's what a pilot would test.") +
-      now + time + pilot,
+      now + time +
+      (largeWithTime ? " Counting your time, that's a large change: unlikely to be worth it unless your time is cheap or the hours fall." : "") +
+      pilot,
   };
 }
 

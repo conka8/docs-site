@@ -107,12 +107,18 @@ export default function Admins() {
         <CodeBlock code={'skillkit pack my-skills -o dist --name my-community-skills --version 1.0.0 \\\n  --author "My Community" --marketplace'} />
         <p>Push the dist folder to a GitHub repository members can read. Members then type:</p>
         <CodeBlock code={"/plugin marketplace add your-org/your-repo\n/plugin install my-community-skills@my-community-skills-marketplace"} />
-        <h3>A member pack: one kit for members</h3>
-        <CodeBlock code={"skool-kit pack-share member-pack -o share --version 1.0.0"} />
+        <h3>A member kit: one Claude Project or skills</h3>
+        <CodeBlock code={"skool-kit pack-share member-pack -o share --version 1.0.0 --format project   # or --format skills"} />
         <p>
-          Send every member <code>share/&lt;prefix&gt;-member-kit-1.0.0.zip</code>: START-HERE.md with copyable install
-          steps and a first-task walkthrough, plus one upload zip per skill. Keep <code>member-pack/</code> to yourself.
-          It refuses unmerged updates and descriptions over the Claude app's 200 characters.
+          A Project gives every member <code>share/&lt;prefix&gt;-claude-project-1.0.0.zip</code>: START-HERE.md, the
+          instructions to paste and the files to add. Skills give <code>share/&lt;prefix&gt;-member-kit-1.0.0.zip</code>:
+          START-HERE.md plus one upload zip per skill. Each comes with a launch post draft. Keep <code>member-pack/</code>{" "}
+          to yourself. It refuses unmerged updates, unfinished drafts and descriptions over the Claude app's 200
+          characters.
+        </p>
+        <p>
+          Choose a Project when members use Claude on their own plans (one setup, nothing to switch on), and skills for
+          Claude Code users or a Team or Enterprise organisation. Neither has been tested in the Claude app by us yet.
         </p>
         <h3>Other skills, Claude app members: one zip per skill</h3>
         <CodeBlock code={'skillkit pack my-skills -o dist --name my-community-skills --version 1.0.0 \\\n  --author "My Community" --format claude-app'} />

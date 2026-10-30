@@ -485,7 +485,7 @@ Checked 12 skills: 2 errors, 1 warning.`,
     name: "skool-owner-kit",
     cli: "skool-kit",
     group: "community",
-    tests: 225,
+    tests: 227,
     tagline: "Turn your lessons into skills that walk new members to their first win, and measure whether it helps.",
     audience: ["Every Skool community owner"],
     summary:

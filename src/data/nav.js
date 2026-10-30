@@ -1,12 +1,12 @@
 // Pages, their sections and search keywords. Section ids are used for deep links: #page/section.
 export const PAGES = [
   { id: "home", group: "Evaluate", label: "1. The outcome", sections: [
-    ["outcome", "What members can finish", "tasks offer outreach tutor deliverable"],
-    ["receive", "What you get for the pilot fee", "deliverables price fee pilot what you get"],
-    ["verified", "What has been shown, and what is still being tested", "evidence verified comparison chatgpt general ai"],
-    ["effort", "Your effort", "time effort hours responsibility claude plan"],
+    ["outcome", "What members produce", "tasks offer outreach tutor deliverable"],
+    ["receive", "What you get for the pilot fee", "deliverables price fee pilot what you get project skills"],
+    ["diy", "What we do that you'd otherwise do yourself", "diy yourself claude project instructions compare"],
+    ["verified", "What has been shown so far", "evidence verified comparison chatgpt general ai"],
     ["money", "Will it pay for itself?", "renewal support money roi payback"],
-    ["enquire", "How to enquire, or try it free", "contact enquire free download license"],
+    ["enquire", "Next step", "contact enquire free download license"],
   ] },
   { id: "example", group: "Evaluate", label: "2. A real run", sections: [
     ["fair", "Compared fairly: is the skill better than Claude with the lessons?", "benchmark comparison general assistant chatgpt lessons fair"],
@@ -31,8 +31,9 @@ export const PAGES = [
   ] },
   { id: "pilot", group: "Evaluate", label: "5. Scoped pilot", sections: [
     ["terms", "Design-partner terms", "price fee payment terms design partner"],
-    ["scope", "Scope", "scope lessons skills cohort"],
+    ["scope", "Scope", "scope lessons tasks format project skills cohort"],
     ["deliverables", "What you get for the fee, and what is only being tested", "deliverables acceptance revisions observe test"],
+    ["diy", "Doing it yourself, or paying us", "diy yourself claude project compare effort"],
     ["you", "What you provide and what stays yours", "inputs responsibilities"],
     ["effort", "Effort (estimates)", "hours effort time"],
     ["limits", "Dependencies, exclusions and failures", "exclusions dependencies maintenance fail"],

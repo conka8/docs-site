@@ -290,3 +290,10 @@ test("skills vs Project figures on the site match the saved blind grades", async
   assert.deepEqual(row("Grader's preferred conversation (of 8)"), [String(best.P), String(best.K)]);
   assert.match(COMPARISON.conclusion, new RegExp(`${best.P} of 8 cases \\(${best.tie} tie\\)`));
 });
+
+test("a small, low-adoption community needs a large change once the owner's time counts", async () => {
+  const { compute, SCENARIOS, LARGE_CHANGE_PTS } = await import("../src/data/value-model.js");
+  const r = compute({ ...SCENARIOS.base, newPaid: 15, price: 49, adoptionPct: 30 });
+  assert.ok(r.changeNeeded.userPoints < LARGE_CHANGE_PTS);
+  assert.ok(r.changeNeededWithTime.userPoints > LARGE_CHANGE_PTS);
+});

@@ -3,35 +3,63 @@
 // by the maintainer; `npm test` blocks price text in every other site file. No deadlines or guarantees.
 
 export const PILOT_OFFER = {
-  name: "Scoped member-pack pilot",
+  name: "Scoped member-kit pilot",
   summary:
-    "One community, one member outcome, one cohort. We build a tutor and task skills from a set of your lessons, " +
-    "test them in your members' Claude surface, help you launch them to new members, and give you the kit and a " +
-    "report to judge whether it helped.",
+    "A reviewed AI member kit built from your community's lessons. One community, one member outcome, one cohort: " +
+    "we turn a set of your lessons into a tutor and up to 2 guided tasks, deliver them as a Claude Project or as " +
+    "Claude skills, test them where your members use Claude, help you launch them to new members, and give you the " +
+    "kit and a report to judge whether it helped.",
   scope: [
     ["Community", "One community whose members use the Claude app (claude.ai on the web or desktop)"],
     ["Member outcome", "One clearly defined first outcome with a deadline (for example: offer posted and 20 messages sent within 14 days)"],
     ["Lessons", "Up to 10 lessons you choose, as text or transcripts"],
-    ["Skills", "One tutor grounded in those lessons, and up to 2 task skills that complete the steps of the outcome"],
+    ["Tasks", "One tutor grounded in those lessons, and up to 2 guided tasks that complete the steps of the outcome"],
+    ["Format", "One Claude Project (our default for members on their own Claude plans) or Claude skills (for Claude Code users, or a Team or Enterprise organisation). Both are built from the same reviewed files; you choose one before acceptance"],
     ["Pilot", "One cohort of new paid members (one calendar month), compared with an earlier baseline month"],
   ],
   // 1. What we commit to produce. Acceptance and payment depend only on these and their criteria.
   deliverables: [
-    ["Member pack, in your name", "A tutor and up to 2 task skills, named for your community, built from your lessons with your rules, examples and checks", "Passes skillkit lint with no errors or warnings, and each skill's description fits the Claude app's limit"],
-    ["Supported tasks", "A written list of exactly which member tasks the pack supports, what each produces, and what it doesn't do", "You approve the list in the spec"],
-    ["Reviewed lesson references", "Every step and rule in the task skills tied to a named lesson, and a lesson index for the tutor", "You confirm each reference points at the right lesson"],
-    ["Acceptance record", "At least 6 acceptance cases (lesson questions, an uncovered question, each task, conflicting input) run in your members' Claude surface, with outputs saved", "Every case passes the criteria you approved; results in acceptance.csv"],
-    ["Member kit and onboarding", "One kit for members: the upload zips, a start guide with copyable install steps and a first-task walkthrough, and a launch post draft", "You approve the wording; the install steps work as written in the Claude app"],
+    ["Member kit, in your name", "A tutor and up to 2 guided tasks, named for your community, built from your lessons with your rules, examples and checks, in the format you chose", "Builds from the approved spec with no errors; skills pass skillkit lint and fit the Claude app's limits; a Project's instructions and files are all present"],
+    ["Supported tasks", "A written list of exactly which member tasks the kit supports, what each produces, and what it doesn't do", "You approve the list in the spec"],
+    ["Reviewed lesson references", "Every step and rule tied to a named lesson, rules that aren't word for word in a lesson listed for you to confirm, and answers that quote the lesson sentence they rely on", "You confirm each listed rule; every quoted sentence in the acceptance outputs is found in the lesson it names"],
+    ["Acceptance record", "At least 6 acceptance cases (lesson questions, an uncovered question, each task over several turns, conflicting input) run in the Claude app in the chosen format, with outputs saved", "Every case passes the criteria you approved; results in acceptance.csv"],
+    ["Member onboarding", "What members receive in the chosen format (the project files and instructions, or the skill zips), a start guide with copyable setup steps and a first-task walkthrough, and a launch post draft", "You approve the wording; the setup steps work as written in the Claude app"],
     ["Pilot measurement process", "Pilot plan with your baseline, thresholds and observation windows set before launch, empty logs, and an operating checklist", "Thresholds agreed in writing before the first pilot member joins"],
     ["Decision report", "The pilot report on product quality, member outcomes and economics, with a short read-out", "Delivered once the cohort's outcome window has closed"],
-    ["Handover", "Everything in your own files: the spec, the pack, the logs, and how to rebuild, re-test and share an update without losing your edits", "You can rebuild the pack yourself with one command"],
+    ["Handover", "Everything in your own files: the spec, the kit, the logs, and how to rebuild, re-test and share an update without losing your edits", "You can rebuild the kit yourself with one command"],
   ],
+  // What we add beyond "upload your lessons to a Claude Project and write instructions". Not every owner needs all of
+  // it. [customer problem, our deliverable, how it's accepted, effort or cost it affects]. Hours are estimates.
+  contributions: [
+    ["The method lives in videos and your head, not in steps a model can follow", "Supported tasks: inputs, steps, rules and the deliverable, drafted from your lessons", "You approve the task list", "Writing instructions yourself: est. 2-6 h and some prompt-writing skill"],
+    ["Instructions drift from what the lessons say", "Every rule tied to a lesson; the ones not word for word listed for you to confirm", "You confirm each listed rule", "Your review: est. 1-2 h, focused on the listed rules"],
+    ["Nobody knows how it behaves until members complain", "At least 6 acceptance cases over several turns in the Claude app, outputs saved", "Every case passes", "Correction and support time later (not measured yet)"],
+    ["Answers sound sure but can't be checked", "Answers quote the lesson sentence they rely on, and a checker confirms each quote exists", "Every quote in the acceptance outputs is found", "Time to verify an answer (not measured yet)"],
+    ["Members don't set it up or don't know what to ask", "Start guide with copyable setup, a first-task walkthrough and a launch post", "Setup steps work as written", "Your onboarding: est. 1-2 h"],
+    ["Lesson changes break what you customised", "Rebuild that keeps your edits, and versioned updates", "You rebuild with one command", "Maintenance: est. 1-2 h a month"],
+    ["You can't tell whether it helped", "Pilot plan, logs and a decision report", "Thresholds agreed before launch", "Your logging: est. 6-8 h"],
+  ],
+  // [activity, doing it yourself, the paid pilot: you, the paid pilot: us]. All estimates; nothing here is timed yet.
+  diy: [
+    ["Prepare lessons", "Export them (est. 2-4 h)", "Export up to 10 and pick 2-3 member examples (est. 2-4 h)", "Organise them and draft the spec (est. 4-5 h)"],
+    ["Turn the method into instructions", "Write the project instructions and tasks (est. 2-6 h)", "A 60-minute call, then approve the draft (est. 1-2 h)", "Included above"],
+    ["Review", "Your own judgement", "The rules listed for you, then the outputs (est. 1-2 h)", "Up to two rounds of changes (est. 1-2 h)"],
+    ["Test", "Usually skipped", "Approve the acceptance results (est. 1.5 h)", "Acceptance cases in the Claude app (est. 3-4 h)"],
+    ["Onboard members", "Write a post (est. 0.5-1 h)", "Edit and post our draft (est. 1-2 h)", "Start guide and launch draft (est. 1 h)"],
+    ["Measure", "Nothing", "Log the pilot (est. 6-8 h)", "Check the logs, write the report (est. 2-3 h)"],
+    ["Maintain", "Edit the project when lessons change", "Rebuild with one command (est. 1-2 h a month)", "Optional, quoted after the report"],
+  ],
+  diyVerdict:
+    "On these estimates the pilot doesn't save you setup time: you spend about as long as doing it yourself, and more " +
+    "if you count pilot logging. What you pay for is the method turned into tested tasks, rules checked against your " +
+    "lessons, member onboarding, and a measured decision. If you only want members to have your lessons in Claude, " +
+    "a Claude Project you set up yourself is cheaper.",
   paymentBasis:
     "Acceptance and payment depend only on the deliverables and acceptance criteria above. They never depend on member " +
     "behaviour, renewals or revenue.",
   // 2. What we can observe during the pilot (logged by you; reported, not promised).
   observe: [
-    "How many new members install the pack",
+    "How many new members set up the kit",
     "Which tasks they complete, and what they produce",
     "How many reach your first outcome within its window",
     "Which tutor answers someone had to correct, and staff minutes spent",
@@ -43,7 +71,7 @@ export const PILOT_OFFER = {
     "Whether that is worth the fee and your time (the calculator shows what would have to be true)",
   ],
   revisions: [
-    "Two rounds of changes to the skills after your first review.",
+    "Two rounds of changes to the kit after your first review.",
     "Lesson additions or replacements within the 10-lesson scope during the build.",
     "One rebuild after the pilot, based on what the report shows.",
   ],
@@ -56,16 +84,16 @@ export const PILOT_OFFER = {
     "Logging during the pilot (joins, installs, completed tasks, reviewed answers, costs)",
   ],
   customerResponsibilities: [
-    "Approving every skill before members see it; the lessons' accuracy",
+    "Approving every task and rule before members see them; the lessons' accuracy",
     "Member support beyond the tutor, and answering questions it escalates",
     "Deciding pilot thresholds before the pilot starts",
     "Anything members send to their own clients",
   ],
   dependencies: [
-    "Members use Claude with code execution turned on, which skills need (skills are listed for Free, Pro, Max, Team and Enterprise). Members on ChatGPT can't use the pack",
+    "Members use Claude. A Claude Project works on every plan (Free accounts can have up to 5 projects); skills are listed for every plan and need code execution turned on. Members on ChatGPT can't use the kit",
     "Lessons exist as text, or you can provide transcripts",
     "Enough new paid members per month for a pilot to say anything (about 20 or more)",
-    "Platform behaviour (Claude's skill upload, model updates) can change; acceptance is re-run if it does during the pilot",
+    "Platform behaviour (Claude's projects, skill upload, model updates) can change; acceptance is re-run if it does during the pilot",
   ],
   exclusions: [
     "Any guarantee of member results, renewals or revenue",
@@ -73,12 +101,12 @@ export const PILOT_OFFER = {
     "Video transcription",
     "Ongoing member support or community management",
     "Changes to your community platform, payments or pricing",
-    "Legal, tax or financial advice in the skills",
+    "Legal, tax or financial advice in the kit",
   ],
   acceptanceFails: [
-    "We fix the skill and re-run the failed cases, within the revision rounds above.",
+    "We fix the kit and re-run the failed cases, within the revision rounds above.",
     "If a case still fails because of a limit of the platform or the lessons (for example a topic the lessons don't cover), we document it and agree with you whether to remove that case, change the scope, or stop.",
-    "Members don't get the pack until every case you approved passes, or you accept a documented exception in writing.",
+    "Members don't get the kit until every case you approved passes in the Claude app in the chosen format, or you accept a documented exception in writing.",
   ],
   maintenance: [
     "Rebuild when lessons change (your edits to generated files are kept)",
@@ -88,11 +116,11 @@ export const PILOT_OFFER = {
   // Steps, in order. No dates: they depend on when your cohort month starts.
   process: [
     ["Fit check", "Answer the fit questions; we confirm or decline"],
-    ["Specification", "60-minute call; we draft the pack spec; you approve it"],
-    ["Build and review", "We build the pack; you review; up to two rounds of changes"],
-    ["Acceptance", "We run the acceptance cases in your members' Claude surface; you approve the results"],
+    ["Specification", "We draft the spec from your lessons before a 60-minute call; you choose the format and approve the spec"],
+    ["Build and review", "We build the kit; you review it, starting with the rules listed for you to confirm; up to two rounds of changes"],
+    ["Acceptance", "We run the acceptance cases in the Claude app in the chosen format; you approve the results"],
     ["Baseline and thresholds", "You fill in the baseline month; we agree thresholds in writing"],
-    ["Launch", "New paid members in the pilot month get the pack and the start guide"],
+    ["Launch", "New paid members in the pilot month get the kit and the start guide"],
     ["Pilot logging", "You log events, reviewed answers and costs; we check the logs halfway"],
     ["Decision report", "After the outcome window closes (and later the first renewals), we run the report together"],
     ["Handover", "Rebuild instructions and the files; optional maintenance from here"],
@@ -104,7 +132,7 @@ export const PILOT_OFFER = {
     rows: [
       ["Who it's for", "The first 3 communities that pass the fit check"],
       ["Fee", "US$500 fixed per community, for the scope above. Not billed by the hour"],
-      ["Payment", "Half when you approve the spec; half when the acceptance cases pass and the pack is handed over for launch. If we stop at acceptance (see below), the second half isn't due"],
+      ["Payment", "Half when you approve the spec; half when the acceptance cases pass and the kit is handed over for launch. If we stop at acceptance (see below), the second half isn't due"],
       ["In return", "Permission to publish anonymised timings, acceptance results and the pilot report. Your community is named only if you agree in writing"],
       ["Replies", "We reply to enquiries and pilot questions within 2 business days. We don't support your members directly"],
       ["Maintenance", "Optional, quoted only after the pilot report says continue"],

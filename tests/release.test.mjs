@@ -126,6 +126,7 @@ test("the enquiry only links somewhere real", () => {
   if (form) assert.ok(existsSync(new URL(`../.github/ISSUE_TEMPLATE/${form[1]}`, import.meta.url)), form[1]);
   const priv = PILOT_OFFER.enquiry.privateDestination;
   if (priv) assert.match(priv, /^(mailto:\S+@\S+\.\S+|https:\/\/\S+\.\S+)$/);
+  if (priv) assert.ok(PILOT_OFFER.enquiry.privateLabel.trim(), "a private route needs privateLabel");
   for (const key of ["deliverables", "revisions", "customerInputs", "exclusions", "acceptanceFails", "maintenance"]) {
     assert.ok(PILOT_OFFER[key].length > 0, key);
   }

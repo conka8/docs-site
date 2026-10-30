@@ -1,16 +1,16 @@
 {
   "files": [
     {
-      "file": "builder-commons-starter-0.7.0.zip",
+      "file": "builder-commons-starter-0.8.0.zip",
       "tool": "builder-commons-starter",
-      "version": "0.7.0",
+      "version": "0.8.0",
       "contains": [
         "skillport",
         "skillkit",
         "skool-owner-kit"
       ],
-      "bytes": 564590,
-      "sha256": "bffc926cc9a7efc7e59776bc93eba16735a297f1f8f2bd76433c562efbe8ca97"
+      "bytes": 642289,
+      "sha256": "2d98a3137b6052cab6a079bbcebc0afc864735a2ba8c2604b4c4f3975e0ed085"
     },
     {
       "file": "career-labs-0.1.1.zip",
@@ -73,14 +73,14 @@
       "sha256": "0e319f73c31fae04941e9403a747026e312b229097c57c6053338a045b269067"
     },
     {
-      "file": "skool-owner-kit-0.7.0.zip",
+      "file": "skool-owner-kit-0.8.0.zip",
       "tool": "skool-owner-kit",
-      "version": "0.7.0",
+      "version": "0.8.0",
       "contains": [
         "skool-owner-kit"
       ],
-      "bytes": 341149,
-      "sha256": "0daffb7118c41198d3285d047b58d2a6d425c4b527cecb73e93252adb2064746"
+      "bytes": 414760,
+      "sha256": "1263592cad40b9bcc088c7c2b8fd8b580399f978f4b31552c15895357bf3e442"
     },
     {
       "file": "vertical-packs-0.1.1.zip",

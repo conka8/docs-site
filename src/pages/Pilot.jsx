@@ -72,8 +72,10 @@ export default function Pilot() {
 
       <Section id="effort" title="Effort (estimates)">
         <p>
-          From building the synthetic example; no customer engagement has been timed yet. Your side: {rangeText(t.customerSetup)} before
-          launch and {rangeText(t.customerPilot)} of logging during the pilot. Ours: {rangeText(t.ourOneOff)}.
+          Estimates: no customer engagement has been timed yet, and only the tool steps have been measured (seconds each).
+          Your side follows five steps: send lessons and examples, approve one page, test the finished kit, share the
+          start guide, record essential events. That is {rangeText(t.customerSetup)} before launch and{" "}
+          {rangeText(t.customerPilot)} of logging during the pilot. Ours: {rangeText(t.ourOneOff)}.
         </p>
         <DefTable
           monoFirst={false}
@@ -110,7 +112,7 @@ export default function Pilot() {
         <ul className="list">
           <li><strong>Baseline</strong>: new paid members from an earlier month, logged the same way, before launch.</li>
           <li><strong>Cohort</strong>: everyone who joins in the pilot month gets the pack on day 1. Members whose outcome window or renewal date hasn't arrived yet are left out, not counted as failures.</li>
-          <li><strong>Logged</strong>: installs, completed tasks, the first outcome, first renewals, reviewed tutor answers, and every hour and cost. Nothing is tracked automatically; you log it.</li>
+          <li><strong>Logged, essentials only</strong>: joins come from member exports you download (imported without contact details); you log first outcomes and corrected answers as they happen, and renewals or cancellations from your payment history once due; we record hours and costs. Installs and completed tasks only when you can see them without asking. Nothing is tracked automatically or in members' chats.</li>
           <li><strong>Thresholds</strong> are agreed in writing before the first pilot member joins.</li>
           <li><strong>One operating checklist</strong>, <code>pilot/CHECKLIST.md</code> in every pack: fit and scope, content intake, pack construction, acceptance and installation, onboarding, adoption, completed tasks, answer corrections, staff effort and cash, renewal follow-up and the final report.</li>
           <li><strong>The report</strong> judges product quality, member outcomes and economics separately. A good outcome result is held back if quality fails or the economics are negative or over budget.</li>

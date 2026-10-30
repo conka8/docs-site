@@ -21,8 +21,8 @@ export const PILOT_OFFER = {
   deliverables: [
     ["Member kit, in your name", "A tutor and up to 2 guided tasks, named for your community, built from your lessons with your rules, examples and checks, in the format you chose", "Builds from the approved spec with no errors; skills pass skillkit lint and fit the Claude app's limits; a Project's instructions and files are all present"],
     ["Supported tasks", "A written list of exactly which member tasks the kit supports, what each produces, and what it doesn't do", "You approve the list in the spec"],
-    ["Reviewed lesson references", "Every step and rule tied to a named lesson, rules that aren't word for word in a lesson listed for you to confirm, and answers that quote the lesson sentence they rely on", "You confirm each listed rule; every quoted sentence in the acceptance outputs is found in the lesson it names"],
-    ["Acceptance record", "At least 6 acceptance cases (lesson questions, an uncovered question, each task over several turns, conflicting input) run in the Claude app in the chosen format, with outputs saved", "Every case passes the criteria you approved; results in acceptance.csv"],
+    ["Reviewed lesson references", "Every step and rule tied to a named lesson; rules that aren't word for word in a lesson listed on a one-page approval sheet next to the closest lesson sentence; answers that quote the lesson sentence they rely on", "You confirm each listed rule; every quoted sentence in the acceptance outputs is found in the lesson it names"],
+    ["Acceptance record", "At least 6 acceptance cases run in the Claude app in the chosen format, with outputs saved. They cover lesson questions, a topic the lessons don't cover, each task over several turns, member input that contradicts a lesson, missing facts, and a quote used for the wrong conclusion or without its qualification", "Every case passes its automatic checks (skool-kit check-answer) and a person's answers to its review questions; results in acceptance.csv"],
     ["Member onboarding", "What members receive in the chosen format (the project files and instructions, or the skill zips), a start guide with copyable setup steps and a first-task walkthrough, and a launch post draft", "You approve the wording; the setup steps work as written in the Claude app"],
     ["Pilot measurement process", "Pilot plan with your baseline, thresholds and observation windows set before launch, empty logs, and an operating checklist", "Thresholds agreed in writing before the first pilot member joins"],
     ["Decision report", "The pilot report on product quality, member outcomes and economics, with a short read-out", "Delivered once the cohort's outcome window has closed"],
@@ -32,28 +32,32 @@ export const PILOT_OFFER = {
   // it. [customer problem, our deliverable, how it's accepted, effort or cost it affects]. Hours are estimates.
   contributions: [
     ["The method lives in videos and your head, not in steps a model can follow", "Supported tasks: inputs, steps, rules and the deliverable, drafted from your lessons", "You approve the task list", "Writing instructions yourself: est. 2-6 h and some prompt-writing skill"],
-    ["Instructions drift from what the lessons say", "Every rule tied to a lesson; the ones not word for word listed for you to confirm", "You confirm each listed rule", "Your review: est. 1-2 h, focused on the listed rules"],
-    ["Nobody knows how it behaves until members complain", "At least 6 acceptance cases over several turns in the Claude app, outputs saved", "Every case passes", "Correction and support time later (not measured yet)"],
-    ["Answers sound sure but can't be checked", "Answers quote the lesson sentence they rely on, and a checker confirms each quote exists", "Every quote in the acceptance outputs is found", "Time to verify an answer (not measured yet)"],
-    ["Members don't set it up or don't know what to ask", "Start guide with copyable setup, a first-task walkthrough and a launch post", "Setup steps work as written", "Your onboarding: est. 1-2 h"],
+    ["Instructions drift from what the lessons say", "A one-page approval sheet: every rule tied to a lesson, and the ones not word for word shown next to the closest lesson sentence", "You confirm each listed rule", "Your review: est. 1-1.5 h including the call, instead of reading every file"],
+    ["Nobody knows how it behaves until members complain", "At least 6 acceptance cases over several turns in the Claude app, including the ways a well-sourced answer can still be wrong", "Every case passes its checks and review", "Correction and support time later (not measured yet)"],
+    ["Answers sound sure but can't be checked", "Answers quote the lesson sentence they rely on. A checker confirms each quote exists, is in the lesson named and keeps its qualifications; a person judges whether it supports the point", "Every quote in the acceptance outputs passes the checker, and the review questions are answered", "Time to verify an answer (not measured yet)"],
+    ["Members don't set it up or don't know what to ask", "Start guide with copyable setup, a first-task walkthrough and a launch post", "Setup steps work as written", "Your onboarding: est. 0.25-0.5 h"],
     ["Lesson changes break what you customised", "Rebuild that keeps your edits, and versioned updates", "You rebuild with one command", "Maintenance: est. 1-2 h a month"],
-    ["You can't tell whether it helped", "Pilot plan, logs and a decision report", "Thresholds agreed before launch", "Your logging: est. 6-8 h"],
+    ["You can't tell whether it helped", "Pilot plan, joins imported from member exports, minimal logs and a decision report", "Thresholds agreed before launch", "Your logging: est. 2-3 h"],
   ],
   // [activity, doing it yourself, the paid pilot: you, the paid pilot: us]. All estimates; nothing here is timed yet.
   diy: [
-    ["Prepare lessons", "Export them (est. 2-4 h)", "Export up to 10 and pick 2-3 member examples (est. 2-4 h)", "Organise them and draft the spec (est. 4-5 h)"],
-    ["Turn the method into instructions", "Write the project instructions and tasks (est. 2-6 h)", "A 60-minute call, then approve the draft (est. 1-2 h)", "Included above"],
-    ["Review", "Your own judgement", "The rules listed for you, then the outputs (est. 1-2 h)", "Up to two rounds of changes (est. 1-2 h)"],
-    ["Test", "Usually skipped", "Approve the acceptance results (est. 1.5 h)", "Acceptance cases in the Claude app (est. 3-4 h)"],
-    ["Onboard members", "Write a post (est. 0.5-1 h)", "Edit and post our draft (est. 1-2 h)", "Start guide and launch draft (est. 1 h)"],
-    ["Measure", "Nothing", "Log the pilot (est. 6-8 h)", "Check the logs, write the report (est. 2-3 h)"],
+    ["Prepare lessons", "Export them (est. 2-4 h)", "Choose up to 10 and send them as they are, with 2-3 member examples (est. 1-2 h)", "Convert and organise them, draft the spec (est. 5-7 h)"],
+    ["Turn the method into instructions", "Write the project instructions and tasks (est. 2-6 h)", "A 30-minute call, then approve one page (est. 1-1.5 h)", "Included above"],
+    ["Review", "Your own judgement", "Only what changed (est. 0-0.5 h)", "Up to two rounds of changes (est. 1-2 h)"],
+    ["Test", "Usually skipped", "Set it up, try one task, decide the cases we flag (est. 0.75-1 h)", "Package it; run and check every acceptance case in the Claude app (est. 3-4 h)"],
+    ["Onboard members", "Write a post (est. 0.5-1 h)", "Post our draft (est. 0.25-0.5 h)", "Start guide and launch draft (est. 1 h)"],
+    ["Measure", "Nothing", "Member exports, first outcomes, corrected answers and renewals (est. 2-3 h)", "Check the logs, record costs, write the report (est. 3-4 h)"],
     ["Maintain", "Edit the project when lessons change", "Rebuild with one command (est. 1-2 h a month)", "Optional, quoted after the report"],
   ],
+
   diyVerdict:
-    "On these estimates the pilot doesn't save you setup time: you spend about as long as doing it yourself, and more " +
-    "if you count pilot logging. What you pay for is the method turned into tested tasks, rules checked against your " +
-    "lessons, member onboarding, and a measured decision. If you only want members to have your lessons in Claude, " +
-    "a Claude Project you set up yourself is cheaper.",
+    "On these estimates your setup time is similar to doing it yourself (about 3-5.5 hours against 4.5-11), plus 2-3 " +
+    "hours of pilot logging. None of it is timed yet, so don't count on a saving. What you pay for is the work you'd " +
+    "otherwise skip: tasks with a fixed deliverable, rules checked against your lessons, acceptance testing in the " +
+    "Claude app, onboarding and a measured decision. In our simulated test, a well-instructed Project with the same " +
+    "lessons made the same judgement calls; the kit's advantage was the finished deliverable, traceable citations and " +
+    "the coach route. If you only want members to have your lessons in Claude, a Claude Project you set up yourself is " +
+    "cheaper.",
   paymentBasis:
     "Acceptance and payment depend only on the deliverables and acceptance criteria above. They never depend on member " +
     "behaviour, renewals or revenue.",
@@ -76,12 +80,12 @@ export const PILOT_OFFER = {
     "One rebuild after the pilot, based on what the report shows.",
   ],
   customerInputs: [
-    "The lessons, as text or transcripts, and two or three examples of good member work",
+    "Up to 10 lessons as you have them (exports, transcripts or notes), and two or three examples of good member work",
     "Your definition of the first outcome and how members report it",
-    "A 60-minute specification call, and review time (see the effort breakdown)",
+    "A 30-minute specification call, and approval of one page (see the effort breakdown)",
     "Your baseline numbers: first outcomes and first renewals for an earlier month of new members",
     "A Claude account on the plan your members use, for acceptance testing in the Claude app",
-    "Logging during the pilot (joins, installs, completed tasks, reviewed answers, costs)",
+    "Member exports for the joins, first outcomes and corrected answers during the pilot, and renewals or cancellations from your payment history once they're due",
   ],
   customerResponsibilities: [
     "Approving every task and rule before members see them; the lessons' accuracy",
@@ -116,12 +120,12 @@ export const PILOT_OFFER = {
   // Steps, in order. No dates: they depend on when your cohort month starts.
   process: [
     ["Fit check", "Answer the fit questions; we confirm or decline"],
-    ["Specification", "We draft the spec from your lessons before a 60-minute call; you choose the format and approve the spec"],
-    ["Build and review", "We build the kit; you review it, starting with the rules listed for you to confirm; up to two rounds of changes"],
-    ["Acceptance", "We run the acceptance cases in the Claude app in the chosen format; you approve the results"],
+    ["Specification", "We draft the spec from your lessons before a 30-minute call; you choose the format and approve one page (APPROVAL.md)"],
+    ["Build and review", "We build the kit and make the changes you asked for; up to two rounds"],
+    ["Acceptance", "We run and check the acceptance cases in the Claude app in the chosen format; you set the kit up yourself, try one task and decide the cases we flag"],
     ["Baseline and thresholds", "You fill in the baseline month; we agree thresholds in writing"],
     ["Launch", "New paid members in the pilot month get the kit and the start guide"],
-    ["Pilot logging", "You log events, reviewed answers and costs; we check the logs halfway"],
+    ["Pilot logging", "You log first outcomes, corrected answers and renewals, and send member exports; we import them, record costs and check the logs halfway"],
     ["Decision report", "After the outcome window closes (and later the first renewals), we run the report together"],
     ["Handover", "Rebuild instructions and the files; optional maintenance from here"],
   ],

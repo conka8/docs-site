@@ -10,6 +10,7 @@ export const PAGES = [
   ] },
   { id: "example", group: "Evaluate", label: "2. A real run", sections: [
     ["fair", "Compared fairly: is the skill better than Claude with the lessons?", "benchmark comparison general assistant chatgpt lessons fair"],
+    ["offer-diy", "The offer task: our kit or your own Project?", "diy project offer task comparison citations deliverable"],
     ["content", "The admin's content", "lessons pack.yaml"],
     ["runs", "The first runs (actual model execution)", "claude code runs results acceptance"],
     ["offer", "The offer task, after the fix", "offer niche price gaps"],

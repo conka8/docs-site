@@ -125,7 +125,14 @@ export default function Home() {
           <li>
             In tests on a synthetic community, the kit's drafts followed the lessons, named requests that conflict with
             them, and marked what it didn't know instead of guessing. Every lesson sentence it quoted was found in that
-            lesson.
+            lesson. That check proves a quote exists, is in the lesson named and keeps its qualifications. Whether it
+            supports the point is judged by a person in acceptance.
+          </li>
+          <li>
+            On the offer task, a well-instructed Project with the same lessons made the same judgement calls. The kit's
+            advantage was the finished deliverable, citations that can be checked and a drafted question for a coach,
+            not smarter answers.{" "}
+            <RouteLink to="example/offer-diy">How we tested it</RouteLink>.
           </li>
           <li>
             Given the same reviewed lessons and instructions, a Claude Project did at least as well as skills
@@ -157,7 +164,9 @@ export default function Home() {
         <DefTable
           monoFirst={false}
           rows={[
-            ["Enquire about the pilot", `Through ${P.enquiry.label}. ${P.enquiry.requirements}`],
+            ["Enquire about the pilot", P.enquiry.privateDestination
+              ? `Privately (${P.enquiry.privateLabel}), or publicly through ${P.enquiry.label}.`
+              : `Through ${P.enquiry.label}. ${P.enquiry.requirements} A private route isn't set up yet.`],
             ["Or do it yourself, free", "Everything here is MIT licensed: the kit builder, the member kit, the acceptance checks and the pilot report"],
             ["Third-party costs", "Your members' Claude plans; optional API usage"],
           ]}

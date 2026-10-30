@@ -26,7 +26,7 @@ export const BENCHMARK = {
   effort: [
     ["Member, first time", "nothing", "find and attach the right lessons, write the instruction", "install 3 zips (about 5 minutes)"],
     ["Member, each later task", "type the request", "re-attach lessons and repeat the instruction, or set up a Claude Project once", "paste the starter message, or just ask"],
-    ["Admin, first time", "nothing", "share lesson text and a recommended instruction (est. 1-2 h)", "spec, review, acceptance (est. 6.5-11.5 h)"],
+    ["Admin, first time", "nothing", "share lesson text and a recommended instruction (est. 1-2 h)", "send lessons, approve one page, test once (est. 3-5.5 h)"],
     ["When a lesson changes", "nothing", "re-share files; members re-attach", "rebuild, re-test, share a new version; members replace 3 skills"],
   ],
 };
@@ -61,4 +61,20 @@ export const COMPARISON = {
     ["Lesson update", "Replace the instructions and changed files", "Delete and re-upload changed skills"],
     ["Team or Enterprise", "Share the project inside the organisation", "Owner provisions skills to everyone; updates reach them automatically"],
   ],
+};
+
+// The offer task against the simplest strong alternative: the same 8 lessons in a Claude Project with a short,
+// competent instruction. skool-owner-kit/examples/agency-lab/offer-task-comparison/.
+export const OFFER_TASK = {
+  date: "2026-10-30",
+  setup: "Claude Code subagents (claude-sonnet-5-5), Project-like context in both conditions (not the Claude app), 6 cases, one run each; deterministic checks by skool-kit check-answer; semantic review by the developer who built the kit (not independent)",
+  rows: [
+    ["Judgement calls (price floor, refund qualification, conflicts, missing facts)", "Correct in every case", "Correct in every case"],
+    ["Finished one-page offer with check, gaps and next step", "3 of 3 runs that called for one", "0 of 3 (one draft without those sections; one asked to check filters first)"],
+    ["Citations traceable to the named lesson", "40 of 40", "21 of 36"],
+    ["Drafted coach question when the topic isn't covered", "Yes", "No (told the member to ask)"],
+  ],
+  conclusion:
+    "No difference in judgement. The kit's advantage is the preparation: a fixed deliverable, citations a checker " +
+    "can trace, and the escalation step. A better DIY instruction could close some of the gap.",
 };

@@ -14,9 +14,10 @@ export function renderEffort() {
   const t = EFFORT_TOTALS;
   return [
     "# Effort breakdown: scoped member-pack pilot", "", NOTE, "",
-    "**These are estimates** from building the synthetic Northwind example. No customer engagement has been timed yet;",
-    "replace them with measured hours after the first pilot. \"You\" is the community owner or their team; \"we\" is",
-    "whoever delivers the implementation.", "",
+    "**These are estimates.** No customer engagement has been timed yet; the first pilot's time rows replace them.",
+    "What has been measured (tool steps take seconds, and what a person must read) is in",
+    "[OBSERVED-TIMINGS.md](OBSERVED-TIMINGS.md), kept separate. \"You\" is the community owner or their team; \"we\" is",
+    "whoever delivers the implementation. Numbered rows are the five steps of your workflow.", "",
     "| Activity | What it involves | You, one-off | We, one-off | You, per month after handover |",
     "|---|---|---|---|---|",
     ...EFFORT.map(([, name, what, c1, w1, cm]) => `| ${name} | ${what} | ${h(c1)} | ${h(w1)} | ${h(cm)} |`),

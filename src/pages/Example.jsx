@@ -1,7 +1,7 @@
 import React from "react";
 import { downloadFor } from "../data/downloads.js";
 import { CodeBlock, DefTable, DownloadLink, RouteLink, Section } from "../components/ui.jsx";
-import { BENCHMARK, COMPARISON } from "../data/benchmark.js";
+import { BENCHMARK, COMPARISON, OFFER_TASK } from "../data/benchmark.js";
 import { CONTENT_KINDS } from "../data/evidence.js";
 import { EvidenceTable } from "./Home.jsx";
 
@@ -102,6 +102,12 @@ export default function Example() {
             fixes. How to read it: <code>{LAB}benchmark/README.md</code>, "Re-inspection".
           </p>
         </details>
+      </Section>
+
+      <Section id="offer-diy" title="The offer task: our kit or your own Project with the same lessons?">
+        <p className="muted">{OFFER_TASK.setup}. {OFFER_TASK.date}.</p>
+        <DefTable monoFirst={false} head={["", "Our kit", "Well-instructed Project, same lessons"]} rows={OFFER_TASK.rows} />
+        <p>{OFFER_TASK.conclusion}</p>
       </Section>
 
       <Section id="content" title="The admin's content">

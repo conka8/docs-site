@@ -4,9 +4,19 @@ import { CodeBlock, RouteLink, Section } from "../components/ui.jsx";
 // Keep in step with ../CHANGELOG.md (the repository copy has the full list).
 const RELEASE = {
   date: "2026-10-30",
-  title: "One offer: a reviewed AI member kit, as a Claude Project or skills",
+  title: "Less work for the owner, and answers checked in layers",
   groups: [
-    ["skool-owner-kit 0.7.0", [
+    ["skool-owner-kit 0.8.0", [
+      "check-answer: for each citation, whether the quote exists, is in the lesson named and keeps its qualification; unsourced numbers and promises flagged; whether it supports the claim is left to a person.",
+      "APPROVAL.md: the one page an owner approves, with every rule that isn't word for word in a lesson shown beside the closest lesson sentence.",
+      "New acceptance cases: missing facts, a true quote used for the wrong conclusion, a dropped qualification, an uncovered contract question, lessons that seem to conflict.",
+      "pilot-import: joins for both cohorts from a member export, without contact details. Pilot logging cut to five essentials.",
+    ]],
+    ["Site (evening, 2026-10-30)", [
+      "A five-step customer workflow: estimated owner time 5-8.5 hours, down from 12.5-19.5. Price and terms unchanged.",
+      "The offer task compared with a well-instructed Project using the same lessons: the same judgement, a more usable deliverable.",
+    ]],
+    ["skool-owner-kit 0.7.0 (2026-10-30)", [
       "pack-share --format project or skills: only the format your members will use, with a matching launch post.",
       "ADMIN-REVIEW.md starts with the rules that aren't word for word in their lesson, for you to confirm first.",
       "The pilot checklist adds the format choice and proportional logging; the acceptance journey checks the Project kit too.",

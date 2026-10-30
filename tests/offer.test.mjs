@@ -297,3 +297,21 @@ test("a small, low-adoption community needs a large change once the owner's time
   assert.ok(r.changeNeeded.userPoints < LARGE_CHANGE_PTS);
   assert.ok(r.changeNeededWithTime.userPoints > LARGE_CHANGE_PTS);
 });
+
+test("review economics: cash, capacity, contribution and speculative benefit stay separate", async () => {
+  const { reviewEconomics, REVIEW_CASES } = await import("../src/data/review-model.js");
+  const t = reviewEconomics(REVIEW_CASES.target);
+  assert.equal(t.savedHoursMonthly, 7.5);
+  assert.equal(Math.round(t.cashAvoided), 3150);
+  assert.equal(t.capacityHours, 0);
+  assert.equal(t.incrementalContribution, 0);
+  assert.equal(t.speculative, 0);
+  assert.ok(t.totalMultiple > 3.2 && t.totalMultiple < 3.4);
+  // Downside: 10% saved, no renewal change: roughly break-even over 12 months, not a reason to buy.
+  const d = reviewEconomics(REVIEW_CASES.downside);
+  assert.ok(d.totalMultiple > 1 && d.totalMultiple < 1.2);
+  // Unpaid owner time saved is capacity, never cash.
+  const s = reviewEconomics(REVIEW_CASES.small);
+  assert.equal(s.cashAvoided, 0);
+  assert.ok(s.capacityHours > 0 && s.totalMultiple < 1.1);
+});

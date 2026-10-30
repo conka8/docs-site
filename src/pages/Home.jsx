@@ -4,10 +4,11 @@ import { EVIDENCE, EVIDENCE_TONE } from "../data/evidence.js";
 import { EFFORT_TOTALS, rangeText } from "../data/effort.js";
 import { downloadFor } from "../data/downloads.js";
 import { PILOT_OFFER as P } from "../data/pilot-offer.js";
+import { REVIEW_CASES, reviewEconomics } from "../data/review-model.js";
 import { DefTable, DownloadLink, RouteLink, Section } from "../components/ui.jsx";
 
 export const PATH = [
-  ["1", "See the outcome", "home/outcome"],
+  ["1", "See a review draft", "home/outcome"],
   ["2", "Inspect a real run", "example"],
   ["3", "Check fit", "fit"],
   ["4", "Estimate economics", "value"],
@@ -57,14 +58,18 @@ export function EvalPath() {
 export default function Home() {
   const kit = downloadFor("skool-owner-kit");
   const t = EFFORT_TOTALS;
+  const cases = Object.values(REVIEW_CASES).map((c) => [c.label, reviewEconomics(c)]);
+  const money = (x) => Math.round(x).toLocaleString("en-US");
   return (
     <div className="page">
       <header className="hero">
-        <p className="eyebrow">For owners of paid communities that teach a method, such as AI automation or agency courses</p>
+        <p className="eyebrow">For paid communities whose coaches review members' work against a method</p>
         <h1>{SUITE.name}</h1>
         <p className="lede">
-          A reviewed AI member kit built from your community's lessons. New members use it in Claude to draft their
-          first real work your way, and bring you the questions your lessons don't answer.
+          Your coaches spend hours reviewing members' offers, scripts and pages against your method. We turn the method
+          into a review rubric quoted from your lessons and set up a first pass that checks the mechanical points and
+          drafts the feedback. Then we measure with you whether reviews get faster without missing problems. A coach
+          approves every word.
         </p>
         <div className="hero__actions">
           <RouteLink to="pilot" className="btn btn--primary">
@@ -76,19 +81,22 @@ export default function Home() {
 
       <EvalPath />
 
-      <Section id="outcome" title="What members produce">
+      <Section id="outcome" title="The first useful result: a review draft in seconds">
+        <p>A member posts an offer that undercharges. Before the coach reads it, the draft already says:</p>
         <DefTable
           monoFirst={false}
-          head={["Task", "What the member ends up with"]}
+          head={["Criterion", "Status", "From your lesson"]}
           rows={[
-            ["Build your one-page offer", "A draft offer in your formula: a niche checked against your filters, a price from your ladder, what's still missing, and the next step"],
-            ["Write your first outreach", "Draft first messages in your script, both follow-ups, a tracking sheet, and which prospects to skip and why"],
-            ["Ask the tutor", "Answers from your lessons that say which lesson they come from, so members and you can check them; anything not covered becomes a question for your coaches"],
+            ["Monthly fee at least 300", "Missing: monthly 200 is below 300", "\"Never go below 300 a month.\""],
+            ["Founding setup fee 500 to 1,000", "Missing: setup 400 is outside 500-1,000", "the pricing ladder"],
+            ["One niche and one outcome", "You judge", "\"Sell one outcome to one niche.\""],
+            ["Sections, length, tool names, guarantees, pilot metric", "Met", "the one-outcome offer lesson"],
           ]}
         />
         <p className="muted">
-          From the worked example, a synthetic AI-agency community. Your kit follows your own first outcome and lessons.
-          Members review and send everything themselves.
+          From the worked example (a synthetic AI-agency community). The draft also lists claims that need a source, a
+          checklist for the member and a reply to edit. Nothing is sent without the coach, and no AI service sees member
+          work.
         </p>
       </Section>
 
@@ -98,52 +106,57 @@ export default function Home() {
             <li key={name}><strong>{name}</strong>: {what}</li>
           ))}
         </ul>
-        <p>
-          Delivered as one Claude Project (our default) or as Claude skills, built from the same reviewed files.{" "}
-          {P.paymentBasis}
-        </p>
         <p className="muted">
-          Design-partner terms for the first three communities that pass the fit check.{" "}
+          {P.paymentBasis} Design-partner terms for the first three communities that pass the fit check.{" "}
           <RouteLink to="pilot">Scope, acceptance criteria and terms</RouteLink>.
         </p>
       </Section>
 
-      <Section id="diy" title="What we do that you'd otherwise do yourself">
+      <Section id="remains" title="What work and costs stay with you">
+        <ul className="list">
+          <li>Your coaches still read each submission, decide the questions flagged for them and send the reply.</li>
+          <li>
+            Setup: about {rangeText(t.customerSetup)} of your time (send lessons and 5 past reviews, approve one page, one
+            walkthrough), then {rangeText(t.customerPilot)} logging three numbers per review during the pilot. Estimates.
+          </li>
+          <li>No software cost: the review runs on your coach's computer. Rubric upkeep is about {rangeText(t.customerMonthly)} a month when lessons change.</li>
+        </ul>
+      </Section>
+
+      <Section id="money" title={`Is it worth ${P.terms.fee} to you?`}>
         <p>
-          You could upload your lessons to a Claude Project and write instructions yourself. Here is what we add:
+          Only if your coaches do enough reviews, and only if the time saved is real. Over 12 months, with no renewal
+          change counted at all:
         </p>
-        <DefTable monoFirst={false} head={["Your problem", "What we deliver"]} rows={P.contributions.map(([a, b]) => [a, b])} />
-        <p>{P.diyVerdict}</p>
-        <p className="muted">
-          Your time, estimated: {rangeText(t.customerSetup)} before launch and {rangeText(t.customerPilot)} of pilot
-          logging. Side by side with doing it yourself: <RouteLink to="pilot/diy">the comparison</RouteLink>.
+        <DefTable
+          monoFirst={false}
+          head={["Case", "Paid review time avoided", "Time freed (not cash)", "Fee + your time", "Benefit ÷ cost"]}
+          rows={cases.map(([label, r]) => [label, money(r.cashAvoided), `${Math.round(r.capacityHours)} h`,
+            money(r.cashCosts + r.timeCosts), `${r.totalMultiple.toFixed(1)}x`])}
+        />
+        <p>
+          Below about 40 reviews a month, or if nobody is paid for review time, the fee won't come back: use the free
+          tool or a Claude Project with your lessons. The pilot measures the saving against your own coach's baseline
+          within three to four weeks. These figures are assumptions until it does.{" "}
+          <RouteLink to="value">The calculators</RouteLink>.
         </p>
       </Section>
 
       <Section id="verified" title="What has been shown so far">
         <ul className="list">
           <li>
-            In tests on a synthetic community, the kit's drafts followed the lessons, named requests that conflict with
-            them, and marked what it didn't know instead of guessing. Every lesson sentence it quoted was found in that
-            lesson. That check proves a quote exists, is in the lesson named and keeps its qualifications. Whether it
-            supports the point is judged by a person in acceptance.
+            On 8 synthetic offers with 17 known problems, the review tool found all 11 mechanical ones with no false
+            flags and handed the 4 judgement ones to the coach. It missed 2 the rubric didn't cover; one check has been
+            added since.
           </li>
           <li>
-            On the offer task, a well-instructed Project with the same lessons made the same judgement calls. The kit's
-            advantage was the finished deliverable, citations that can be checked and a drafted question for a coach,
-            not smarter answers.{" "}
-            <RouteLink to="example/offer-diy">How we tested it</RouteLink>.
+            A well-instructed Claude Project with the same lessons found all 17, but also raised 31 points that weren't
+            problems and misstated a lesson 3 times, so a coach would have to check everything it says.
           </li>
           <li>
-            Given the same reviewed lessons and instructions, a Claude Project did at least as well as skills
-            (preferred in 5 of 8 cases), so we deliver either. Neither gave better answers than Claude with the same
-            lessons and instructions; what you pay for is the work above.{" "}
-            <RouteLink to="example/fair">The comparison</RouteLink>.
-          </li>
-          <li>
-            <strong>Not yet shown:</strong> use in the Claude app, any real community, member result or renewal
-            change. Those runs were model tests in Claude Code. Your pilot's acceptance runs are the first in the app,
-            and members get nothing until they pass.
+            <strong>Not yet shown:</strong> any coach's time saved, any real community, or use in the Claude app. Those
+            tests were synthetic, and the Project was simulated in Claude Code. The pilot's first job is measuring
+            minutes against your own baseline, and "no saving" is a possible answer.
           </li>
         </ul>
         <details className="calc__more">
@@ -152,11 +165,11 @@ export default function Home() {
         </details>
       </Section>
 
-      <Section id="money" title="Will it pay for itself?">
+      <Section id="free" title="Free, and still available">
         <p>
-          Nobody knows yet. The likeliest way is more new members renewing because more reach your first outcome; that
-          is unmeasured. <RouteLink to="value">The calculator</RouteLink> shows, with your numbers, the renewal change
-          needed to cover the fee, and to cover the fee plus your time, and says plainly when that's unlikely.
+          Everything is MIT licensed: the review tool, the member kit builder (tasks and a tutor from your lessons, as a
+          Claude Project or skills), the answer checker and the pilot report.{" "}
+          <RouteLink to="admins">Admin guide</RouteLink> · <RouteLink to="members">Member guide</RouteLink>.
         </p>
       </Section>
 
@@ -167,8 +180,7 @@ export default function Home() {
             ["Enquire about the pilot", P.enquiry.privateDestination
               ? `Privately (${P.enquiry.privateLabel}), or publicly through ${P.enquiry.label}.`
               : `Through ${P.enquiry.label}. ${P.enquiry.requirements} A private route isn't set up yet.`],
-            ["Or do it yourself, free", "Everything here is MIT licensed: the kit builder, the member kit, the acceptance checks and the pilot report"],
-            ["Third-party costs", "Your members' Claude plans; optional API usage"],
+            ["Or do it yourself, free", "Install skool-owner-kit and run skool-kit review with your own rubric"],
           ]}
         />
         <p>

@@ -51,8 +51,8 @@ export default function Pilot() {
 
       <Section id="diy" title="Doing it yourself, or paying us">
         <p>
-          The realistic alternative: you upload your lessons to a Claude Project and write clear instructions. Here is
-          what we add, and what it changes. Not every community needs all of it.
+          The realistic alternatives: your coaches keep reviewing by hand, or paste each submission into a Claude
+          Project with your lessons. Here is what we add, and what it changes.
         </p>
         <DefTable monoFirst={false} head={["Your problem", "What we deliver", "Accepted when", "Effort it affects"]} rows={P.contributions} />
         <DefTable monoFirst={false} head={["", "Doing it yourself", "Paid pilot: you", "Paid pilot: us"]} rows={P.diy} />
@@ -73,8 +73,8 @@ export default function Pilot() {
       <Section id="effort" title="Effort (estimates)">
         <p>
           Estimates: no customer engagement has been timed yet, and only the tool steps have been measured (seconds each).
-          Your side follows five steps: send lessons and examples, approve one page, test the finished kit, share the
-          start guide, record essential events. That is {rangeText(t.customerSetup)} before launch and{" "}
+          Your side: send lessons and 5 past reviews, approve one page, one walkthrough, then three numbers per review.
+          That is {rangeText(t.customerSetup)} before the pilot and{" "}
           {rangeText(t.customerPilot)} of logging during the pilot. Ours: {rangeText(t.ourOneOff)}.
         </p>
         <DefTable
@@ -110,15 +110,14 @@ export default function Pilot() {
 
       <Section id="measure" title="How the pilot is measured">
         <ul className="list">
-          <li><strong>Baseline</strong>: new paid members from an earlier month, logged the same way, before launch.</li>
-          <li><strong>Cohort</strong>: everyone who joins in the pilot month gets the pack on day 1. Members whose outcome window or renewal date hasn't arrived yet are left out, not counted as failures.</li>
-          <li><strong>Logged, essentials only</strong>: joins come from member exports you download (imported without contact details); you log first outcomes and corrected answers as they happen, and renewals or cancellations from your payment history once due; we record hours and costs. Installs and completed tasks only when you can see them without asking. Nothing is tracked automatically or in members' chats.</li>
-          <li><strong>Thresholds</strong> are agreed in writing before the first pilot member joins.</li>
-          <li><strong>One operating checklist</strong>, <code>pilot/CHECKLIST.md</code> in every pack: fit and scope, content intake, pack construction, acceptance and installation, onboarding, adoption, completed tasks, answer corrections, staff effort and cash, renewal follow-up and the final report.</li>
-          <li><strong>The report</strong> judges product quality, member outcomes and economics separately. A good outcome result is held back if quality fails or the economics are negative or over budget.</li>
-          <li>Small observational cohorts can't establish cause; the report shows 95% ranges and says when there isn't enough data.</li>
+          <li><strong>Baseline</strong>: the same coach's next 10 reviews done the usual way, with minutes logged.</li>
+          <li><strong>Pilot</strong>: at least 15 reviews with the draft over three to four weeks. For each, the coach records minutes, whether the draft was sent, edited or rewritten, and any critical problem it missed. That takes about 30 seconds.</li>
+          <li><strong>Quality first</strong>: a faster review that misses problems is a failure. We also compare 10 sent reviews against the rubric without knowing which used the draft.</li>
+          <li><strong>Decision rules</strong> are agreed in writing before the first review: continue, change or stop on quality, minutes saved, use and economics.</li>
+          <li><strong>No renewals</strong>: three weeks is too short, and the case has to stand without them.</li>
+          <li>One coach and a few dozen submissions is an observation, not a controlled trial; the read-out says so.</li>
         </ul>
-        <CodeBlock label="Read a sample report (synthetic logs)" code={"skool-kit pilot examples/agency-lab/pilot-sample/pilot.yaml"} />
+        <CodeBlock label="Review a submission (synthetic example)" code={"skool-kit review review-eval/submissions/S2.md --pack member-pack --member Sam"} />
       </Section>
 
       <Section id="enquire" title="Enquire about a pilot">

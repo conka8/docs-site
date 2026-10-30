@@ -46,7 +46,7 @@ export function renderOffer() {
     "## 3. What the pilot tests, and nobody can promise", "", ...list(P.testing), "",
     "## Included revisions", "", ...list(P.revisions), "",
     "## Doing it yourself, or paying us", "",
-    "The realistic alternative: you upload your lessons to a Claude Project and write clear instructions. What we add:", "",
+    "The realistic alternatives: your coaches keep reviewing by hand, or paste each submission into a Claude Project with your lessons. What we add:", "",
     "| Your problem | What we deliver | Accepted when | Effort it affects |", "|---|---|---|---|",
     ...P.contributions.map((r) => `| ${r.join(" | ")} |`), "",
     "| | Doing it yourself | Paid pilot: you | Paid pilot: us |", "|---|---|---|---|",

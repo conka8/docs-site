@@ -18,6 +18,16 @@ export const EVIDENCE = [
     detail: "Actual runs in Claude Code subagents. 2026-10-29: 8 first runs, a blind comparison of 21 replies, 9 runs after fixes, all single turn with the skill supplied. 2026-10-30 (claude-sonnet-5-5): 16 conversations of 1 to 3 turns comparing the pack as skills and as a Claude Project, the model choosing the skill itself from names and descriptions; graded blind. Not the Claude app's own skill loading.",
   },
   {
+    level: "Member-work review on synthetic submissions",
+    status: "partial",
+    detail: "skool-kit review on 8 hand-written offers with 17 known problems: 11 mechanical ones found, 4 judgement ones handed to the coach, 2 missed (one check added since), 0 false flags. A simulated Claude Project with the same lessons found 17, with 31 false flags. No coach's time measured.",
+  },
+  {
+    level: "Coach time saved",
+    status: "not done",
+    detail: "Needs a real coach and their own baseline: the review pilot measures it. Research on AI feedback drafts suggests time savings aren't assured.",
+  },
+  {
     level: "Claude app (claude.ai, desktop)",
     status: "not done",
     detail: "Upload, switching skills on, Claude choosing the skill, and multi-turn use are untested. Needs a Claude account; the steps are written down.",

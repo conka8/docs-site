@@ -4,9 +4,18 @@ import { CodeBlock, RouteLink, Section } from "../components/ui.jsx";
 // Keep in step with ../CHANGELOG.md (the repository copy has the full list).
 const RELEASE = {
   date: "2026-10-30",
-  title: "Less work for the owner, and answers checked in layers",
+  title: "The paid pilot reviews members' work",
   groups: [
-    ["skool-owner-kit 0.8.0", [
+    ["skool-owner-kit 0.9.0", [
+      "review: a first pass over a member's submission against your rubric. Mechanical points are checked, judgement goes to the coach, and every row quotes its lesson; the reply draft is never sent automatically.",
+      "review-log and review-report: coach minutes and decisions, manual against with the draft.",
+      "A test on 8 synthetic offers against a well-instructed Claude Project: the tool found every mechanical problem with no false flags; the Project found more, with 31 false flags.",
+    ]],
+    ["Site (night, 2026-10-30)", [
+      "The paid pilot now reviews members' work: price and terms unchanged, scope changed (for review).",
+      "The home page leads with the job, the first result, what stays with you, and whether it's worth the fee without renewals.",
+    ]],
+    ["skool-owner-kit 0.8.0 (2026-10-30, evening)", [
       "check-answer: for each citation, whether the quote exists, is in the lesson named and keeps its qualification; unsourced numbers and promises flagged; whether it supports the claim is left to a person.",
       "APPROVAL.md: the one page an owner approves, with every rule that isn't word for word in a lesson shown beside the closest lesson sentence.",
       "New acceptance cases: missing facts, a true quote used for the wrong conclusion, a dropped qualification, an uncovered contract question, lessons that seem to conflict.",

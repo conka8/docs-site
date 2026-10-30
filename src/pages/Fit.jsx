@@ -2,14 +2,14 @@ import React from "react";
 import { DefTable, RouteLink, Section } from "../components/ui.jsx";
 
 export const DISCOVERY = [
-  ["What outcome do you promise new members in their first weeks, and how do you know when someone reaches it?", "No clear first outcome, or no way to see it: the pack has nothing to aim at and nothing to measure."],
-  ["How many new paid members join per month, at what price, and what share make their first renewal?", "Under about 20 a month, a pilot takes months to say anything. Whether the fee can pay back depends on price, adoption, baseline and costs together: run the calculator with your numbers. Renewal above 90%: little room to improve."],
-  ["Do your lessons contain a method members can follow step by step (scripts, templates, rules, price ranges)?", "Mostly motivation, or video with no transcripts: there's little for a task skill to follow."],
-  ["Which AI tools do most of your members use today?", "Mostly ChatGPT and unwilling to use Claude: members can't use these skills."],
-  ["How many hours a week do you or your team spend answering the same questions?", "Under an hour: the support side won't matter."],
-  ["Who would review the skills, and keep them updated when lessons change?", "Nobody: the pack will drift out of date and give wrong answers."],
-  ["Can you log first outcomes and first renewals per member, for a pilot month and an earlier month?", "No: you can still try the pack, but you won't learn whether it worked."],
-  ["Would you include the pack in membership, or sell it as an add-on?", "Add-on: there's no public evidence yet that members pay extra for AI tools; test that separately."],
+  ["How many member submissions (offers, scripts, pages, builds) did your coaches review last month?", "Fewer than about 40: the time saved won't cover the fee. Use the free tool or a Claude Project with your lessons."],
+  ["Who reviews them, and are they paid by the hour, by the month, or not at all?", "Nobody paid: any saving is your own time back, not cash. That can still matter, but the fee is harder to justify."],
+  ["How long does one review take, and have you ever timed it?", "Under 5 minutes: there's little to save."],
+  ["What do coaches check every time? Could you write it as a list?", "Mostly taste and judgement: the tool can only take the mechanical part, so it won't save much."],
+  ["Is the method written down in lessons (scripts, templates, rules, price ranges)?", "Video only, with no transcripts: there's nothing to quote the rubric from."],
+  ["What happens to submissions nobody gets to?", "Nothing, and nobody minds: review isn't a costly job for you."],
+  ["Have you tried Claude or ChatGPT for this, and what happened?", "It already works well enough: keep using it."],
+  ["If reviews took half the time, what would you do with the hours?", "Nothing: then there's no economic value, only convenience."],
 ];
 
 export default function Fit() {
@@ -30,10 +30,10 @@ export default function Fit() {
 
       <Section id="good" title="A good fit looks like">
         <ul className="list">
-          <li>A paid community with a concrete early outcome members should reach, and a written or transcribed method for it.</li>
-          <li>Enough new paid members, at a high enough price, that a small change in first renewals would cover the cost (check in the calculator).</li>
-          <li>Members who use Claude, or will.</li>
-          <li>Someone who can spend the estimated setup and logging time, and review the skills.</li>
+          <li>Coaches (or you) already review members' work of one kind against your method: about 40 or more a month.</li>
+          <li>Review time is paid for, or is your own time that you would use for something specific.</li>
+          <li>At least half of what a coach checks can be written down as a rule: sections, ranges, banned wording, length.</li>
+          <li>A coach who can run a command on their own computer, or who will forward submissions to us during the pilot.</li>
         </ul>
         <p className="muted">
           Next: <RouteLink to="value">estimate the economics</RouteLink> with your own numbers.

@@ -1,12 +1,13 @@
 // Pages, their sections and search keywords. Section ids are used for deep links: #page/section.
 export const PAGES = [
-  { id: "home", group: "Evaluate", label: "1. The outcome", sections: [
-    ["outcome", "What members produce", "tasks offer outreach tutor deliverable"],
-    ["receive", "What you get for the pilot fee", "deliverables price fee pilot what you get project skills"],
-    ["diy", "What we do that you'd otherwise do yourself", "diy yourself claude project instructions compare"],
-    ["verified", "What has been shown so far", "evidence verified comparison chatgpt general ai"],
-    ["money", "Will it pay for itself?", "renewal support money roi payback"],
-    ["enquire", "Next step", "contact enquire free download license"],
+  { id: "home", group: "Evaluate", label: "1. The job", sections: [
+    ["outcome", "The first useful result: a review draft", "review draft coach feedback rubric submission"],
+    ["receive", "What you get for the pilot fee", "deliverables price fee pilot what you get rubric"],
+    ["remains", "What work and costs stay with you", "effort time cost coach setup logging"],
+    ["money", "Is it worth the fee?", "economics roi payback reviews cash capacity renewal"],
+    ["verified", "What has been shown so far", "evidence verified comparison claude project synthetic"],
+    ["free", "Free, and still available", "free license member kit tools mit"],
+    ["enquire", "Next step", "contact enquire download"],
   ] },
   { id: "example", group: "Evaluate", label: "2. A real run", sections: [
     ["fair", "Compared fairly: is the skill better than Claude with the lessons?", "benchmark comparison general assistant chatgpt lessons fair"],

@@ -19,6 +19,7 @@ export default function Members() {
           head={["You got", "What it is", "Go to"]}
           rows={[
             ["A .zip, or a folder with a SKILL.md inside", "A skill: instructions Claude follows", <a href="#members/skill">Install a skill</a>],
+            ["A folder with INSTRUCTIONS.md and a knowledge folder", "A Claude Project: your community's lessons and tasks in one project", <a href="#members/skill">Install a skill</a>],
             ["A plugin name and a /plugin marketplace add line", "A Claude Code plugin: several skills in one package", <a href="#members/plugin">Install a plugin</a>],
             ["A tool zip like shipsafe-0.1.1.zip", "A command-line tool (Python) you run in a terminal", <RouteLink to="start">Install &amp; downloads</RouteLink>],
           ]}
@@ -46,6 +47,17 @@ export default function Members() {
                     On Team or Enterprise plans an owner may need to allow skills first. If they uploaded the skill for
                     everyone, it's already there.
                   </li>
+                </ol>
+              ),
+            },
+            {
+              label: "Claude Project",
+              content: (
+                <ol>
+                  <li>In Claude, create a project (every plan has projects; Free accounts up to five).</li>
+                  <li>Paste everything from INSTRUCTIONS.md into the project's instructions.</li>
+                  <li>Add every file from the knowledge folder to the project.</li>
+                  <li>Start each task in a new chat inside the project. Chats outside it don't know the lessons.</li>
                 </ol>
               ),
             },

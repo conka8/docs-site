@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ESSENTIAL, FIELDS, LARGE_CHANGE_PTS, SCENARIOS, compute, paybackText } from "../data/value-model.js";
+import { ESSENTIAL, FIELDS, LARGE_CHANGE_PTS, SCENARIOS, SENSITIVITY_STEP, compute, paybackText } from "../data/value-model.js";
 import { PILOT_OFFER } from "../data/pilot-offer.js";
 import { RouteLink, Section } from "../components/ui.jsx";
 
@@ -14,6 +14,11 @@ function changeText(c) {
   if (c.status === "not reachable") return "can't be reached in this period";
   return `${pts(c.userPoints)} points among users (${pts(c.points)} across all new members)`;
 }
+function sensitivityText(list) {
+  if (!list.length) return "n/a";
+  const label = (k) => FIELDS.find((f) => f[1] === k)[2].toLowerCase();
+  return list.slice(0, 3).map((x) => `${label(x.key)}: ${pts(x.from)} → ${pts(x.to)}`).join("; ");
+}
 function buyersText(b) {
   if (b.status === "not needed") return "none needed";
   if (b.status === "not reachable") return "can't (no margin per buyer)";
@@ -27,7 +32,11 @@ export function verdict(r) {
   const c = r.changeNeeded;
   const fee = i.implementationFee ? `the one-off price of ${money(i.implementationFee)} and the running costs` : "the running costs";
   const period = `${i.horizonMonths} months`;
-  const time = ` It would also take about ${Math.round(r.time.ownHours)} hours of your team's time, not counted as cash.`;
+  const t = r.changeNeededWithTime;
+  const time = ` It would also take about ${Math.round(r.time.ownHours)} hours of your team's time` +
+    (t.status === "needed" ? `; to cover that time too, at ${money(i.ownHourValue)} an hour, about ${pts(t.userPoints)} of every 100 users would need to renew.`
+      : t.status === "not reachable" ? `; counting that time at ${money(i.ownHourValue)} an hour, no renewal change covers it.` : ".");
+  const pilot = " A one-month pilot can show a change for one cohort; it can't show the change lasts for a year.";
   if (c.status === "not needed") {
     return { tone: "ok", text: `Even with no renewal change, cash in the period covers ${fee}, from support spending you said you'd cut or add-on sales. Check those inputs: they carry the whole result.${time}` };
   }
@@ -43,7 +52,7 @@ export function verdict(r) {
     tone: large ? "bad" : "warn",
     text: `To cover ${fee} within ${period}, about ${per100} more of every 100 members who use the pack would need to make their first renewal.` +
       (large ? " That's a large change, and nothing so far shows a change that big: treat payback as unlikely unless your pilot measures it." : " Nobody has measured that yet; it's what a pilot would test.") +
-      now + time,
+      now + time + pilot,
   };
 }
 
@@ -85,7 +94,9 @@ const ROWS = [
     ["Projected contribution after the period", (r) => money(r.futureContribution), "From members who joined inside the period, if they keep paying as assumed."],
   ]],
   ["What would have to be true", [
-    ["Renewal change needed to break even in the period", (r) => changeText(r.changeNeeded), ""],
+    ["Renewal change needed to cover the price and running costs", (r) => changeText(r.changeNeeded), ""],
+    ["Renewal change needed to cover those and your time", (r) => changeText(r.changeNeededWithTime), "Your hours below, at what you said an hour is worth."],
+    ["What moves this answer most", (r) => sensitivityText(r.sensitivity), `Each essential input made ${SENSITIVITY_STEP * 100}% better for you, one at a time.`],
     ["Add-on buyers needed to break even", (r) => buyersText(r.buyersNeeded), ""],
     ["Most you could pay one-off and break even in the period", (r) => money(r.maxOneOff), "Before counting your time."],
   ]],

@@ -2,7 +2,7 @@ import React from "react";
 import { SUITE } from "../data/tools.js";
 import { EVIDENCE, EVIDENCE_TONE } from "../data/evidence.js";
 import { EFFORT_TOTALS, rangeText } from "../data/effort.js";
-import { BENCHMARK } from "../data/benchmark.js";
+import { COMPARISON } from "../data/benchmark.js";
 import { downloadFor } from "../data/downloads.js";
 import { PILOT_OFFER as P } from "../data/pilot-offer.js";
 import { DefTable, DownloadLink, RouteLink, Section } from "../components/ui.jsx";
@@ -68,8 +68,9 @@ export default function Home() {
           offer for one niche, then their first outreach.
         </p>
         <p className="lede lede--sub">
-          Members install one kit. Each task skill asks only for what's missing, follows the rules in your lessons, drafts
-          an editable deliverable, checks it against your criteria, and lists the gaps and claims to verify. When the
+          Members install one kit. Each task skill asks only for what's missing, follows the rules in your lessons, quotes
+          the lesson sentence it relies on, drafts an editable deliverable, checks it against your criteria, and lists the
+          gaps and claims to verify. When the
           lessons don't cover something, it drafts a question for the member to post in your Help channel. The check is
           Claude reviewing its own draft, so members still review what they send.
         </p>
@@ -113,7 +114,7 @@ export default function Home() {
 
       <Section id="verified" title="What has been shown, and what is still being tested">
         <p>
-          <strong>Compared fairly</strong> (same model, same member messages, blind grading): {BENCHMARK.conclusion}{" "}
+          <strong>Compared fairly</strong> (same model, same lessons and instructions, blind grading): {COMPARISON.conclusion}{" "}
           <RouteLink to="example/fair">See the comparison</RouteLink>.
         </p>
         <EvidenceTable />
@@ -127,7 +128,7 @@ export default function Home() {
             ["During the pilot (estimate)", `${rangeText(t.customerPilot)} of logging spread over the cohort`],
             ["After (estimate)", `${rangeText(t.customerMonthly)} a month, if you keep it`],
             ["Stays with you", "Approving the skills, keeping lessons accurate, answering what members post in Help, and anything members send to clients"],
-            ["Members need", "Claude with skills turned on (listed for Free, Pro, Max, Team and Enterprise). Members who only use ChatGPT can't use it"],
+            ["Members need", "Claude on any plan (Free, Pro, Max, Team or Enterprise) with code execution turned on, which skills need. The free kit also builds the same pack as a Claude Project. Members who only use ChatGPT can't use it"],
           ]}
         />
         <p className="muted">

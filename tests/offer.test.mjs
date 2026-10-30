@@ -253,3 +253,40 @@ test("benchmark figures on the site match the saved blind grades", async () => {
   assert.deepEqual(row("Grader's preferred reply (of 6 cases)"), ["A", "B", "C"].map((x) => String(best[x])));
   for (const x of ["A", "B", "C"]) assert.equal(by[x].length, 7, x);
 });
+
+test("counting the owner's time raises the change needed, and the biggest levers come first", async () => {
+  const { compute, SCENARIOS } = await import("../src/data/value-model.js");
+  const r = compute(SCENARIOS.base);
+  assert.equal(r.changeNeeded.status, "needed");
+  assert.ok(r.changeNeededWithTime.userPoints > r.changeNeeded.userPoints);
+  const noTime = compute({ ...SCENARIOS.base, ownHourValue: 0 });
+  assert.equal(noTime.changeNeededWithTime.userPoints.toFixed(6), noTime.changeNeeded.userPoints.toFixed(6));
+  const moves = r.sensitivity.map((x) => Math.abs(x.from - x.to));
+  assert.deepEqual(moves, [...moves].sort((a, b) => b - a));
+  assert.ok(r.sensitivity.every((x) => x.to <= x.from + 1e-9), "making an input better never raises the change needed");
+  assert.equal(compute({ ...SCENARIOS.base, adoptionPct: 0 }).changeNeededWithTime.status, "not reachable");
+});
+
+test("skills vs Project figures on the site match the saved blind grades", async () => {
+  const { COMPARISON } = await import("../src/data/benchmark.js");
+  const dir = new URL("../../skool-owner-kit/examples/agency-lab/comparison/grades/", import.meta.url);
+  const cases = ["T1", "T2", "O2", "O3", "H1", "H2", "H3", "H4"];
+  const by = { P: [], K: [] };
+  const best = { P: 0, K: 0, tie: 0 };
+  for (const c of cases) {
+    const g = JSON.parse(readFileSync(new URL(`${c}.json`, dir), "utf8"));
+    for (const [letter, r] of Object.entries(g.replies)) by[g.letters[letter].split("-")[1]].push(r);
+    best[g.best === "tie" ? "tie" : g.letters[g.best].split("-")[1]] += 1;
+  }
+  const mean = (k, x) => (by[x].reduce((t, r) => t + r[k], 0) / by[x].length).toFixed(2);
+  const sum = (k, x) => by[x].reduce((t, r) => t + r[k], 0);
+  const row = (label) => COMPARISON.results.find((r) => r[0] === label).slice(1);
+  assert.deepEqual(row("Lesson rules applied correctly (0-2)"), [mean("rules", "P"), mean("rules", "K")]);
+  assert.deepEqual(row("Unknown facts shown as unknown (0-2)"), [mean("unknowns", "P"), mean("unknowns", "K")]);
+  assert.deepEqual(row("Lessons, member and own suggestions kept apart (0-2)"), [mean("sources", "P"), mean("sources", "K")]);
+  assert.deepEqual(row("Usable deliverable by the end (0-2)"), [mean("deliverable", "P"), mean("deliverable", "K")]);
+  assert.deepEqual(row("Citations judged supported"), ["P", "K"].map((x) => `${sum("citations_supported", x)} of ${sum("citations", x)}`));
+  assert.deepEqual(row("Unsupported claims (total)"), ["P", "K"].map((x) => String(sum("unsupported", x))));
+  assert.deepEqual(row("Grader's preferred conversation (of 8)"), [String(best.P), String(best.K)]);
+  assert.match(COMPARISON.conclusion, new RegExp(`${best.P} of 8 cases \\(${best.tie} tie\\)`));
+});

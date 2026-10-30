@@ -3,19 +3,32 @@ import { CodeBlock, RouteLink, Section } from "../components/ui.jsx";
 
 // Keep in step with ../CHANGELOG.md (the repository copy has the full list).
 const RELEASE = {
-  date: "2026-10-29",
-  title: "Member kit, fair comparison, approachable calculator",
+  date: "2026-10-30",
+  title: "Checkable citations, skills or a Claude Project, a draft spec from your lessons",
   groups: [
-    ["skool-owner-kit 0.5.0", [
+    ["skool-owner-kit 0.6.0", [
+      "Every skill quotes the lesson sentence it relies on; check-citations confirms each quoted sentence is in the lesson it names.",
+      "Skills keep lessons, the member's words and their own suggestions apart, show unknown facts as \"?\" or [brackets], and ask for what the deliverable can't be right without.",
+      "pack-share also writes the same reviewed pack as one Claude Project: instructions to paste, the lessons and a task guide per skill.",
+      "pack-draft: a first pack.yaml from your lessons, with rules copied word for word and every owner decision marked TODO (owner); pack-share refuses a pack that still has one.",
+      "Fixes from the comparisons: the offer check accepts a pending niche check, the next step resolves pending items first, and task skills say when something is outside their own lessons.",
+      "A blind comparison of the pack as skills and as a Claude Project over several turns (examples/agency-lab/comparison/), and a re-inspection of the earlier benchmark.",
+    ]],
+    ["Site (2026-10-30)", [
+      "The comparison page leads with skills vs a Claude Project; the earlier comparison is kept as history with how to read it.",
+      "The calculator also shows the renewal change needed to cover the fee plus your time, and which inputs move the answer most.",
+      "One compatibility statement from the current help-centre pages; page title and description describe the pilot.",
+    ]],
+    ["skool-owner-kit 0.5.0 (2026-10-29)", [
       "pack-share: one member kit with START-HERE.md (copyable install steps, a check, a first-task walkthrough), an upload zip per skill and a draft launch post. Refuses unmerged updates and descriptions the Claude app would reject.",
       "Skill descriptions fit the Claude app's 200-character limit; the tutor's description now covers questions the lessons don't answer.",
       "Task skills read the relevant lessons before asking for missing input, mark unconfirmed niche filters instead of passing them, and still give a draft with [brackets].",
       "Every pack gets pilot/CHECKLIST.md; acceptance.csv records where each run happened.",
       "A blind comparison with a general assistant, with and without the lessons, and a member journey from download to update.",
     ]],
-    ["skillkit 0.3.1", ["lint warns when a description is too long for the Claude app; pack --format claude-app refuses it."]],
-    ["skillport 0.2.1", ["Generated descriptions fit 200 characters and keep the \"Use when\" sentence."]],
-    ["Site", [
+    ["skillkit 0.3.1 (2026-10-29)", ["lint warns when a description is too long for the Claude app; pack --format claude-app refuses it."]],
+    ["skillport 0.2.1 (2026-10-29)", ["Generated descriptions fit 200 characters and keep the \"Use when\" sentence."]],
+    ["Site (2026-10-29)", [
       "The calculator starts from the published fee, separates adoption from the effect among users, puts advanced inputs behind an expander, and says in words what would have to be true.",
       "The enquiry form asks only for public information; a private route can be switched on with one setting.",
       "Evidence labels: actual model execution, excerpt, illustration, replay, real customer outcome.",

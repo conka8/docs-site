@@ -62,7 +62,7 @@ export const PILOT_OFFER = {
     "Anything members send to their own clients",
   ],
   dependencies: [
-    "Members use Claude with skills enabled (Anthropic's pages differ on the Free plan; Pro is listed). Members on ChatGPT can't use the pack",
+    "Members use Claude with code execution turned on, which skills need (skills are listed for Free, Pro, Max, Team and Enterprise). Members on ChatGPT can't use the pack",
     "Lessons exist as text, or you can provide transcripts",
     "Enough new paid members per month for a pilot to say anything (about 20 or more)",
     "Platform behaviour (Claude's skill upload, model updates) can change; acceptance is re-run if it does during the pilot",

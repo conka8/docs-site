@@ -34,6 +34,7 @@ export default function Admins() {
             ["Claude Code", "Claude Code installed", "One plugin (skillkit pack --marketplace)"],
             ["Claude app (claude.ai, desktop): Free, Pro, Max", "Code execution turned on in Settings", "One zip per skill (skillkit pack --format claude-app)"],
             ["Claude app on your Team or Enterprise organization", "Nothing: an owner uploads once for everyone", "The same zips, uploaded in Organization settings"],
+            ["Claude app, any plan, as one Claude Project", "Projects (every plan; Free accounts up to 5)", "The Claude Project folder from skool-kit pack-share: instructions to paste and files to upload"],
             ["OpenClaw", "OpenClaw installed", "The skill folders (ClawHub layout from pack --format clawhub is unverified)"],
           ]}
         />

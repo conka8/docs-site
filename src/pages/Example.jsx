@@ -1,7 +1,7 @@
 import React from "react";
 import { downloadFor } from "../data/downloads.js";
 import { CodeBlock, DefTable, DownloadLink, RouteLink, Section } from "../components/ui.jsx";
-import { BENCHMARK } from "../data/benchmark.js";
+import { BENCHMARK, COMPARISON } from "../data/benchmark.js";
 import { CONTENT_KINDS } from "../data/evidence.js";
 import { EvidenceTable } from "./Home.jsx";
 
@@ -73,19 +73,35 @@ export default function Example() {
         <DefTable monoFirst={false} head={["Label on this page", "Means"]} rows={CONTENT_KINDS} />
       </header>
 
-      <Section id="fair" title="Compared fairly: is the skill better than Claude with the lessons?">
+      <Section id="fair" title="Compared fairly: skills or a Claude Project with the same lessons?">
         <p>
-          Same model, same member messages, three conditions. {BENCHMARK.setup}.
+          The strongest simple alternative to our skills is a Claude Project holding the same lessons and the same
+          reviewed instructions. We built both from one pack and gave them the same member messages.{" "}
+          {COMPARISON.setup} ({COMPARISON.date}).
         </p>
-        <DefTable monoFirst={false} head={["", "What the assistant got"]} rows={BENCHMARK.conditions.map(([k, n, d]) => [`${k}. ${n}`, d])} />
-        <DefTable monoFirst={false} head={["Blind grades", "A. General", "B. + lessons", "C. Skill"]} rows={BENCHMARK.results} />
-        <p><strong>What it shows:</strong> {BENCHMARK.conclusion}</p>
-        <DefTable monoFirst={false} head={["Effort (counted from the guides; minutes estimated)", "A", "B", "C"]} rows={BENCHMARK.effort} />
+        <DefTable monoFirst={false} head={["", "What the model got"]} rows={COMPARISON.conditions} />
+        <DefTable monoFirst={false} head={["Blind grades", "Claude Project", "Skill kit"]} rows={COMPARISON.results} />
+        <p><strong>What it shows:</strong> {COMPARISON.conclusion}</p>
+        <DefTable monoFirst={false} head={["", "Claude Project", "Skill kit"]} rows={COMPARISON.formats} />
+        <p>
+          So the pilot sells the reviewed method, its acceptance and the member onboarding, in whichever format suits
+          your members. <code>skool-kit pack-share</code> builds both from the same reviewed files.
+        </p>
         <p className="muted">
-          Limits: 6 cases, one synthetic community, one grader per case, single turn. The skill's structure is recognisable,
-          so blinding is partial. Defects the grading found, and the reruns after fixing them:{" "}
-          <code>{LAB}benchmark/</code>.
+          Limits: Claude Code, not the Claude app; scripted member turns; one grader per case. Runs, grades, defects
+          and fixes: <code>{LAB}comparison/</code>.
         </p>
+        <details className="calc__more">
+          <summary>Earlier comparison (2026-10-29): general assistant, assistant + lessons, skill</summary>
+          <p>{BENCHMARK.setup}.</p>
+          <DefTable monoFirst={false} head={["", "What the assistant got"]} rows={BENCHMARK.conditions.map(([k, n, d]) => [`${k}. ${n}`, d])} />
+          <DefTable monoFirst={false} head={["Blind grades", "A. General", "B. + lessons", "C. Skill"]} rows={BENCHMARK.results} />
+          <p>{BENCHMARK.conclusion}</p>
+          <p className="muted">
+            21 replies: 6 cases in 3 conditions, with one case run twice in each. That run tested the pack before the
+            fixes. How to read it: <code>{LAB}benchmark/README.md</code>, "Re-inspection".
+          </p>
+        </details>
       </Section>
 
       <Section id="content" title="The admin's content">

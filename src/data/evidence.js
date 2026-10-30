@@ -15,7 +15,7 @@ export const EVIDENCE = [
   {
     level: "Model runs in Claude Code",
     status: "partial",
-    detail: "Actual runs on 2026-10-29 (model alias \"sonnet\"): 8 earlier runs, a blind comparison of 21 replies, and 9 runs after fixes. Single turn, skill supplied by path, not chosen by Claude Code itself; skill choice was only simulated.",
+    detail: "Actual runs in Claude Code subagents. 2026-10-29: 8 first runs, a blind comparison of 21 replies, 9 runs after fixes, all single turn with the skill supplied. 2026-10-30 (claude-sonnet-5-5): 16 conversations of 1 to 3 turns comparing the pack as skills and as a Claude Project, the model choosing the skill itself from names and descriptions; graded blind. Not the Claude app's own skill loading.",
   },
   {
     level: "Claude app (claude.ai, desktop)",
@@ -47,5 +47,6 @@ export const CONTENT_KINDS = [
   ["Excerpt", "A verbatim part of an actual model reply; the full reply is in the download"],
   ["Illustration", "Written by us to explain something, such as the synthetic lessons and the calculator presets"],
   ["Replay", "Saved outputs re-checked by the acceptance checks; no model is called"],
+  ["Citation check", "skool-kit check-citations: each quoted lesson sentence exists in the lesson it names. It doesn't judge whether the sentence supports the point"],
   ["Real customer outcome", "None yet"],
 ];

@@ -6,11 +6,11 @@ export const STARTER = ["skool-owner-kit", "skillport", "skillkit"];
 export const CATALOG = {
   "skool-owner-kit": {
     tier: "starter",
-    version: "0.5.0",
+    version: "0.6.0",
     useCase: "Turn your lessons into a member pack that walks new members to their first win, and measure it in a pilot",
     needs: "Python 3.10+. Your lessons as text, the tasks you teach, a pack spec. Skool CSV exports for the dashboard; Zapier (Skool Pro plan) only for automatic welcomes",
-    cost: "Free. Members need Claude with skills. Optional AI-written welcome messages and skill tests use your API key",
-    produces: "Tutor and task skills, acceptance checks, member and admin guides, pilot kit and report; also welcome messages and a dashboard",
+    cost: "Free. Members need Claude (skills, or a Claude Project on any plan). Optional AI-written welcome messages and skill tests use your API key",
+    produces: "Tutor and task skills plus the same pack as one Claude Project, a citation checker, acceptance checks, member and admin guides, pilot kit and report; also welcome messages and a dashboard",
     firstRun: {
       code: "cd examples/agency-lab\nskool-kit pack-build pack.yaml -o my-pack\nskool-kit pilot pilot-sample/pilot.yaml",
       expect: "Built my-pack: 3 skills (northwind-tutor, northwind-offer-builder, northwind-outreach-sprint). Then a synthetic pilot report starting Suggestion: CONTINUE, with a warning that the ranges overlap.",

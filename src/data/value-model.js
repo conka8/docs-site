@@ -169,6 +169,38 @@ function paybackInfo(months) {
 
 const cashIn = (i) => cashFlows(i).months.reduce((t, m) => t + m.net, 0);
 
+// Renewal change (among all new members, and among those who use the pack) at which cash in the period covers the
+// costs plus `extra`. Horizon cash is linear in the change, so solve from two points.
+function renewalChangeNeeded(i, extra = 0) {
+  const at0 = cashIn({ ...i, renewalChangePts: 0 }) - extra;
+  const perPoint = cashIn({ ...i, renewalChangePts: 1 }) - extra - at0;
+  if (at0 >= 0) return { status: "not needed", points: 0 };
+  if (perPoint <= 0) return { status: "not reachable", points: null };
+  const pts = -at0 / perPoint;
+  const users = i.adoptionPct > 0 ? (pts * 100) / i.adoptionPct : null;
+  return users === null || users > 100 - i.baseRenewalPct
+    ? { status: "not reachable", points: pts, userPoints: users }
+    : { status: "needed", points: pts, userPoints: users };
+}
+
+// Which essential inputs move the answer most: each one 20% better for the owner, the others unchanged, and the
+// renewal change needed among users before and after. Sorted by how far it moves.
+export const SENSITIVITY_STEP = 0.2;
+function sensitivity(i) {
+  const base = renewalChangeNeeded(i);
+  if (base.status !== "needed") return [];
+  const better = { newPaid: 1, price: 1, baseRenewalPct: -1, adoptionPct: 1, implementationFee: -1 };
+  return Object.entries(better)
+    .filter(([k]) => i[k] > 0)
+    .map(([k, dir]) => {
+      const moved = { ...i, [k]: i[k] * (1 + dir * SENSITIVITY_STEP) };
+      const c = renewalChangeNeeded(moved);
+      return { key: k, from: base.userPoints, to: c.status === "needed" ? c.userPoints : c.status === "not needed" ? 0 : null };
+    })
+    .filter((x) => x.to !== null)
+    .sort((a, b) => Math.abs(b.from - b.to) - Math.abs(a.from - a.to));
+}
+
 export function compute(raw) {
   const { values: i, errors } = validate(raw);
   if (Object.keys(errors).length) return { ok: false, errors };
@@ -176,19 +208,10 @@ export function compute(raw) {
   const horizonCash = f.months.reduce((t, m) => t + m.net, 0);
   const sumOf = (k) => f.months.reduce((t, m) => t + m[k], 0);
 
-  // Break-even renewal change: horizon cash is linear in the change, so solve from two points.
-  const at0 = cashIn({ ...i, renewalChangePts: 0 });
-  const perPoint = cashIn({ ...i, renewalChangePts: 1 }) - at0;
-  let changeNeeded;
-  if (at0 >= 0) changeNeeded = { status: "not needed", points: 0 };
-  else if (perPoint <= 0) changeNeeded = { status: "not reachable", points: null };
-  else {
-    const pts = -at0 / perPoint;
-    const users = i.adoptionPct > 0 ? (pts * 100) / i.adoptionPct : null;
-    changeNeeded = users === null || users > 100 - i.baseRenewalPct
-      ? { status: "not reachable", points: pts, userPoints: users }
-      : { status: "needed", points: pts, userPoints: users };
-  }
+  const ownHours = i.setupHours + i.pilotHours + i.monthlyHours * i.horizonMonths;
+  const changeNeeded = renewalChangeNeeded(i);
+  // The same question with the owner's time counted at what they said an hour is worth.
+  const changeNeededWithTime = renewalChangeNeeded(i, ownHours * i.ownHourValue);
   // Add-on buyers needed to cover what the period is short of without any add-on.
   const withoutAddon = horizonCash - f.months[0].addon;
   let buyersNeeded;
@@ -199,7 +222,6 @@ export function compute(raw) {
     buyersNeeded = { status: n > i.addonEligible ? "more than offered" : "needed", buyers: n };
   }
 
-  const ownHours = i.setupHours + i.pilotHours + i.monthlyHours * i.horizonMonths;
   return {
     ok: true,
     errors: {},
@@ -215,6 +237,8 @@ export function compute(raw) {
     netPayment: f.netPayment,
     payback: paybackInfo(f.months),
     changeNeeded,
+    changeNeededWithTime,
+    sensitivity: sensitivity(i),
     buyersNeeded,
     maxOneOff: Math.max(horizonCash + i.implementationFee, 0),
     support: {

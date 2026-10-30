@@ -29,7 +29,7 @@ const result = await build({
 const js = result.outputFiles.find((f) => f.path.endsWith(".js")).text.replace(/<\/script/gi, "<\\/script");
 const css = result.outputFiles.find((f) => f.path.endsWith(".css")).text;
 
-const page = `<title>Builder Commons Docs</title>
+const page = `<title>Skool Owner Kit Docs</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

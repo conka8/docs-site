@@ -1,4 +1,4 @@
-# Builder Commons docs
+# Skool Owner Kit docs
 
 Documentation site for the nine tools in `founder-projects/`, built with React 18 and Vite.
 

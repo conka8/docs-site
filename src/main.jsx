@@ -104,6 +104,7 @@ function App() {
             <span>
               {SUITE.name} · {SUITE.license} licensed · Python {SUITE.python}
             </span>
+            <span>Independent project, not affiliated with or endorsed by Skool.</span>
             <span>
               Tested {SUITE.testedOn} · <RouteLink to="releases">Release notes</RouteLink>
             </span>

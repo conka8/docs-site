@@ -44,7 +44,7 @@ export function EvidenceTable() {
 
 export function EvalPath() {
   return (
-    <nav className="path" aria-label="Evaluate Builder Commons">
+    <nav className="path" aria-label="Evaluate Skool Owner Kit">
       {PATH.map(([n, label, to]) => (
         <RouteLink key={to} to={to} className="path__step">
           <span className="path__num">{n}</span>

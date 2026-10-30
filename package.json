@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Documentation site for the Builder Commons tools.",
+  "description": "Documentation site for the Skool Owner Kit tools.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

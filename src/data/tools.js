@@ -2,7 +2,7 @@
 // Change SUITE to rename the collection everywhere.
 
 export const SUITE = {
-  name: "Builder Commons",
+  name: "Skool Owner Kit",
   tagline: "Give your members Claude skills built from your own lessons and automations, checked and packaged so they install in a few clicks.",
   license: "MIT",
   python: "3.10+",
